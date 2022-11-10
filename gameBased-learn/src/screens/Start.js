@@ -7,14 +7,21 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
+  ToastAndroid,
 } from "react-native";
 import styles from "../styles";
 
 const Start = ({ navigation }) => {
   const [name, setName] = useState("");
+
   const handelOnPress = () => {
-    navigation.navigate("Game", { name });
+    if (name.length > 0) {
+      navigation.navigate("Game", { name });
+    } else {
+      ToastAndroid.show("please Enter Your Name First", ToastAndroid.SHORT);
+    }
   };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>

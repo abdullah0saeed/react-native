@@ -276,12 +276,13 @@ const Game = ({ navigation }) => {
               height: "100%",
               textAlignVertical: "center",
               padding: 3,
+              fontWeight: "bold",
             }}
           >
-            Welcome {name}
+            Welcome {`${name} `} 
             <Image
               source={require("../../assets/smile.png")}
-              style={{ width: 30, height: 30 }}
+              style={{ width: 30, height: 30,marginTop: 10 }}
             />
           </Text>
           {done >= word_Pic.length ? (
