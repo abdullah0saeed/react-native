@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { BackHandler } from "react-native";
 
@@ -22,9 +22,20 @@ const Score = ({ navigation }) => {
       </View>
       {/* paly again */}
       <TouchableOpacity
-        style={[styles.TouchableOpacity, { backgroundColor: "#1DDA99" }]}
+        style={[
+          styles.TouchableOpacity,
+          {
+            backgroundColor: "#1DDA99",
+            flexDirection: "row",
+            alignItems: "center",
+          },
+        ]}
         onPress={() => navigation.navigate("Game", { name })}
       >
+        <Image
+          source={require("../../assets/retry.png")}
+          style={{ width: 40, height: 30, marginEnd: 20 }}
+        />
         <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
           Play again
         </Text>
