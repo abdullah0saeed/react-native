@@ -54,6 +54,8 @@ const Game = ({ navigation }) => {
   ///////////////refresh on navigating back from Score screen///////////////
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
+      setRandWord(random());
+      setRandPic(random());
       setDone(0);
       setWrong(0);
       setCorrect0(0);
@@ -161,8 +163,8 @@ const Game = ({ navigation }) => {
   ///////////////////////////////////////////////////////////////////
   ////////////////////creating words cards\\\\\\\\\\\\\\\\\\\\\\\\\\\
   var wordCards = [];
-  const randomWords = random();
-  for (let i = 0; i < 6; i++) {
+  const [randomWords, setRandWord] = useState(random());
+  for (let i = 0; i < word_Pic.length; i++) {
     //var to stor the word ID
     var wordID = -1;
     //var to stor the index of the object containing the word
@@ -193,8 +195,8 @@ const Game = ({ navigation }) => {
   //////////////////////////////////////////////////////////////////
   /////////////////////creating pics cards\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   var picCards = [];
-  const randomPics = random();
-  for (let i = 0; i < 6; i++) {
+  const [randomPics, setRandPic] = useState(random());
+  for (let i = 0; i < word_Pic.length; i++) {
     //var to stor the pic ID
     var picID = -2;
     //var to stor the index of the object containing the pic
