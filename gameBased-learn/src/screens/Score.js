@@ -16,7 +16,7 @@ const Score = ({ navigation }) => {
         </Text>
       </View>
       {/* show wrong tries */}
-      <View style={[styles.viewContainer, { marginTop: 25 }]}>
+      <View style={[styles.viewContainer, { marginTop: "12%" }]}>
         <Text style={[styles.text, { width: "75%" }]}>Wrong Tries</Text>
         <Text style={[styles.textContainer, { width: "25%" }]}>{wrong}</Text>
       </View>
@@ -34,7 +34,7 @@ const Score = ({ navigation }) => {
       >
         <Image
           source={require("../../assets/retry.png")}
-          style={{ width: 40, height: 30, marginEnd: 20 }}
+          style={{ width: "15%", height: "70%", marginEnd: "6%" }}
         />
         <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
           Play again
@@ -44,7 +44,7 @@ const Score = ({ navigation }) => {
       <TouchableOpacity
         style={[
           styles.TouchableOpacity,
-          { marginTop: 10, backgroundColor: "#BA7CC8" },
+          { marginTop: "3%", backgroundColor: "#BA7CC8" },
         ]}
         onPress={() => {
           navigation.navigate("Start");
@@ -64,16 +64,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
-    margin: 20,
-    marginTop: 80,
+    padding: "6%",
+    margin: "5%",
+    marginTop: "20%",
   },
   textContainer: {
     backgroundColor: "#9E9DAA",
     textAlign: "center",
     textAlignVertical: "center",
     height: 40,
-    marginTop: 6,
+    marginTop: "2.5%",
     fontSize: 22,
     borderRadius: 5,
     color: "#fff",
@@ -89,12 +89,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   TouchableOpacity: {
-    width: 300,
+    width: "82%",
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
-    margin: 40,
+    margin: "12%",
   },
 });
 

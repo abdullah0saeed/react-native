@@ -35,7 +35,7 @@ const Start = ({ navigation }) => {
           onChangeText={(value) => setName(value)}
         />
         <Pressable style={styles.pressable} onPress={handelOnPress}>
-          <Text>PLAY</Text>
+          <Text style={{ fontSize: 35, fontWeight: "bold" }}>Play</Text>
         </Pressable>
       </View>
     </TouchableWithoutFeedback>

@@ -272,19 +272,20 @@ const Game = ({ navigation }) => {
         <View style={{ flexDirection: "row" }}>
           <Text
             style={{
-              marginTop: 10,
+              marginTop: "3%",
               color: "#fff",
               width: "75%",
               height: "100%",
               textAlignVertical: "center",
               padding: 3,
               fontWeight: "bold",
+              fontSize: 14,
             }}
           >
-            Welcome {`${name} `} 
+            Welcome {`${name} `}
             <Image
               source={require("../../assets/smile.png")}
-              style={{ width: 30, height: 30,marginTop: 10 }}
+              style={{ width: 33, height: 33, marginTop: "3%" }}
             />
           </Text>
           {done >= word_Pic.length ? (
@@ -292,8 +293,8 @@ const Game = ({ navigation }) => {
               style={{
                 width: "25%",
                 height: "60%",
-                margin: 4,
-                marginTop: 30,
+                margin: "1%",
+                marginTop: "8.5%",
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: "#E20476",
@@ -315,9 +316,9 @@ const Game = ({ navigation }) => {
             <View
               style={{
                 width: "25%",
-                marginTop: 30,
+                marginTop: "8.5%",
                 alignItems: "center",
-                margin: 3,
+                margin: "1%",
               }}
             >
               <Text></Text>
