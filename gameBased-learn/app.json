@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ABC",
-    "slug": "mobile-game",
+    "slug": "ABC",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,8 +10,8 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#36B0F0",
-      "width":"30%",
-      "height":"30%"
+      "width":"25%",
+      "height":"25%"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
