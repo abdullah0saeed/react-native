@@ -15,6 +15,8 @@ import { Audio } from "expo-av";
 const Game = ({ navigation }) => {
   const route = useRoute();
   const name = route.params.name;
+  const old_word_Pic = route.params.word_Pic;
+
   //to set how many correct answers
   const [done, setDone] = useState(0);
   //to set how many wrong answers
@@ -26,6 +28,40 @@ const Game = ({ navigation }) => {
   const [correct3, setCorrect3] = useState(false);
   const [correct4, setCorrect4] = useState(false);
   const [correct5, setCorrect5] = useState(false);
+
+  ////////////////////////fix data//////////////////////////////
+  var word_Pic = [];
+
+  for (let i = 0; i < old_word_Pic.length; i++) {
+    // old_word_Pic[i].check = eval(old_word_Pic[i].check);
+    switch (i) {
+      case 0:
+        old_word_Pic[i].check = correct0;
+        break;
+      case 1:
+        old_word_Pic[i].check = correct1;
+        break;
+      case 2:
+        old_word_Pic[i].check = correct2;
+        break;
+      case 3:
+        old_word_Pic[i].check = correct3;
+        break;
+      case 4:
+        old_word_Pic[i].check = correct4;
+        break;
+      case 5:
+        old_word_Pic[i].check = correct5;
+        break;
+      default:
+        break;
+    }
+    word_Pic[i] = old_word_Pic[i];
+  }
+  // setCorrect0(true);
+  console.log(word_Pic);
+  console.log(word_Pic[0].check);
+  ///////////////////////////////////////////////////////////////
   //////////////////create sounds array//////////////
   const sounds = [
     require("../../assets/sounds/correct.mp3"),
@@ -51,6 +87,9 @@ const Game = ({ navigation }) => {
     }
   };
   //////////////////////////////////////////////////////////////////
+  // useEffect(() => {
+  //   fixData();
+  // }, []);
   ///////////////refresh on navigating back from Score screen///////////////
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -58,86 +97,86 @@ const Game = ({ navigation }) => {
       setRandPic(random());
       setDone(0);
       setWrong(0);
-      setCorrect0(0);
-      setCorrect1(0);
-      setCorrect2(0);
-      setCorrect3(0);
-      setCorrect4(0);
-      setCorrect5(0);
+      setCorrect0(false);
+      setCorrect1(false);
+      setCorrect2(false);
+      setCorrect3(false);
+      setCorrect4(false);
+      setCorrect5(false);
     });
     return unsubscribe;
   }, [navigation]);
 
   //////////////////////////////////////////////
   //////////////create static words & pics\\\\\\\\\\\\\\\\\\
-  const word_Pic = [
-    {
-      id: 0,
-      word: "Appel",
-      pic: (
-        <Image
-          source={require("../../assets/cardImages/apple.png")}
-          style={styles.img}
-        />
-      ),
-      check: correct0,
-    },
-    {
-      id: 1,
-      word: "Bat",
-      pic: (
-        <Image
-          source={require("../../assets/cardImages/bat.png")}
-          style={styles.img}
-        />
-      ),
-      check: correct1,
-    },
-    {
-      id: 2,
-      word: "Cat",
-      pic: (
-        <Image
-          source={require("../../assets/cardImages/cat.png")}
-          style={styles.img}
-        />
-      ),
-      check: correct2,
-    },
-    {
-      id: 3,
-      word: "Door",
-      pic: (
-        <Image
-          source={require("../../assets/cardImages/door.png")}
-          style={styles.img}
-        />
-      ),
-      check: correct3,
-    },
-    {
-      id: 4,
-      word: "Egg",
-      pic: (
-        <Image
-          source={require("../../assets/cardImages/easter-egg.png")}
-          style={styles.img}
-        />
-      ),
-      check: correct4,
-    },
-    {
-      id: 5,
-      word: "Fork",
-      pic: (
-        <Image
-          source={require("../../assets/cardImages/fork.png")}
-          style={styles.img}
-        />
-      ),
-      check: correct5,
-    },
-  ];
+  // const word_Pic = [
+  //   {
+  //     id: 0,
+  //     word: "Appel",
+  //     pic: (
+  //       <Image
+  //         source={require("../../assets/cardImages/apple.png")}
+  //         style={styles.img}
+  //       />
+  //     ),
+  //     check: correct0,
+  //   },
+  //   {
+  //     id: 1,
+  //     word: "Bat",
+  //     pic: (
+  //       <Image
+  //         source={require("../../assets/cardImages/bat.png")}
+  //         style={styles.img}
+  //       />
+  //     ),
+  //     check: correct1,
+  //   },
+  //   {
+  //     id: 2,
+  //     word: "Cat",
+  //     pic: (
+  //       <Image
+  //         source={require("../../assets/cardImages/cat.png")}
+  //         style={styles.img}
+  //       />
+  //     ),
+  //     check: correct2,
+  //   },
+  //   {
+  //     id: 3,
+  //     word: "Door",
+  //     pic: (
+  //       <Image
+  //         source={require("../../assets/cardImages/door.png")}
+  //         style={styles.img}
+  //       />
+  //     ),
+  //     check: correct3,
+  //   },
+  //   {
+  //     id: 4,
+  //     word: "Egg",
+  //     pic: (
+  //       <Image
+  //         source={require("../../assets/cardImages/easter-egg.png")}
+  //         style={styles.img}
+  //       />
+  //     ),
+  //     check: correct4,
+  //   },
+  //   {
+  //     id: 5,
+  //     word: "Fork",
+  //     pic: (
+  //       <Image
+  //         source={require("../../assets/cardImages/fork.png")}
+  //         style={styles.img}
+  //       />
+  //     ),
+  //     check: correct5,
+  //   },
+  // ];
   //////////////////////////////////////////////////
   ///////////creating a random array of numbers from 0 to 5 \\\\\\\\\\\\\\\\\\\\\\\\\\
   const random = () => {
@@ -194,9 +233,11 @@ const Game = ({ navigation }) => {
   }
   //////////////////////////////////////////////////////////////////
   /////////////////////creating pics cards\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
   var picCards = [];
   const [randomPics, setRandPic] = useState(random());
   for (let i = 0; i < word_Pic.length; i++) {
+    const imgPath = word_Pic[randomPics[i]].pic;
     //var to stor the pic ID
     var picID = -2;
     //var to stor the index of the object containing the pic
@@ -214,11 +255,15 @@ const Game = ({ navigation }) => {
       >
         {word_Pic[randomPics[i]].check ? (
           <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-            {word_Pic[randomPics[i]].pic}
+            <Image source={word_Pic[randomPics[i]].pic} style={styles.img} />
+            {/* <Text>{word_Pic[randomPics[i]].pic}</Text> */}
+            {/*____________________________________________*/}
           </View>
         ) : (
           <View style={[styles.cardImg, { backgroundColor: "#F6A808" }]}>
-            {word_Pic[randomPics[i]].pic}
+            <Image source={{ uri: imgPath }} style={styles.img} />
+            {/* <Text> {word_Pic[randomPics[i]].pic}</Text> */}
+            {/*____________________________________________*/}
           </View>
         )}
       </TouchableOpacity>
@@ -235,6 +280,7 @@ const Game = ({ navigation }) => {
       switch (wordID) {
         case 0:
           setCorrect0(true);
+          Alert.alert(word_Pic[0].check);
           break;
         case 1:
           setCorrect1(true);
@@ -302,7 +348,9 @@ const Game = ({ navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() => navigation.navigate("Score", { wrong, name })}
+                onPress={() =>
+                  navigation.navigate("Score", { wrong, name, word_Pic })
+                }
               >
                 <View>
                   <Image

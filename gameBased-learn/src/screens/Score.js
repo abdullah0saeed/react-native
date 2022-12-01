@@ -6,6 +6,8 @@ const Score = ({ navigation }) => {
   const route = useRoute();
   const wrong = route.params.wrong;
   const name = route.params.name;
+  const word_Pic = route.params.word_Pic;
+
   return (
     <View style={styles.body}>
       {/* show the score */}
@@ -30,7 +32,7 @@ const Score = ({ navigation }) => {
             alignItems: "center",
           },
         ]}
-        onPress={() => navigation.navigate("Game", { name })}
+        onPress={() => navigation.navigate("Game", { name, word_Pic })}
       >
         <Image
           source={require("../../assets/retry.png")}
