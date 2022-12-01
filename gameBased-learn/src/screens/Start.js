@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+// import {  useSelector } from "react-redux";
+
 import {
   View,
   Text,
@@ -12,6 +14,13 @@ import {
 import styles from "../styles";
 
 const Start = ({ navigation }) => {
+
+
+  // Global State
+//  const { value } = useSelector((state) => state.global);
+
+
+
   const [name, setName] = useState("");
 
   useEffect(() => {
@@ -25,7 +34,10 @@ const Start = ({ navigation }) => {
     if (name.length > 0) {
       navigation.navigate("Game", { name, word_Pic });
     } else {
-      ToastAndroid.show("please Enter Your Name First", ToastAndroid.SHORT);
+      ToastAndroid.show(
+        `please Enter Your Name First`,
+        ToastAndroid.SHORT
+      );
     }
   };
 
