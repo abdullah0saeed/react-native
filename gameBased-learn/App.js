@@ -11,7 +11,6 @@ const stack = createStackNavigator();
 export default function App() {
 
 //  const { value } = useSelector((state) => state.globla);
-
   return (
     <Provider store={store}>
       <NavigationContainer>

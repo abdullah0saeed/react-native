@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-// import {  useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchData } from "../store/globalSlice";
 
 import {
   View,
@@ -14,47 +15,45 @@ import {
 import styles from "../styles";
 
 const Start = ({ navigation }) => {
-
-
-  // Global State
-//  const { value } = useSelector((state) => state.global);
-
-
-
   const [name, setName] = useState("");
 
-  useEffect(() => {
-    getData();
-    console.log(word_Pic);
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  //   console.log(word_Pic);
+  // }, []);
   /////////////////////////////////
+
   const handelOnPress = () => {
     // fixData();
     //navigate to the game screen
     if (name.length > 0) {
       navigation.navigate("Game", { name, word_Pic });
     } else {
-      ToastAndroid.show(
-        `please Enter Your Name First`,
-        ToastAndroid.SHORT
-      );
+      ToastAndroid.show(`please Enter Your Name First`, ToastAndroid.SHORT);
     }
   };
 
   // //////////////////////////to fetch data from API/////////////////////////////
-  const [word_Pic, setWordPic] = useState([]);
-  const getData = async () => {
-    try {
-      //fetch data from API
-      let res = await fetch(
-        "https://638786bed9b24b1be3f33c0f.mockapi.io/gameBaseLearn/data/wordpicData"
-      );
-      let json = await res.json();
-      setWordPic(json);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
+
+  const { word_Pic } = useSelector((state) => state.global);
+
+  // const [word_Pic, setWordPic] = useState([]);
+  // const getData = async () => {
+  //   try {
+  //     //fetch data from API
+  //     let res = await fetch(
+  //       "https://638786bed9b24b1be3f33c0f.mockapi.io/gameBaseLearn/data/wordpicData"
+  //     );
+  //     let json = await res.json();
+  //     setWordPic(json);
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // };
   // /////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////fix data//////////////////////////////
   // const [correct0, setCorrect0] = useState(false);
