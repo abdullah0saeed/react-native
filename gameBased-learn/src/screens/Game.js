@@ -1,5 +1,6 @@
 import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   View,
   Text,
@@ -14,7 +15,7 @@ import { Audio } from "expo-av";
 
 const Game = ({ navigation }) => {
   const route = useRoute();
-  const name = route.params.name;
+  const {playerName} = useSelector((state)=>state.auth)
   const old_word_Pic = route.params.word_Pic;
 
   //to set how many correct answers
@@ -328,7 +329,7 @@ const Game = ({ navigation }) => {
               fontSize: 14,
             }}
           >
-            Welcome {`${name} `}
+            Welcome {`${playerName} `}
             <Image
               source={require("../../assets/smile.png")}
               style={{ width: 33, height: 33, marginTop: "3%" }}
@@ -349,7 +350,7 @@ const Game = ({ navigation }) => {
             >
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate("Score", { wrong, name, word_Pic })
+                  navigation.navigate("Score", { wrong, word_Pic })
                 }
               >
                 <View>
