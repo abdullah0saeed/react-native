@@ -7,33 +7,29 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
-  ToastAndroid
+  ToastAndroid,
 } from "react-native";
 import styles from "../styles";
-import {checkUser} from "../store/authSlice";
-import { useDispatch} from "react-redux";
+import { checkUser } from "../store/authSlice";
+import { useDispatch } from "react-redux";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [userName, setUserName] = useState("");
+  const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
 
-// on press Login
-  const onSubmit = async()=>{
-   dispatch(checkUser()).then((data) => {
-     let login = data.payload.some(
-       (el) => el.userName === userName && el.password === password
-     );
-      if (login) {
-        dispatch(setPlayerName(userName));
+  // on press Login
+  const onSubmit = () => {
+    dispatch(checkUser({ mail, password })).then((data) => {
+      console.log(data.payload);
+      if (data.payload.massage === "correct password") {
+        ToastAndroid.show(`${data.payload.massage}`, ToastAndroid.SHORT);
+        dispatch(setPlayerName(mail));
         navigation.navigate("Start");
       } else {
-        ToastAndroid.show(
-          `wrong: Check UserName Or Password`,
-          ToastAndroid.SHORT
-        );
+        ToastAndroid.show(`${data.payload.massage}`, ToastAndroid.SHORT);
       }
-   });
+    });
   };
 
   return (
@@ -42,8 +38,9 @@ const Login = ({ navigation }) => {
         <Text style={styles.startText}>Please Login First</Text>
         <TextInput
           style={styles.input}
-          onChangeText={(value) => setUserName(value)}
-          placeholder={"User Name"}
+          onChangeText={(value) => setMail(value)}
+          placeholder={"Email Address"}
+          textContentType="emailAddress"
         />
         <TextInput
           style={styles.input}

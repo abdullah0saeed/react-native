@@ -2,12 +2,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const checkUser = createAsyncThunk(
   "auth/checkUser",
-  async (_, thunkAPI) => {
+  async (data, thunkAPI) => {
     const { rejectedWithValue } = thunkAPI;
+    const sendData = JSON.stringify(data);
     try {
-      const res = await fetch(
-        "https://638fac8b4bfe20f70ad77025.mockapi.io/CRUDS/React/users"
-      );
+      const res = await fetch("http://192.168.1.3:3000/user/signIn", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: sendData,
+      });
       let data = await res.json();
       return data;
     } catch (error) {
@@ -21,7 +24,7 @@ export const authSlice = createSlice({
   initialState: { playerName: "" },
   reducers: {
     setPlayerName: (state, action) => {
-      state.playerName = action.payload;
+      state.playerName = action.payload.match(/\w+(?=\@)/i);
     },
   },
   extraReducers: {
