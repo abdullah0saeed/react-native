@@ -5,7 +5,7 @@ export const checkUser = createAsyncThunk(
   async (data, { rejectedWithValue }) => {
     const sendData = JSON.stringify(data);
     try {
-      const res = await fetch("http://192.168.1.3:3000/student/MsignIn", {
+      const res = await fetch("http://192.168.1.8:3000/student/MsignIn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: sendData,
@@ -41,7 +41,6 @@ export const authSlice = createSlice({
     },
   },
 });
-
 
 export const { setPlayerName } = authSlice.actions;
 export default authSlice.reducer;

@@ -6,11 +6,10 @@ import Game from "./src/screens/Game";
 import Score from "./src/screens/Score";
 import Login from "./src/screens/Login";
 import { store } from "./src/store/index";
-import { Provider} from "react-redux";
+import { Provider } from "react-redux";
 const stack = createStackNavigator();
 
 export default function App() {
-
   return (
     <Provider store={store}>
       <NavigationContainer>
