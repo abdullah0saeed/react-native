@@ -2,11 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const checkUser = createAsyncThunk(
   "auth/checkUser",
-  async (data, thunkAPI) => {
-    const { rejectedWithValue } = thunkAPI;
+  async (data, { rejectedWithValue }) => {
     const sendData = JSON.stringify(data);
     try {
-      const res = await fetch("http://192.168.1.3:3000/user/signIn", {
+      const res = await fetch("http://192.168.1.3:3000/student/MsignIn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: sendData,

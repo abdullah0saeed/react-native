@@ -21,7 +21,6 @@ const Login = ({ navigation }) => {
   // on press Login
   const onSubmit = () => {
     dispatch(checkUser({ mail, password })).then((data) => {
-      console.log(data.payload);
       if (data.payload.massage === "correct password") {
         ToastAndroid.show(`${data.payload.massage}`, ToastAndroid.SHORT);
         dispatch(setPlayerName(mail));
