@@ -1,6 +1,6 @@
 import { useRoute } from "@react-navigation/native";
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import {
   View,
@@ -19,8 +19,6 @@ const Game = ({ navigation }) => {
   const { playerName } = useSelector((state) => state.auth);
   // const old_word_Pic = route.params.word_Pic;
   const { word_Pic } = useSelector((state) => state.global);
-  const globalState = useSelector((state) => state);
-  const dispatch = useDispatch();
 
   //to set how many correct answers
   const [done, setDone] = useState(0);
@@ -33,60 +31,7 @@ const Game = ({ navigation }) => {
   const [correct3, setCorrect3] = useState(false);
   const [correct4, setCorrect4] = useState(false);
   const [correct5, setCorrect5] = useState(false);
-  // const [states, setStates] = useState([
-  //   false,
-  //   false,
-  //   false,
-  //   false,
-  //   false,
-  //   false,
-  // ]);
-  ////////////////////////fix data//////////////////////////////
-  // const word_Pic = [old_word_Pic];
-  // var states = [];
-  // useEffect(() => {
-  //   states = [correct0, correct1, correct2, correct3, correct4, correct5];
-  // });
 
-  // useEffect(() => {
-  //   fixData();
-  //   old_word_Pic.forEach((el) => {
-  //     setWord_Pic([...word_Pic, el]);
-  //   });
-  // });
-  // const [word_Pic, setWord_Pic] = useState([]);
-
-  // for (let i = 0; i < old_word_Pic.length; i++) {
-  //   // old_word_Pic[i].check = eval(old_word_Pic[i].check);
-  //   switch (i) {
-  //     case 0:
-  //       [...old_word_Pic[i], { check: correct0 }];
-  //       break;
-  //     case 1:
-  //       [...old_word_Pic[i], { check: correct1 }];
-  //       break;
-  //     case 2:
-  //       [...old_word_Pic[i], { check: correct2 }];
-  //       break;
-  //     case 3:
-  //       [...old_word_Pic[i], { check: correct3 }];
-  //       break;
-  //     case 4:
-  //       [...old_word_Pic[i], { check: correct4 }];
-  //       break;
-  //     case 5:
-  //       [...old_word_Pic[i], { check: correct5 }];
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  //   setWord_Pic(old_word_Pic);
-  // }
-  // setWord_Pic(old_word_Pic);
-  // setCorrect0(true);
-  // console.log(word_Pic);
-  // console.log(word_Pic[0].check);
-  ///////////////////////////////////////////////////////////////
   //////////////////create sounds array//////////////
   const sounds = [
     require("../../assets/sounds/correct.mp3"),
@@ -223,198 +168,142 @@ const Game = ({ navigation }) => {
     return randoms;
   };
   ///////////////////////////////////////////////////////////////////
+
   ////////////////////creating words cards\\\\\\\\\\\\\\\\\\\\\\\\\\\
   var wordCards = [];
+  var wordID = -1;
   const [randomWords, setRandWord] = useState(random());
-  for (let i = 0; i < word_Pic.length; i++) {
-    //var to stor the word ID
-    var wordID = -1;
-    //var to stor the index of the object containing the word
+  const setWordView = (correct) => {
     var wordIndex = -1;
-    wordCards.push(
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() => {
-          wordIndex = word_Pic.indexOf(word_Pic[randomWords[i]]);
-          wordID = word_Pic[randomWords[i]].id;
-          counter++;
-          check();
-        }}
-        key={word_Pic[randomWords[i]].id}
-      >
-        {wordID === 0 ? (
-          correct0 && (
+    word_Pic.forEach((word, i) => {
+      wordCards.push(
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => {
+            wordIndex = word_Pic.indexOf(word_Pic[randomWords[i]]);
+            wordID = word_Pic[randomWords[i]].id;
+            counter++;
+            check().then((data) => {
+              setWordView(data);
+            });
+          }}
+          key={word_Pic[randomWords[i]].id}
+        >
+          {word_Pic[randomWords[i]].id == 0 && correct0 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
               {word_Pic[randomWords[i]].word}
             </Text>
-          )
-        ) : wordID === 1 ? (
-          correct1 && (
+          ) : word_Pic[randomWords[i]].id == 1 && correct1 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
               {word_Pic[randomWords[i]].word}
             </Text>
-          )
-        ) : wordID === 2 ? (
-          correct2 && (
+          ) : word_Pic[randomWords[i]].id == 2 && correct2 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
               {word_Pic[randomWords[i]].word}
             </Text>
-          )
-        ) : wordID === 3 ? (
-          correct3 && (
+          ) : word_Pic[randomWords[i]].id == 3 && correct3 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
               {word_Pic[randomWords[i]].word}
             </Text>
-          )
-        ) : wordID === 4 ? (
-          correct4 && (
+          ) : word_Pic[randomWords[i]].id == 4 && correct4 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
               {word_Pic[randomWords[i]].word}
             </Text>
-          )
-        ) : wordID === 5 ? (
-          correct5 && (
+          ) : word_Pic[randomWords[i]].id == 5 && correct5 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
               {word_Pic[randomWords[i]].word}
             </Text>
-          )
-        ) : (
-          <Text style={[styles.cardText, { backgroundColor: "#F6A808" }]}>
-            {word_Pic[randomWords[i]].word}
-          </Text>
-        )}
-      </TouchableOpacity>
-    );
-  }
+          ) : (
+            <Text style={[styles.cardText, { backgroundColor: "#F6A808" }]}>
+              {word_Pic[randomWords[i]].word}
+            </Text>
+          )}
+        </TouchableOpacity>
+      );
+    });
+
+    return wordCards;
+  };
   //////////////////////////////////////////////////////////////////
   /////////////////////creating pics cards\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   var picCards = [];
+  var picID = -2;
   const [randomPics, setRandPic] = useState(random());
-  for (let i = 0; i < word_Pic.length; i++) {
-    const imgPath = word_Pic[randomPics[i]].pic;
-    //var to stor the pic ID
-    var picID = -2;
-    //var to stor the index of the object containing the pic
+  const setPicView = () => {
     var picIndex = -2;
-    picCards.push(
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() => {
-          picIndex = word_Pic[randomPics[i]];
-          picID = word_Pic[randomPics[i]].id;
-          counter++;
-          check();
-        }}
-        key={word_Pic[randomPics[i]].id}
-      >
-        {picID === 0 ? (
-          correct0 && (
+    word_Pic.forEach((word, i) => {
+      const imgPath = word_Pic[randomPics[i]].pic;
+      picCards.push(
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => {
+            picIndex = word_Pic[randomPics[i]];
+            picID = word_Pic[randomPics[i]].id;
+
+            counter++;
+            check();
+          }}
+          key={word_Pic[randomPics[i]].id}
+        >
+          {word_Pic[randomPics[i]].id == 0 && correct0 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={word_Pic[randomPics[i]].pic} style={styles.img} />
-              {/* <Text>{word_Pic[randomPics[i]].pic}</Text> */}
-              {/*____________________________________________*/}
+              <Image source={{ uri: imgPath }} style={styles.img} />
             </View>
-          )
-        ) : picID === 1 ? (
-          correct1 && (
+          ) : word_Pic[randomPics[i]].id == 1 && correct1 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={word_Pic[randomPics[i]].pic} style={styles.img} />
-              {/* <Text>{word_Pic[randomPics[i]].pic}</Text> */}
-              {/*____________________________________________*/}
+              <Image source={{ uri: imgPath }} style={styles.img} />
             </View>
-          )
-        ) : picID === 2 ? (
-          correct2 && (
+          ) : word_Pic[randomPics[i]].id == 2 && correct2 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={word_Pic[randomPics[i]].pic} style={styles.img} />
-              {/* <Text>{word_Pic[randomPics[i]].pic}</Text> */}
-              {/*____________________________________________*/}
+              <Image source={{ uri: imgPath }} style={styles.img} />
             </View>
-          )
-        ) : picID === 3 ? (
-          correct3 && (
+          ) : word_Pic[randomPics[i]].id == 3 && correct3 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={word_Pic[randomPics[i]].pic} style={styles.img} />
-              {/* <Text>{word_Pic[randomPics[i]].pic}</Text> */}
-              {/*____________________________________________*/}
+              <Image source={{ uri: imgPath }} style={styles.img} />
             </View>
-          )
-        ) : picID === 4 ? (
-          correct4 && (
+          ) : word_Pic[randomPics[i]].id == 4 && correct4 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={word_Pic[randomPics[i]].pic} style={styles.img} />
-              {/* <Text>{word_Pic[randomPics[i]].pic}</Text> */}
-              {/*____________________________________________*/}
+              <Image source={{ uri: imgPath }} style={styles.img} />
             </View>
-          )
-        ) : picID === 5 ? (
-          correct5 && (
+          ) : word_Pic[randomPics[i]].id == 5 && correct5 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={word_Pic[randomPics[i]].pic} style={styles.img} />
-              {/* <Text>{word_Pic[randomPics[i]].pic}</Text> */}
-              {/*____________________________________________*/}
+              <Image source={{ uri: imgPath }} style={styles.img} />
             </View>
-          )
-        ) : (
-          <View style={[styles.cardImg, { backgroundColor: "#F6A808" }]}>
-            <Image source={{ uri: imgPath }} style={styles.img} />
-            {/* <Text> {word_Pic[randomPics[i]].pic}</Text> */}
-            {/*____________________________________________*/}
-          </View>
-        )}
-      </TouchableOpacity>
-    );
-  }
+          ) : (
+            <View style={[styles.cardImg, { backgroundColor: "#F6A808" }]}>
+              <Image source={{ uri: imgPath }} style={styles.img} />
+            </View>
+          )}
+        </TouchableOpacity>
+      );
+    });
+
+    return picCards;
+  };
   /////////////////////////////////////////////////////////////////////////////
+
   ///////////////////handling Card press\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   //counter will be increased by 1 every click on card
   var counter = 0;
-
-  const check = (i) => {
-    // fixData();
+  const check = async () => {
     if (counter % 2 === 0 && wordID === picID) {
-      Alert.alert(wordID);
       setDone(done + 1);
-      if (wordID === 0) {
-        Alert.alert("aaaaaaaaaaa");
+
+      if (wordID == 0) {
         setCorrect0(true);
-      } else if (wordID === 1) {
+        console.log("0000");
+      } else if (wordID == 1) {
         setCorrect1(true);
-      } else if (wordID === 2) {
+      } else if (wordID == 2) {
         setCorrect2(true);
-      } else if (wordID === 3) {
+      } else if (wordID == 3) {
         setCorrect3(true);
-      } else if (wordID === 4) {
+      } else if (wordID == 4) {
         setCorrect4(true);
-      } else if (wordID === 5) {
+      } else if (wordID == 5) {
         setCorrect5(true);
       }
-      // const array = states;
-      // array[wordID] = true;
-      // setStates(array);
-
-      // switch (wordID) {
-      //   case 0:
-      //     Alert.alert('aaaaaaaaaaa')
-      //     setCorrect0(true);
-      //     break;
-      //   case 1:
-      //     setCorrect1(true);
-      //     break;
-      //   case 2:
-      //     setCorrect2(true);
-      //     break;
-      //   case 3:
-      //     setCorrect3(true);
-      //     break;
-      //   case 4:
-      //     setCorrect4(true);
-      //     break;
-      //   case 5:
-      //     setCorrect5(true);
-      //     break;
-      // }
 
       if (done < word_Pic.length - 1) {
         //play sound
@@ -428,6 +317,7 @@ const Game = ({ navigation }) => {
       //play sound
       playSound(1);
     }
+    return states;
   };
   ///////////////////////////////////////////////////////////////////
   return (
@@ -493,8 +383,8 @@ const Game = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.body}>
-        <View style={styles.leftView}>{wordCards}</View>
-        <View style={styles.rightView}>{picCards}</View>
+        <View style={styles.leftView}>{setWordView()}</View>
+        <View style={styles.rightView}>{setPicView()}</View>
       </View>
     </>
   );
