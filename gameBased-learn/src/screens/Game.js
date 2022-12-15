@@ -32,6 +32,35 @@ const Game = ({ navigation }) => {
   const [correct4, setCorrect4] = useState(false);
   const [correct5, setCorrect5] = useState(false);
 
+  ///to store wrong count for each word
+  const [wrong0, setWrong0] = useState(0);
+  const [wrong1, setWrong1] = useState(0);
+  const [wrong2, setWrong2] = useState(0);
+  const [wrong3, setWrong3] = useState(0);
+  const [wrong4, setWrong4] = useState(0);
+  const [wrong5, setWrong5] = useState(0);
+
+  ///post request to store wrong count to data base
+  const sentData = [
+    { word: word_Pic[0].word, wrongCount: wrong0 },
+    { word: word_Pic[1].word, wrongCount: wrong1 },
+    { word: word_Pic[2].word, wrongCount: wrong2 },
+    { word: word_Pic[3].word, wrongCount: wrong3 },
+    { word: word_Pic[4].word, wrongCount: wrong4 },
+    { word: word_Pic[5].word, wrongCount: wrong5 },
+  ];
+  const sendWrongCount = async (data) => {
+    try {
+      const res = await fetch(`localhost:3000/student/worngCount`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   //////////////////create sounds array//////////////
   const sounds = [
     require("../../assets/sounds/correct.mp3"),
@@ -57,7 +86,6 @@ const Game = ({ navigation }) => {
     }
   };
   //////////////////////////////////////////////////////////////////
-
   ///////////////refresh on navigating back from Score screen///////////////
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -71,6 +99,12 @@ const Game = ({ navigation }) => {
       setCorrect3(false);
       setCorrect4(false);
       setCorrect5(false);
+      setWrong0(0);
+      setWrong1(0);
+      setWrong2(0);
+      setWrong3(0);
+      setWrong4(0);
+      setWrong5(0);
     });
     return unsubscribe;
   }, [navigation]);
@@ -292,7 +326,6 @@ const Game = ({ navigation }) => {
 
       if (wordID == 0) {
         setCorrect0(true);
-        console.log("0000");
       } else if (wordID == 1) {
         setCorrect1(true);
       } else if (wordID == 2) {
@@ -313,6 +346,21 @@ const Game = ({ navigation }) => {
         playSound(2);
       }
     } else if (counter % 2 === 0 && wordID !== picID) {
+      //to edit wrong count
+      if (wordID == 0) {
+        setWrong0(wrong0 + 1);
+      } else if (wordID == 1) {
+        setWrong1(wrong1 + 1);
+      } else if (wordID == 2) {
+        setWrong2(wrong2 + 1);
+      } else if (wordID == 3) {
+        setWrong3(wrong3 + 1);
+      } else if (wordID == 4) {
+        setWrong4(wrong4 + 1);
+      } else if (wordID == 5) {
+        setWrong5(wrong5 + 1);
+      }
+      console.log(wrong0);
       setWrong(wrong + 1);
       //play sound
       playSound(1);
@@ -356,9 +404,10 @@ const Game = ({ navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("Score", { wrong, word_Pic })
-                }
+                onPress={() => {
+                  sendWrongCount(sentData);
+                  navigation.navigate("Score", { wrong, word_Pic });
+                }}
               >
                 <View>
                   <Image
