@@ -1,6 +1,7 @@
 import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import * as Speech from "expo-speech";
 
 import {
   View,
@@ -41,14 +42,7 @@ const Game = ({ navigation }) => {
   const [wrong5, setWrong5] = useState(0);
 
   ///post request to store wrong count to data base
-  const sentData = [
-    { word: word_Pic[0].word, wrongCount: wrong0 },
-    { word: word_Pic[1].word, wrongCount: wrong1 },
-    { word: word_Pic[2].word, wrongCount: wrong2 },
-    { word: word_Pic[3].word, wrongCount: wrong3 },
-    { word: word_Pic[4].word, wrongCount: wrong4 },
-    { word: word_Pic[5].word, wrongCount: wrong5 },
-  ];
+
   const sendWrongCount = async (data) => {
     try {
       const res = await fetch(`localhost:3000/student/worngCount`, {
@@ -86,6 +80,7 @@ const Game = ({ navigation }) => {
     }
   };
   //////////////////////////////////////////////////////////////////
+
   ///////////////refresh on navigating back from Score screen///////////////
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -320,31 +315,44 @@ const Game = ({ navigation }) => {
   ///////////////////handling Card press\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   //counter will be increased by 1 every click on card
   var counter = 0;
+
   const check = async () => {
+    //if correct
     if (counter % 2 === 0 && wordID === picID) {
       setDone(done + 1);
 
-      if (wordID == 0) {
-        setCorrect0(true);
-      } else if (wordID == 1) {
-        setCorrect1(true);
-      } else if (wordID == 2) {
-        setCorrect2(true);
-      } else if (wordID == 3) {
-        setCorrect3(true);
-      } else if (wordID == 4) {
-        setCorrect4(true);
-      } else if (wordID == 5) {
-        setCorrect5(true);
-      }
+      //to speak the word
+      await Speech.speak(`"${word_Pic[wordID].word}"`, {
+        rate: 0.4,
+        quality: "Enhanced",
+      });
 
-      if (done < word_Pic.length - 1) {
-        //play sound
-        playSound(0);
-      } else if (done === word_Pic.length - 1) {
-        //play sound
-        playSound(2);
-      }
+      //wait a while before continuing to speak the word completely
+      setTimeout(() => {
+        if (wordID == 0) {
+          setCorrect0(true);
+        } else if (wordID == 1) {
+          setCorrect1(true);
+        } else if (wordID == 2) {
+          setCorrect2(true);
+        } else if (wordID == 3) {
+          setCorrect3(true);
+        } else if (wordID == 4) {
+          setCorrect4(true);
+        } else if (wordID == 5) {
+          setCorrect5(true);
+        }
+
+        if (done < word_Pic.length - 1) {
+          //play sound
+          playSound(0);
+        } else if (done === word_Pic.length - 1) {
+          //play sound
+          playSound(2);
+        }
+      }, 500);
+
+      //if wrong
     } else if (counter % 2 === 0 && wordID !== picID) {
       //to edit wrong count
       if (wordID == 0) {
@@ -405,6 +413,15 @@ const Game = ({ navigation }) => {
             >
               <TouchableOpacity
                 onPress={() => {
+                  const sentData = [
+                    { word: word_Pic[0].word, wrongCount: wrong0 },
+                    { word: word_Pic[1].word, wrongCount: wrong1 },
+                    { word: word_Pic[2].word, wrongCount: wrong2 },
+                    { word: word_Pic[3].word, wrongCount: wrong3 },
+                    { word: word_Pic[4].word, wrongCount: wrong4 },
+                    { word: word_Pic[5].word, wrongCount: wrong5 },
+                  ];
+                  console.log(sentData);
                   sendWrongCount(sentData);
                   navigation.navigate("Score", { wrong, word_Pic });
                 }}
