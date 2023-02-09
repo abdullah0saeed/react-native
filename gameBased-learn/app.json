@@ -2,7 +2,7 @@
   "expo": {
     "name": "ABC",
     "slug": "ABC",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -10,8 +10,8 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#36B0F0",
-      "width":"25%",
-      "height":"25%"
+      "width": "25%",
+      "height": "25%"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -27,10 +27,15 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "abdullah.saeed.gameBasedLearn"
+      "package": "com.AbdullahSaeed.gameBasedLearn"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2e53b238-c5f8-41f3-a4b0-9004d15b3123"
+      }
     }
   }
 }
