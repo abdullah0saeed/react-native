@@ -60,6 +60,7 @@ const Game = ({ navigation }) => {
     require("../../assets/sounds/correct.mp3"),
     require("../../assets/sounds/wrong.mp3"),
     require("../../assets/sounds/done.mp3"),
+    require("../../assets/sounds/touch.mp3"),
   ];
   /////////////////////////////////////////////////
   /////////////////function to play sound\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -100,6 +101,7 @@ const Game = ({ navigation }) => {
       setWrong3(0);
       setWrong4(0);
       setWrong5(0);
+      setNoRepeat([]);
     });
     return unsubscribe;
   }, [navigation]);
@@ -209,6 +211,7 @@ const Game = ({ navigation }) => {
         <TouchableOpacity
           style={styles.card}
           onPress={() => {
+            // playSound(3);
             wordIndex = word_Pic.indexOf(word_Pic[randomWords[i]]);
             wordID = word_Pic[randomWords[i]].id;
             counter++;
@@ -267,6 +270,7 @@ const Game = ({ navigation }) => {
         <TouchableOpacity
           style={styles.card}
           onPress={() => {
+            // playSound(3);
             picIndex = word_Pic[randomPics[i]];
             picID = word_Pic[randomPics[i]].id;
 
@@ -315,42 +319,63 @@ const Game = ({ navigation }) => {
   ///////////////////handling Card press\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   //counter will be increased by 1 every click on card
   var counter = 0;
+  // array to store the done wordID to not be repeated
+  const [noRepeat, setNoRepeat] = useState([]);
+
+  //to store if the word is new or already done
+  var status = "";
 
   const check = async () => {
     //if correct
     if (counter % 2 === 0 && wordID === picID) {
-      setDone(done + 1);
+      // setDone(done + 1);
 
-      //to speak the word
-      await Speech.speak(`"${word_Pic[wordID].word}"`, {
-        rate: 0.4,
-        quality: "Enhanced",
-      });
+      //check if the wordID is already done
+      status = "new";
+      if (noRepeat.length !== 0) {
+        noRepeat.forEach((el) => {
+          if (el === wordID) {
+            status = "found";
+          }
+        });
+      }
 
-      //wait a while before continuing to speak the word completely
-      setTimeout(() => {
-        if (wordID == 0) {
-          setCorrect0(true);
-        } else if (wordID == 1) {
-          setCorrect1(true);
-        } else if (wordID == 2) {
-          setCorrect2(true);
-        } else if (wordID == 3) {
-          setCorrect3(true);
-        } else if (wordID == 4) {
-          setCorrect4(true);
-        } else if (wordID == 5) {
-          setCorrect5(true);
-        }
+      //if wordID was not found (new) in the noRepeat array
+      if (status === "new") {
+        setNoRepeat([...noRepeat, wordID]);
+        setDone(done + 1);
+        console.log("noRepeat: " + noRepeat);
+        //to speak the word
+        await Speech.speak(`"${word_Pic[wordID].word}"`, {
+          rate: 0.4,
+          quality: "Enhanced",
+        });
 
-        if (done < word_Pic.length - 1) {
-          //play sound
-          playSound(0);
-        } else if (done === word_Pic.length - 1) {
-          //play sound
-          playSound(2);
-        }
-      }, 500);
+        //wait a while before continuing to speak the word completely
+        setTimeout(() => {
+          if (wordID == 0) {
+            setCorrect0(true);
+          } else if (wordID == 1) {
+            setCorrect1(true);
+          } else if (wordID == 2) {
+            setCorrect2(true);
+          } else if (wordID == 3) {
+            setCorrect3(true);
+          } else if (wordID == 4) {
+            setCorrect4(true);
+          } else if (wordID == 5) {
+            setCorrect5(true);
+          }
+
+          if (done < word_Pic.length - 1) {
+            //play sound
+            playSound(0);
+          } else if (done === word_Pic.length - 1) {
+            //play sound
+            playSound(2);
+          }
+        }, 500);
+      }
 
       //if wrong
     } else if (counter % 2 === 0 && wordID !== picID) {
@@ -373,6 +398,7 @@ const Game = ({ navigation }) => {
       //play sound
       playSound(1);
     }
+    console.log("done: " + done);
     return states;
   };
   ///////////////////////////////////////////////////////////////////
