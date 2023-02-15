@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.AbdullahSaeed.gameBasedLearn"
+      "package": "abdullah.saeed.gameBasedLearn"
     },
     "web": {
       "favicon": "./assets/favicon.png"

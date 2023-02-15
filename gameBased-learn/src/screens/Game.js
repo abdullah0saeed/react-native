@@ -1,6 +1,7 @@
 import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchData } from "../store/globalSlice";
 import * as Speech from "expo-speech";
 
 import {
@@ -17,6 +18,7 @@ import { Audio } from "expo-av";
 
 const Game = ({ navigation }) => {
   const route = useRoute();
+  const dispatch = useDispatch();
   const { playerName } = useSelector((state) => state.auth);
   // const old_word_Pic = route.params.word_Pic;
   const { word_Pic } = useSelector((state) => state.global);
@@ -85,6 +87,7 @@ const Game = ({ navigation }) => {
   ///////////////refresh on navigating back from Score screen///////////////
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
+      dispatch(fetchData());
       setRandWord(random());
       setRandPic(random());
       setDone(0);
@@ -104,7 +107,7 @@ const Game = ({ navigation }) => {
       setNoRepeat([]);
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, dispatch]);
 
   //////////////////////////////////////////////
   //////////////create static words & pics\\\\\\\\\\\\\\\\\\

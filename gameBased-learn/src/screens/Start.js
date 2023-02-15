@@ -29,7 +29,7 @@ const Start = ({ navigation }) => {
       <View style={styles.container}>
         <Text style={styles.startText}>Choose The Game</Text>
         <Image
-          source={require("../../assets/gameOne.png")}
+          source={require("../../assets/game1.jpg")}
           style={styles.avatar}
         />
         <Pressable style={styles.pressable} onPress={handelOnPress}>

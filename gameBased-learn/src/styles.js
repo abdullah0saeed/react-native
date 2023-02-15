@@ -5,12 +5,12 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#36B0F0",
     alignItems: "center",
-    justifyContent:"center"
+    justifyContent: "center",
   },
   avatar: {
-    width: "70%",
+    width: "40%",
     height: "20%",
-    margin: "10%",
+    margin: "3%",
   },
   input: {
     backgroundColor: "#C5F1E7",

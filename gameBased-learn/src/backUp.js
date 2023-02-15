@@ -61,3 +61,28 @@
 // <Pressable style={styles.pressable} onPress={handelOnPress}>
 //   <Text style={{ fontSize: 35, fontWeight: "bold" }}>Play</Text>
 // </Pressable>
+////////////////////////////////////////////////////////////////////////
+//////////////////////eas.json\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+// "build": {
+//   "development": {
+//     "developmentClient": true,
+//     "distribution": "internal",
+//     "ios": {
+//       "resourceClass": "m1-medium"
+//     }
+//   },
+//   "preview": {
+//     "distribution": "internal",
+//     "ios": {
+//       "resourceClass": "m1-medium"
+//     }
+//   },
+//   "production": {
+//     "ios": {
+//       "resourceClass": "m1-medium"
+//     }
+//   }
+// },
+// "submit": {
+//   "production": {}
+// }
