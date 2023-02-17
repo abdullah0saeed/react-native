@@ -26,11 +26,11 @@ export default function App() {
         <NavigationContainer>
           <StatusBar backgroundColor="#000" style="light" />
           <stack.Navigator>
-            {/* <stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          /> */}
+            <stack.Screen
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
+            />
             <stack.Screen
               name="Start"
               component={Start}

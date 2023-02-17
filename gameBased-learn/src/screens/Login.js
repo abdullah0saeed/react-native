@@ -15,15 +15,15 @@ import { useDispatch } from "react-redux";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [mail, setMail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   // on press Login
   const onSubmit = () => {
-    dispatch(checkUser({ mail, password })).then((data) => {
+    dispatch(checkUser({ username, password })).then((data) => {
       if (data.payload.massage === "correct password") {
         ToastAndroid.show(`${data.payload.massage}`, ToastAndroid.SHORT);
-        dispatch(setPlayerName(mail));
+        dispatch(setPlayerName(username));
         navigation.navigate("Start");
       } else {
         ToastAndroid.show(`${data.payload.massage}`, ToastAndroid.SHORT);
@@ -37,7 +37,7 @@ const Login = ({ navigation }) => {
         <Text style={styles.startText}>Please Login First</Text>
         <TextInput
           style={styles.input}
-          onChangeText={(value) => setMail(value)}
+          onChangeText={(value) => setUsername(value)}
           placeholder={"Email Address"}
           textContentType="emailAddress"
         />
