@@ -120,7 +120,6 @@ export default function Listen_Choose({ navigation }) {
         <TouchableOpacity
           style={[
             tw`m-1.5 mr-2 ml-2 flex justify-center bg-pink-400 rounded-2xl`,
-            ,
             { height: `${100 / 7}%` },
           ]}
           key={i}
@@ -128,9 +127,15 @@ export default function Listen_Choose({ navigation }) {
             check(i);
           }}
         >
-          <View>
+          <View
+            style={[
+              tw` flex justify-center rounded-2xl`,
+              { height: `100 %` },
+              correct0 && i == 0 && tw`bg-green-400`,
+            ]}
+          >
             <Text style={tw`text-center text-white text-4xl font-bold`}>
-              {word_Pic[i].word}
+              {word_Pic[i]?.word}
             </Text>
           </View>
         </TouchableOpacity>
@@ -141,9 +146,13 @@ export default function Listen_Choose({ navigation }) {
 
   //function to choose random word an speak it\\\\\\\\\\\\\\\\\\\\\\\\\
   const [randomSound, setRandSound] = useState(random());
+  //to store the sound id
+  const [soundID, setSoundID] = useState(0);
+  const speakWord = (word) => {
+    var id = randomSound[randomSound.length - 1];
+    setSoundID(id);
 
-  const speakWord = async (word) => {
-    await Speech.speak(`"${word}"`, {
+    Speech.speak(`"${word}"`, {
       rate: 0.4,
       quality: "Enhanced",
     });
@@ -153,16 +162,10 @@ export default function Listen_Choose({ navigation }) {
 
   //to store if the word is new or already done
   var status = "";
-  const check = (wordID) => {
-    console.log(
-      "wordID:",
-      wordID,
-      "  soundID:",
-      randomSound[randomSound.length - 1]
-    );
+  const check = async (wordID) => {
+    var sID = randomSound[randomSound.length - 1];
     //if right choice
-    if (wordID === randomSound[randomSound.length - 1]) {
-      console.log("correct");
+    if (wordID === sID) {
       //check if the wordID is already done
       status = "new";
       if (noRepeat.length !== 0) {
@@ -175,14 +178,16 @@ export default function Listen_Choose({ navigation }) {
 
       //if wordID was not found (new) in the noRepeat array
       if (status === "new") {
-        setNoRepeat([...noRepeat, wordID]);
-        setDone(done + 1);
+        var any = noRepeat;
+        any.push(wordID);
+        setNoRepeat(any);
 
-        const temp = [];
-        for (let i = 0; i < randomSound.length - 1; i++) {
-          temp.push(randomSound[i]);
-        }
-        console.log("temp:", temp);
+        // var finish = done;
+        // var finish2 = finish + 1;
+        // setDone(finish2);
+
+        var temp = randomSound;
+        temp.pop();
         setRandSound(temp);
 
         if (wordID == 0) {
@@ -198,11 +203,11 @@ export default function Listen_Choose({ navigation }) {
         } else if (wordID == 5) {
           setCorrect5(true);
         }
-
-        if (done < word_Pic.length - 1) {
+        console.log("correct0:", correct0);
+        if (noRepeat.length < word_Pic.length) {
           //play sound
           playSound(0);
-        } else if (done === word_Pic.length - 1) {
+        } else if (noRepeat.length === word_Pic.length) {
           //play sound
           playSound(2);
         }
@@ -222,7 +227,10 @@ export default function Listen_Choose({ navigation }) {
       } else if (wordID == 5) {
         setWrong5(wrong5 + 1);
       }
+
       setWrong(wrong + 1);
+      console.log("wrong:", wrong);
+
       //play sound
       playSound(1);
     }
@@ -233,18 +241,17 @@ export default function Listen_Choose({ navigation }) {
       <View style={[{ flex: 1 }, tw`bg-pink-200 `]}>
         <TouchableOpacity
           style={
-            (done < word_Pic.length && [
+            (noRepeat.length < word_Pic.length && [
               tw`bg-pink-600 m-2 mb-3 rounded-xl justify-center`,
               { flex: 1.5 / 15 },
             ]) ||
-            (done >= word_Pic.length && [
+            (noRepeat.length >= word_Pic.length && [
               tw`bg-pink-600 m-2 mb-3 rounded-xl justify-center w-1/3 ml-auto mr-auto`,
               { flex: 1.5 / 15 },
             ])
           }
           onPress={() => {
-            if (done < word_Pic.length) {
-              console.log(randomSound);
+            if (noRepeat.length < word_Pic.length) {
               speakWord(word_Pic[randomSound[randomSound.length - 1]]?.word);
             } else {
               const sentData = [
@@ -260,7 +267,7 @@ export default function Listen_Choose({ navigation }) {
             }
           }}
         >
-          {(done < word_Pic.length && (
+          {(noRepeat.length < word_Pic.length && (
             <>
               <Image
                 source={{
@@ -281,7 +288,7 @@ export default function Listen_Choose({ navigation }) {
               </Text>
             </>
           )) ||
-            (done >= word_Pic.length && (
+            (noRepeat.length >= word_Pic.length && (
               <>
                 <Image
                   source={require("../../assets/rArrow.png")}
