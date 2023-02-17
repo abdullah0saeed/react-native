@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { BackHandler } from "react-native";
+import tw from "tailwind-react-native-classnames";
 
 const Score = ({ navigation }) => {
   const route = useRoute();
@@ -11,7 +12,7 @@ const Score = ({ navigation }) => {
     <View style={styles.body}>
       {/* show the score */}
       <View style={styles.viewContainer}>
-        <Text style={[styles.text, { width: "60%" }]}>Score</Text>
+        <Text style={[styles.text, { width: "60%" }, tw``]}>Score</Text>
         <Text style={[styles.textContainer, { width: "40%" }]}>
           {6 - wrong}
         </Text>
@@ -29,6 +30,7 @@ const Score = ({ navigation }) => {
             backgroundColor: "#1DDA99",
             flexDirection: "row",
             alignItems: "center",
+            marginBottom: "5%",
           },
         ]}
         onPress={() => navigation.navigate("Game", { word_Pic })}
@@ -41,6 +43,27 @@ const Score = ({ navigation }) => {
           Play again
         </Text>
       </TouchableOpacity>
+
+      {/* paly another game */}
+      <TouchableOpacity
+        style={[
+          styles.TouchableOpacity,
+          {
+            // backgroundColor: "#1DDA99",
+            flexDirection: "row",
+            alignItems: "center",
+          },
+          tw`bg-yellow-600 `,
+        ]}
+        onPress={() => navigation.navigate("Start", { word_Pic })}
+      >
+        <Text
+          style={[{ fontSize: 20, fontWeight: "bold", color: "#fff" }, tw``]}
+        >
+          Other Games
+        </Text>
+      </TouchableOpacity>
+
       {/*quit*/}
       <TouchableOpacity
         style={[
@@ -67,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: "6%",
     margin: "5%",
-    marginTop: "20%",
+    marginTop: "13%",
   },
   textContainer: {
     backgroundColor: "#9E9DAA",
@@ -96,6 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 20,
     margin: "12%",
+    marginBottom: "3%",
   },
 });
 

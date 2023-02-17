@@ -110,77 +110,9 @@ const Game = ({ navigation }) => {
   }, [navigation, dispatch]);
 
   //////////////////////////////////////////////
-  //////////////create static words & pics\\\\\\\\\\\\\\\\\\
-  // const word_Pic = [
-  //   {
-  //     id: 0,
-  //     word: "Appel",
-  //     pic: (
-  //       <Image
-  //         source={require("../../assets/cardImages/apple.png")}
-  //         style={styles.img}
-  //       />
-  //     ),
-  //     check: correct0,
-  //   },
-  //   {
-  //     id: 1,
-  //     word: "Bat",
-  //     pic: (
-  //       <Image
-  //         source={require("../../assets/cardImages/bat.png")}
-  //         style={styles.img}
-  //       />
-  //     ),
-  //     check: correct1,
-  //   },
-  //   {
-  //     id: 2,
-  //     word: "Cat",
-  //     pic: (
-  //       <Image
-  //         source={require("../../assets/cardImages/cat.png")}
-  //         style={styles.img}
-  //       />
-  //     ),
-  //     check: correct2,
-  //   },
-  //   {
-  //     id: 3,
-  //     word: "Door",
-  //     pic: (
-  //       <Image
-  //         source={require("../../assets/cardImages/door.png")}
-  //         style={styles.img}
-  //       />
-  //     ),
-  //     check: correct3,
-  //   },
-  //   {
-  //     id: 4,
-  //     word: "Egg",
-  //     pic: (
-  //       <Image
-  //         source={require("../../assets/cardImages/easter-egg.png")}
-  //         style={styles.img}
-  //       />
-  //     ),
-  //     check: correct4,
-  //   },
-  //   {
-  //     id: 5,
-  //     word: "Fork",
-  //     pic: (
-  //       <Image
-  //         source={require("../../assets/cardImages/fork.png")}
-  //         style={styles.img}
-  //       />
-  //     ),
-  //     check: correct5,
-  //   },
-  // ];
-  //////////////////////////////////////////////////
-  ///////////creating a random array of numbers from 0 to 5 \\\\\\\\\\\\\\\\\\\\\\\\\\
+
+  ///creating a random array of numbers from 0 to 5 \\\\\\\\\\\\\\\\\\\\\\\\\\
+
   const random = () => {
     var i = 0;
     var randoms = [Math.floor(Math.random() * word_Pic.length)];
@@ -201,6 +133,7 @@ const Game = ({ navigation }) => {
     }
     return randoms;
   };
+
   ///////////////////////////////////////////////////////////////////
 
   ////////////////////creating words cards\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -411,7 +344,7 @@ const Game = ({ navigation }) => {
         <View style={{ flexDirection: "row" }}>
           <Text
             style={{
-              marginTop: "3%",
+              marginBottom: "10%",
               color: "#fff",
               width: "75%",
               height: "100%",
@@ -433,7 +366,7 @@ const Game = ({ navigation }) => {
                 width: "25%",
                 height: "60%",
                 margin: "1%",
-                marginTop: "8.5%",
+                marginTop: "5%",
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: "#E20476",

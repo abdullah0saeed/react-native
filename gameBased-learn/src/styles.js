@@ -24,7 +24,7 @@ export default StyleSheet.create({
   },
   pressable: {
     backgroundColor: "#2CE770",
-    width: "60%",
+    width: "90%",
     height: 60,
     alignItems: "center",
     justifyContent: "center",
@@ -87,7 +87,7 @@ export default StyleSheet.create({
     backgroundColor: "#09B8F4",
   },
   topBar: {
-    flex: 1 / 8,
+    flex: 1 / 15,
     backgroundColor: "#721DBC",
     justifyContent: "center",
     padding: 8,

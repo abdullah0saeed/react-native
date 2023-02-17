@@ -10,6 +10,7 @@ import {
   Keyboard,
 } from "react-native";
 import styles from "../styles";
+import tw from "tailwind-react-native-classnames";
 
 const Start = ({ navigation }) => {
   // ////////////////////////// fetch data from API/////////////////////////////
@@ -21,19 +22,31 @@ const Start = ({ navigation }) => {
   const { word_Pic } = useSelector((state) => state.global);
   //navigate to the game screen
   const handelOnPress = () => {
-    navigation.navigate("Game", { word_Pic });
+    navigation.navigate("Game");
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-        <Text style={styles.startText}>Choose The Game</Text>
-        <Image
-          source={require("../../assets/game1.jpg")}
-          style={styles.avatar}
-        />
+      <View style={[styles.container]}>
+        {/* <Text style={styles.startText}>Choose The Game</Text> */}
+
         <Pressable style={styles.pressable} onPress={handelOnPress}>
-          <Text style={{ fontSize: 35, fontWeight: "bold" }}>Play</Text>
+          {/* <Image
+            source={require("../../assets/game1.jpg")}
+            style={styles.avatar}
+          /> */}
+          <Text style={{ fontSize: 35, fontWeight: "bold" }}>Connect</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.pressable}
+          onPress={() => {
+            navigation.navigate("Listen_Choose");
+          }}
+        >
+          <Text style={{ fontSize: 35, fontWeight: "bold" }}>
+            Listen_Choose
+          </Text>
         </Pressable>
       </View>
     </TouchableWithoutFeedback>
