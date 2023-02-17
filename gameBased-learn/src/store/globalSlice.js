@@ -1,14 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
 export const fetchData = createAsyncThunk(
   "global/fetchData",
   async (_, thunkAPI) => {
-    const { rejectedWithValue } = thunkAPI;
+    const { rejectedWithValue, getState } = thunkAPI;
+    const parentID = getState().auth.parentID;
     try {
       const res = await fetch(
-        "https://638786bed9b24b1be3f33c0f.mockapi.io/gameBaseLearn/data/wordpicData"
+        `http://192.168.1.2:3000/FSE/FSEtakeQuestion/${parentID}`
       );
       const data = await res.json();
+      console.log(data);
+
       return data;
     } catch (error) {
       return rejectedWithValue(error.message);
@@ -34,8 +38,7 @@ const globalSlice = createSlice({
     [fetchData.fulfilled]: (state, action) => {
       state.loading = false;
       state.word_Pic = action.payload;
-       console.log("fetch success");
-
+      console.log("fetch success");
     },
     [fetchData.rejected]: (state, action) => {
       state.loading = action.payload;
