@@ -5,13 +5,12 @@ export const checkUser = createAsyncThunk(
   async (data, { rejectedWithValue }) => {
     const sendData = JSON.stringify(data);
     try {
-      const res = await fetch("http://192.168.1.2:3000/student/StudentLogIn", {
+      const res = await fetch("http://192.168.1.3:3000/student/StudentLogIn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: sendData,
       });
       let data = await res.json();
-      console.log("parentID:", data.student.studentParent);
       return data;
     } catch (error) {
       return rejectedWithValue(error.message);
@@ -24,7 +23,8 @@ export const authSlice = createSlice({
   initialState: { playerName: "", parentID: "" },
   reducers: {
     setPlayerName: (state, action) => {
-      state.playerName = action.payload.match(/\w+(?=\@)/i);
+      state.playerName = action.payload;
+      //.match(/\w+(?=\@)/i);
     },
   },
   extraReducers: {
@@ -34,8 +34,8 @@ export const authSlice = createSlice({
     },
     [checkUser.fulfilled]: (state, action) => {
       state.loading = false;
-
       state.parentID = action.payload.student.studentParent;
+      console.log(action.payload);
       console.log("success fetch");
     },
     [checkUser.rejected]: (state, action) => {

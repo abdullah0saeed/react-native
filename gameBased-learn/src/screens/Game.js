@@ -21,8 +21,7 @@ const Game = ({ navigation }) => {
   const dispatch = useDispatch();
   const { playerName } = useSelector((state) => state.auth);
   // const old_word_Pic = route.params.word_Pic;
-  const { word_Pic } = useSelector((state) => state.global);
-
+  const { word_Pic, url } = useSelector((state) => state.global);
   //to set how many correct answers
   const [done, setDone] = useState(0);
   //to set how many wrong answers
@@ -139,9 +138,9 @@ const Game = ({ navigation }) => {
   ////////////////////creating words cards\\\\\\\\\\\\\\\\\\\\\\\\\\\
   var wordCards = [];
   var wordID = -1;
+  var wordIndex = -1;
   const [randomWords, setRandWord] = useState(random());
   const setWordView = (correct) => {
-    var wordIndex = -1;
     word_Pic.forEach((word, i) => {
       wordCards.push(
         <TouchableOpacity
@@ -149,41 +148,41 @@ const Game = ({ navigation }) => {
           onPress={() => {
             // playSound(3);
             wordIndex = word_Pic.indexOf(word_Pic[randomWords[i]]);
-            wordID = word_Pic[randomWords[i]].id;
+            wordID = word_Pic[randomWords[i]]._id;
             counter++;
             check().then((data) => {
               setWordView(data);
             });
           }}
-          key={word_Pic[randomWords[i]].id}
+          key={word_Pic[randomWords[i]]._id}
         >
-          {word_Pic[randomWords[i]].id == 0 && correct0 ? (
+          {word_Pic.indexOf(word_Pic[randomWords[i]]) == 0 && correct0 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].word}
+              {word_Pic[randomWords[i]].DefintioninEn}
             </Text>
-          ) : word_Pic[randomWords[i]].id == 1 && correct1 ? (
+          ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 1 && correct1 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].word}
+              {word_Pic[randomWords[i]].DefintioninEn}
             </Text>
-          ) : word_Pic[randomWords[i]].id == 2 && correct2 ? (
+          ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 2 && correct2 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].word}
+              {word_Pic[randomWords[i]].DefintioninEn}
             </Text>
-          ) : word_Pic[randomWords[i]].id == 3 && correct3 ? (
+          ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 3 && correct3 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].word}
+              {word_Pic[randomWords[i]].DefintioninEn}
             </Text>
-          ) : word_Pic[randomWords[i]].id == 4 && correct4 ? (
+          ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 4 && correct4 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].word}
+              {word_Pic[randomWords[i]].DefintioninEn}
             </Text>
-          ) : word_Pic[randomWords[i]].id == 5 && correct5 ? (
+          ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 5 && correct5 ? (
             <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].word}
+              {word_Pic[randomWords[i]].DefintioninEn}
             </Text>
           ) : (
             <Text style={[styles.cardText, { backgroundColor: "#F6A808" }]}>
-              {word_Pic[randomWords[i]].word}
+              {word_Pic[randomWords[i]].DefintioninEn}
             </Text>
           )}
         </TouchableOpacity>
@@ -201,47 +200,47 @@ const Game = ({ navigation }) => {
   const setPicView = () => {
     var picIndex = -2;
     word_Pic.forEach((word, i) => {
-      const imgPath = word_Pic[randomPics[i]].pic;
+      const imgPath = word_Pic[randomPics[i]].Image;
       picCards.push(
         <TouchableOpacity
           style={styles.card}
           onPress={() => {
             // playSound(3);
             picIndex = word_Pic[randomPics[i]];
-            picID = word_Pic[randomPics[i]].id;
+            picID = word_Pic[randomPics[i]]._id;
 
             counter++;
             check();
           }}
-          key={word_Pic[randomPics[i]].id}
+          key={word_Pic[randomPics[i]]._id}
         >
-          {word_Pic[randomPics[i]].id == 0 && correct0 ? (
+          {word_Pic.indexOf(word_Pic[randomPics[i]]) == 0 && correct0 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={{ uri: imgPath }} style={styles.img} />
+              <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
-          ) : word_Pic[randomPics[i]].id == 1 && correct1 ? (
+          ) : word_Pic.indexOf(word_Pic[randomPics[i]]) == 1 && correct1 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={{ uri: imgPath }} style={styles.img} />
+              <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
-          ) : word_Pic[randomPics[i]].id == 2 && correct2 ? (
+          ) : word_Pic.indexOf(word_Pic[randomPics[i]]) == 2 && correct2 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={{ uri: imgPath }} style={styles.img} />
+              <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
-          ) : word_Pic[randomPics[i]].id == 3 && correct3 ? (
+          ) : word_Pic.indexOf(word_Pic[randomPics[i]]) == 3 && correct3 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={{ uri: imgPath }} style={styles.img} />
+              <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
-          ) : word_Pic[randomPics[i]].id == 4 && correct4 ? (
+          ) : word_Pic.indexOf(word_Pic[randomPics[i]]) == 4 && correct4 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={{ uri: imgPath }} style={styles.img} />
+              <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
-          ) : word_Pic[randomPics[i]].id == 5 && correct5 ? (
+          ) : word_Pic.indexOf(word_Pic[randomPics[i]]) == 5 && correct5 ? (
             <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
-              <Image source={{ uri: imgPath }} style={styles.img} />
+              <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
           ) : (
             <View style={[styles.cardImg, { backgroundColor: "#F6A808" }]}>
-              <Image source={{ uri: imgPath }} style={styles.img} />
+              <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
           )}
         </TouchableOpacity>
@@ -264,8 +263,6 @@ const Game = ({ navigation }) => {
   const check = async () => {
     //if correct
     if (counter % 2 === 0 && wordID === picID) {
-      // setDone(done + 1);
-
       //check if the wordID is already done
       status = "new";
       if (noRepeat.length !== 0) {
@@ -280,26 +277,25 @@ const Game = ({ navigation }) => {
       if (status === "new") {
         setNoRepeat([...noRepeat, wordID]);
         setDone(done + 1);
-        console.log("noRepeat: " + noRepeat);
         //to speak the word
-        await Speech.speak(`"${word_Pic[wordID].word}"`, {
+        await Speech.speak(`"${word_Pic[wordIndex].DefintioninEn}"`, {
           rate: 0.4,
           quality: "Enhanced",
         });
 
         //wait a while before continuing to speak the word completely
         setTimeout(() => {
-          if (wordID == 0) {
+          if (wordIndex == 0) {
             setCorrect0(true);
-          } else if (wordID == 1) {
+          } else if (wordIndex == 1) {
             setCorrect1(true);
-          } else if (wordID == 2) {
+          } else if (wordIndex == 2) {
             setCorrect2(true);
-          } else if (wordID == 3) {
+          } else if (wordIndex == 3) {
             setCorrect3(true);
-          } else if (wordID == 4) {
+          } else if (wordIndex == 4) {
             setCorrect4(true);
-          } else if (wordID == 5) {
+          } else if (wordIndex == 5) {
             setCorrect5(true);
           }
 
@@ -316,25 +312,23 @@ const Game = ({ navigation }) => {
       //if wrong
     } else if (counter % 2 === 0 && wordID !== picID) {
       //to edit wrong count
-      if (wordID == 0) {
+      if (wordIndex == 0) {
         setWrong0(wrong0 + 1);
-      } else if (wordID == 1) {
+      } else if (wordIndex == 1) {
         setWrong1(wrong1 + 1);
-      } else if (wordID == 2) {
+      } else if (wordIndex == 2) {
         setWrong2(wrong2 + 1);
-      } else if (wordID == 3) {
+      } else if (wordIndex == 3) {
         setWrong3(wrong3 + 1);
-      } else if (wordID == 4) {
+      } else if (wordIndex == 4) {
         setWrong4(wrong4 + 1);
-      } else if (wordID == 5) {
+      } else if (wordIndex == 5) {
         setWrong5(wrong5 + 1);
       }
-      console.log(wrong0);
       setWrong(wrong + 1);
       //play sound
       playSound(1);
     }
-    console.log("done: " + done);
     return states;
   };
   ///////////////////////////////////////////////////////////////////

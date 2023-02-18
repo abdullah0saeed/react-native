@@ -135,7 +135,7 @@ export default function Listen_Choose({ navigation }) {
             ]}
           >
             <Text style={tw`text-center text-white text-4xl font-bold`}>
-              {word_Pic[i]?.word}
+              {word_Pic[i]?.DefintioninEn}
             </Text>
           </View>
         </TouchableOpacity>
@@ -181,10 +181,6 @@ export default function Listen_Choose({ navigation }) {
         var any = noRepeat;
         any.push(wordID);
         setNoRepeat(any);
-
-        // var finish = done;
-        // var finish2 = finish + 1;
-        // setDone(finish2);
 
         var temp = randomSound;
         temp.pop();
@@ -252,7 +248,9 @@ export default function Listen_Choose({ navigation }) {
           }
           onPress={() => {
             if (noRepeat.length < word_Pic.length) {
-              speakWord(word_Pic[randomSound[randomSound.length - 1]]?.word);
+              speakWord(
+                word_Pic[randomSound[randomSound.length - 1]]?.DefintioninEn
+              );
             } else {
               const sentData = [
                 { word: word_Pic[0].word, wrongCount: wrong0 },

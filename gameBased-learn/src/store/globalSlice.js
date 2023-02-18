@@ -13,7 +13,7 @@ export const fetchData = createAsyncThunk(
     });
     try {
       const res = await fetch(
-        `http://192.168.1.2:3000/FSE/FSEtakeQuestion/${parentID}`,
+        `http://192.168.1.3:3000/FSE/FSEtakeQuestion/${parentID}`,
         {
           method: "POST",
           headers: {
@@ -33,6 +33,7 @@ export const fetchData = createAsyncThunk(
 
 const initialState = {
   word_Pic: [],
+  url: "http://192.168.1.3:3000/",
   error: null,
   loading: false,
 };
