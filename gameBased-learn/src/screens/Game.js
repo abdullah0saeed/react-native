@@ -370,12 +370,12 @@ const Game = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => {
                   const sentData = [
-                    { word: word_Pic[0].word, wrongCount: wrong0 },
-                    { word: word_Pic[1].word, wrongCount: wrong1 },
-                    { word: word_Pic[2].word, wrongCount: wrong2 },
-                    { word: word_Pic[3].word, wrongCount: wrong3 },
-                    { word: word_Pic[4].word, wrongCount: wrong4 },
-                    { word: word_Pic[5].word, wrongCount: wrong5 },
+                    { word: word_Pic[0].DefintioninEn, wrongCount: wrong0 },
+                    { word: word_Pic[1].DefintioninEn, wrongCount: wrong1 },
+                    { word: word_Pic[2].DefintioninEn, wrongCount: wrong2 },
+                    { word: word_Pic[3].DefintioninEn, wrongCount: wrong3 },
+                    { word: word_Pic[4].DefintioninEn, wrongCount: wrong4 },
+                    { word: word_Pic[5].DefintioninEn, wrongCount: wrong5 },
                   ];
                   console.log(sentData);
                   sendWrongCount(sentData);
