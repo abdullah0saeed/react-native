@@ -7,6 +7,7 @@ const Score = ({ navigation }) => {
   const route = useRoute();
   const wrong = route.params.wrong;
   const word_Pic = route.params.word_Pic;
+  const path = route.params.path;
 
   return (
     <View style={styles.body}>
@@ -14,7 +15,7 @@ const Score = ({ navigation }) => {
       <View style={styles.viewContainer}>
         <Text style={[styles.text, { width: "60%" }, tw``]}>Score</Text>
         <Text style={[styles.textContainer, { width: "40%" }]}>
-          {6 - wrong}
+          {word_Pic.length - wrong}
         </Text>
       </View>
       {/* show wrong tries */}
@@ -33,7 +34,7 @@ const Score = ({ navigation }) => {
             marginBottom: "5%",
           },
         ]}
-        onPress={() => navigation.navigate("Game", { word_Pic })}
+        onPress={() => navigation.navigate(path, { word_Pic })}
       >
         <Image
           source={require("../../assets/retry.png")}

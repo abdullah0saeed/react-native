@@ -141,7 +141,7 @@ const Game = ({ navigation }) => {
   var wordIndex = -1;
   const [randomWords, setRandWord] = useState(random());
   const setWordView = (correct) => {
-    word_Pic.forEach((word, i) => {
+    word_Pic?.forEach((word, i) => {
       wordCards.push(
         <TouchableOpacity
           style={styles.card}
@@ -199,7 +199,7 @@ const Game = ({ navigation }) => {
   const [randomPics, setRandPic] = useState(random());
   const setPicView = () => {
     var picIndex = -2;
-    word_Pic.forEach((word, i) => {
+    word_Pic?.forEach((word, i) => {
       const imgPath = word_Pic[randomPics[i]].Image;
       picCards.push(
         <TouchableOpacity
@@ -370,16 +370,20 @@ const Game = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => {
                   const sentData = [
-                    { word: word_Pic[0].DefintioninEn, wrongCount: wrong0 },
-                    { word: word_Pic[1].DefintioninEn, wrongCount: wrong1 },
-                    { word: word_Pic[2].DefintioninEn, wrongCount: wrong2 },
-                    { word: word_Pic[3].DefintioninEn, wrongCount: wrong3 },
-                    { word: word_Pic[4].DefintioninEn, wrongCount: wrong4 },
-                    { word: word_Pic[5].DefintioninEn, wrongCount: wrong5 },
+                    { word: word_Pic[0]?.DefintioninEn, wrongCount: wrong0 },
+                    { word: word_Pic[1]?.DefintioninEn, wrongCount: wrong1 },
+                    { word: word_Pic[2]?.DefintioninEn, wrongCount: wrong2 },
+                    { word: word_Pic[3]?.DefintioninEn, wrongCount: wrong3 },
+                    { word: word_Pic[4]?.DefintioninEn, wrongCount: wrong4 },
+                    { word: word_Pic[5]?.DefintioninEn, wrongCount: wrong5 },
                   ];
                   console.log(sentData);
                   sendWrongCount(sentData);
-                  navigation.navigate("Score", { wrong, word_Pic });
+                  navigation.navigate("Score", {
+                    wrong,
+                    word_Pic,
+                    path: "Game",
+                  });
                 }}
               >
                 <View>

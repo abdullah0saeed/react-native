@@ -5,11 +5,14 @@ export const checkUser = createAsyncThunk(
   async (data, { rejectedWithValue }) => {
     const sendData = JSON.stringify(data);
     try {
-      const res = await fetch("http://192.168.1.3:3000/student/StudentLogIn", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: sendData,
-      });
+      const res = await fetch(
+        "https://gamebasedlearning.onrender.com/student/StudentLogIn",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: sendData,
+        }
+      );
       let data = await res.json();
       return data;
     } catch (error) {

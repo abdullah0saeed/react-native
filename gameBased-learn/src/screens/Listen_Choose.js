@@ -17,7 +17,21 @@ export default function Listen_Choose({ navigation }) {
     const unsubscribe = navigation.addListener("focus", () => {
       dispatch(fetchData());
       setRandWord(random());
-      handleView();
+      setRandWord(random());
+      setWrong(0);
+      setCorrect0(false);
+      setCorrect1(false);
+      setCorrect2(false);
+      setCorrect3(false);
+      setCorrect4(false);
+      setCorrect5(false);
+      setWrong0(0);
+      setWrong1(0);
+      setWrong2(0);
+      setWrong3(0);
+      setWrong4(0);
+      setWrong5(0);
+      setNoRepeat([]);
     });
   });
 
@@ -112,14 +126,13 @@ export default function Listen_Choose({ navigation }) {
   // function to organize the view\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   //to generate words randomly
   const [randomWords, setRandWord] = useState(random());
-
+  var row = [];
   const handleView = () => {
-    var row = [];
     randomWords.forEach((i) => {
       row.push(
         <TouchableOpacity
           style={[
-            tw`m-1.5 mr-2 ml-2 flex justify-center bg-pink-400 rounded-2xl`,
+            tw`m-1.5 mr-2 ml-2 flex justify-center  bg-pink-400 rounded-2xl`,
             { height: `${100 / 7}%` },
           ]}
           key={i}
@@ -127,21 +140,124 @@ export default function Listen_Choose({ navigation }) {
             check(i);
           }}
         >
-          <View
-            style={[
-              tw` flex justify-center rounded-2xl`,
-              { height: `100 %` },
-              correct0 && i == 0 && tw`bg-green-400`,
-            ]}
-          >
-            <Text style={tw`text-center text-white text-4xl font-bold`}>
-              {word_Pic[i]?.DefintioninEn}
-            </Text>
-          </View>
+          {correct0 && i === 0 ? (
+            <View
+              style={[
+                tw` flex justify-center rounded-2xl bg-green-400`,
+                { height: `100 %` },
+              ]}
+            >
+              <Text
+                style={[
+                  tw`text-center text-white text-4xl rounded-2xl font-bold`,
+                  ,
+                ]}
+              >
+                {word_Pic[i]?.DefintioninEn}
+              </Text>
+            </View>
+          ) : correct1 && i === 1 ? (
+            <View
+              style={[
+                tw` flex justify-center rounded-2xl bg-green-400`,
+                { height: `100 %` },
+              ]}
+            >
+              <Text
+                style={[
+                  tw`text-center text-white text-4xl rounded-2xl font-bold`,
+                  ,
+                ]}
+              >
+                {word_Pic[i]?.DefintioninEn}
+              </Text>
+            </View>
+          ) : correct2 && i === 2 ? (
+            <View
+              style={[
+                tw` flex justify-center rounded-2xl bg-green-400`,
+                { height: `100 %` },
+              ]}
+            >
+              <Text
+                style={[
+                  tw`text-center text-white text-4xl rounded-2xl font-bold`,
+                  ,
+                ]}
+              >
+                {word_Pic[i]?.DefintioninEn}
+              </Text>
+            </View>
+          ) : correct3 && i === 3 ? (
+            <View
+              style={[
+                tw` flex justify-center rounded-2xl bg-green-400`,
+                { height: `100 %` },
+              ]}
+            >
+              <Text
+                style={[
+                  tw`text-center text-white text-4xl rounded-2xl font-bold`,
+                  ,
+                ]}
+              >
+                {word_Pic[i]?.DefintioninEn}
+              </Text>
+            </View>
+          ) : correct4 && i === 4 ? (
+            <View
+              style={[
+                tw` flex justify-center rounded-2xl bg-green-400`,
+                { height: `100 %` },
+              ]}
+            >
+              <Text
+                style={[
+                  tw`text-center text-white text-4xl rounded-2xl font-bold`,
+                  ,
+                ]}
+              >
+                {word_Pic[i]?.DefintioninEn}
+              </Text>
+            </View>
+          ) : correct5 && i === 5 ? (
+            <View
+              style={[
+                tw` flex justify-center rounded-2xl bg-green-400`,
+                { height: `100 %` },
+              ]}
+            >
+              <Text
+                style={[
+                  tw`text-center text-white text-4xl rounded-2xl font-bold`,
+                  ,
+                ]}
+              >
+                {word_Pic[i]?.DefintioninEn}
+              </Text>
+            </View>
+          ) : (
+            <View
+              style={[
+                tw` flex justify-center rounded-2xl`,
+                { height: `100 %` },
+              ]}
+            >
+              <Text
+                style={[
+                  tw`text-center text-white text-4xl rounded-2xl font-bold`,
+                  ,
+                ]}
+              >
+                {word_Pic[i]?.DefintioninEn}
+              </Text>
+            </View>
+          )}
         </TouchableOpacity>
       );
     });
-    setView(row);
+    // setView(row);
+    return row;
   };
 
   //function to choose random word an speak it\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -253,16 +369,20 @@ export default function Listen_Choose({ navigation }) {
               );
             } else {
               const sentData = [
-                { word: word_Pic[0].DefintioninEn, wrongCount: wrong0 },
-                { word: word_Pic[1].DefintioninEn, wrongCount: wrong1 },
-                { word: word_Pic[2].DefintioninEn, wrongCount: wrong2 },
-                { word: word_Pic[3].DefintioninEn, wrongCount: wrong3 },
-                { word: word_Pic[4].DefintioninEn, wrongCount: wrong4 },
-                { word: word_Pic[5].DefintioninEn, wrongCount: wrong5 },
+                { word: word_Pic[0]?.DefintioninEn, wrongCount: wrong0 },
+                { word: word_Pic[1]?.DefintioninEn, wrongCount: wrong1 },
+                { word: word_Pic[2]?.DefintioninEn, wrongCount: wrong2 },
+                { word: word_Pic[3]?.DefintioninEn, wrongCount: wrong3 },
+                { word: word_Pic[4]?.DefintioninEn, wrongCount: wrong4 },
+                { word: word_Pic[5]?.DefintioninEn, wrongCount: wrong5 },
               ];
               console.log("sentData:", sentData);
               sendWrongCount(sentData);
-              navigation.navigate("Score", { wrong, word_Pic });
+              navigation.navigate("Score", {
+                wrong,
+                word_Pic,
+                path: "Listen_Choose",
+              });
             }
           }}
         >
@@ -299,7 +419,7 @@ export default function Listen_Choose({ navigation }) {
               </>
             ))}
         </TouchableOpacity>
-        <View style={[tw`mb-0.5`, { flex: 1 }]}>{view}</View>
+        <View style={[tw`mb-0.5`, { flex: 1 }]}>{handleView()}</View>
       </View>
     </>
   );
