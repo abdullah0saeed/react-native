@@ -8,12 +8,12 @@ export const fetchData = createAsyncThunk(
     const parentID = getState().auth.parentID;
     const sentData = JSON.stringify({
       unit: "1",
-      lesson: "2",
+      lesson: "1",
       stadge: "1",
     });
     try {
       const res = await fetch(
-        `https://gamebasedlearning.onrender.com/FSE/FSEtakeQuestion/${parentID}`,
+        `https://gamebasedlearning-ot4m.onrender.com/FSE/FSEtakeQuestion/${parentID}`,
         {
           method: "POST",
           headers: {

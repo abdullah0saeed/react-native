@@ -86,7 +86,7 @@ const Game = ({ navigation }) => {
   ///////////////refresh on navigating back from Score screen///////////////
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      dispatch(fetchData());
+      // dispatch(fetchData());
       setRandWord(random());
       setRandPic(random());
       setDone(0);

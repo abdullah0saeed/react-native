@@ -6,7 +6,7 @@ export const checkUser = createAsyncThunk(
     const sendData = JSON.stringify(data);
     try {
       const res = await fetch(
-        "https://gamebasedlearning.onrender.com/student/StudentLogIn",
+        "https://gamebasedlearning-ot4m.onrender.com/student/StudentLogIn",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

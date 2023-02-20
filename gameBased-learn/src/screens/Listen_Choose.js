@@ -15,9 +15,8 @@ export default function Listen_Choose({ navigation }) {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      dispatch(fetchData());
       setRandWord(random());
-      setRandWord(random());
+      setRandSound(random());
       setWrong(0);
       setCorrect0(false);
       setCorrect1(false);
@@ -32,6 +31,7 @@ export default function Listen_Choose({ navigation }) {
       setWrong4(0);
       setWrong5(0);
       setNoRepeat([]);
+      //dispatch(fetchData());
     });
   });
 
