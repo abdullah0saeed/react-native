@@ -48,6 +48,15 @@ const Start = ({ navigation }) => {
             Listen_Choose
           </Text>
         </Pressable>
+
+        <Pressable
+          style={styles.pressable}
+          onPress={() => {
+            navigation.navigate("Arrange");
+          }}
+        >
+          <Text style={{ fontSize: 35, fontWeight: "bold" }}>Arrange</Text>
+        </Pressable>
       </View>
     </TouchableWithoutFeedback>
   );

@@ -315,7 +315,6 @@ export default function Listen_Choose({ navigation }) {
         } else if (wordID == 5) {
           setCorrect5(true);
         }
-        console.log("correct0:", correct0);
         if (noRepeat.length < word_Pic.length) {
           //play sound
           playSound(0);
