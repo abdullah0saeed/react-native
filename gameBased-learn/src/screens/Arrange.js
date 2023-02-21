@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { fetchData } from "../store/globalSlice";
+import tw from "tailwind-react-native-classnames";
 
 export default function Arrange() {
   const { word_Pic, url } = useSelector((state) => state.global);
@@ -108,15 +109,20 @@ export default function Arrange() {
   // Shuffle word list and set state variable
   useEffect(() => {
     // setShuffledWordList
-    shuffleArray(DefintioninEn.split(""));
+    shuffleArray(word_Pic[currentSentenceIndex].DefintioninEn.split(""));
   }, [currentSentence]);
 
   return (
-    <View>
+    <View style={[tw` bg-blue-300`, { flex: 1 }]}>
       {isCorrect && currentSentenceIndex < word_Pic.length && (
-        <View>
-          <Text>Congratulations! You got it right.</Text>
+        <View style={tw`flex justify-center mt-32`}>
+          <Text
+            style={tw`text-center text-4xl font-bold  bg-green-200 rounded-3xl`}
+          >
+            Congratulations! You got it right.
+          </Text>
           <TouchableOpacity
+            style={tw`mt-24 self-center bg-blue-700 w-5/6 h-12 flex justify-center rounded-lg`}
             onPress={() => {
               setCurrentSentenceIndex(currentSentenceIndex + 1);
               //   shuffleArray(
@@ -126,49 +132,76 @@ export default function Arrange() {
               setIsCorrect(false);
             }}
           >
-            <Text>Continue</Text>
+            <Text style={tw`text-2xl font-extrabold text-center text-white`}>
+              Continue
+            </Text>
           </TouchableOpacity>
         </View>
       )}
       {isCorrect && currentSentenceIndex >= word_Pic.length && (
-        <View>
-          <Text>Congratulations! You completed the game.</Text>
-          <TouchableOpacity onPress={playAgain}>
-            <Text>Play Again</Text>
+        <View style={tw`flex justify-center mt-32`}>
+          <Text
+            style={tw`text-center text-4xl font-bold  bg-green-200 rounded-3xl`}
+          >
+            Congratulations! You completed the game.
+          </Text>
+          <TouchableOpacity
+            onPress={playAgain}
+            style={tw`mt-24 self-center bg-blue-700 w-5/6 h-12 flex justify-center rounded-lg`}
+          >
+            <Text style={tw`text-2xl font-extrabold text-center text-white`}>
+              Play Again
+            </Text>
           </TouchableOpacity>
         </View>
       )}
       {!isCorrect && (
         <>
           <Image
-            source={{ uri: url + word_Pic[currentSentenceIndex]?.Image }}
+            source={{ uri: url + word_Pic[currentSentenceIndex].Image }}
+            style={tw`w-32 h-32 mt-7 self-center`}
           />
-          <View>
+          <View style={[tw`flex flex-row justify-center mt-12 `]}>
             {shuffleArray(
               word_Pic[currentSentenceIndex]?.DefintioninEn.split("")
             ).map((word, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => handleWordPress(word)}
-                style={{
-                  borderWidth: 1,
-                  borderColor: "black",
-                  padding: 10,
-                  margin: 5,
-                }}
+                style={[
+                  {
+                    borderWidth: 1,
+                    borderColor: "black",
+                    padding: 10,
+                    margin: 5,
+                  },
+                  tw`bg-blue-100`,
+                ]}
               >
-                <Text>{word}</Text>
+                <Text style={tw`text-lg font-semibold`}>{word}</Text>
               </TouchableOpacity>
             ))}
           </View>
-          <TouchableOpacity onPress={checkAnswer}>
-            <Text>Check Answer</Text>
-          </TouchableOpacity>
-          <View>
+
+          <View
+            style={tw`flex flex-row justify-center bg-blue-100 w-5/6 self-center h-12 rounded-lg items-center mt-8`}
+          >
             {selectedWords.map((word, index) => (
-              <Text key={index}>{word}</Text>
+              <Text key={index} style={tw`text-2xl font-extrabold`}>
+                {word}
+              </Text>
             ))}
           </View>
+          <TouchableOpacity
+            onPress={checkAnswer}
+            style={tw`mt-24 self-center bg-blue-900 w-5/6 h-12 flex justify-center rounded-xl`}
+          >
+            <Text
+              style={tw`text-center flex justify-center items-center text-xl font-bold text-white`}
+            >
+              Check Answer
+            </Text>
+          </TouchableOpacity>
         </>
       )}
     </View>
