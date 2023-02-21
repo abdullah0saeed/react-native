@@ -14,6 +14,7 @@ export default function Arrange() {
   const [selectedWords, setSelectedWords] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+  const [letterCounts, setLetterCounts] = useState({});
 
   useEffect(() => {
     // fetchGameData();
@@ -51,6 +52,41 @@ export default function Arrange() {
   const handleWordPress = (word) => {
     // Add or remove word from selectedWords array
     const index = selectedWords.indexOf(word);
+    // if (selectedWords.includes(word)) {
+    //   setSelectedWords(selectedWords.filter((w) => w !== word));
+    // } else {
+    //   setSelectedWords([...selectedWords, word]);
+    // }
+
+    // Add or remove word from selectedWords array
+    // const wordCounts = {};
+    // for (const letter of word) {
+    //   if (letter in wordCounts) {
+    //     wordCounts[letter]++;
+    //   } else {
+    //     wordCounts[letter] = 1;
+    //   }
+    // }
+
+    // let canAddWord = true;
+    // for (const letter in wordCounts) {
+    //   if (
+    //     !(letter in letterCounts) ||
+    //     wordCounts[letter] > letterCounts[letter]
+    //   ) {
+    //     canAddWord = false;
+    //     break;
+    //   }
+    // }
+
+    // if (canAddWord) {
+    //   setSelectedWords([...selectedWords, word]);
+    //   const newLetterCounts = { ...letterCounts };
+    //   for (const letter of word) {
+    //     newLetterCounts[letter]--;
+    //   }
+    //   setLetterCounts(newLetterCounts);
+    // }
 
     if (index === -1) {
       setSelectedWords([...selectedWords, word]);
@@ -65,12 +101,13 @@ export default function Arrange() {
     const selectedSentence = selectedWords.join("");
     const currentSentence = word_Pic[currentSentenceIndex];
 
-    if (selectedSentence === currentSentence.DefintioninEn) {
+    if (selectedSentence === word_Pic[currentSentenceIndex]?.DefintioninEn) {
       setIsCorrect(true);
       // Move to next sentence if the answer is correct
       setCurrentSentenceIndex(currentSentenceIndex + 1);
     } else {
       setSelectedWords([]);
+      setLetterCounts({});
     }
   };
 
