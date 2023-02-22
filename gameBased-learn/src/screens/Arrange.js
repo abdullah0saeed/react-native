@@ -141,7 +141,7 @@ export default function Arrange() {
   //   }
 
   const currentSentence = word_Pic[currentSentenceIndex];
-  const DefintioninEn = currentSentence.DefintioninEn;
+  // const DefintioninEn = currentSentence.DefintioninEn;
 
   // Shuffle word list and set state variable
   useEffect(() => {
@@ -195,7 +195,7 @@ export default function Arrange() {
       {!isCorrect && (
         <>
           <Image
-            source={{ uri: url + word_Pic[currentSentenceIndex].Image }}
+            source={{ uri: url + word_Pic[currentSentenceIndex]?.Image }}
             style={tw`w-32 h-32 mt-7 self-center`}
           />
           <View style={[tw`flex flex-row justify-center mt-12 `]}>
