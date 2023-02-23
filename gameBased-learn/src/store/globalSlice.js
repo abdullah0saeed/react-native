@@ -33,7 +33,7 @@ export const fetchData = createAsyncThunk(
 
 const initialState = {
   word_Pic: [],
-  url: "https://gamebasedlearning.onrender.com/",
+  url: "https://gamebasedlearning-ot4m.onrender.com/",
   error: null,
   loading: false,
 };

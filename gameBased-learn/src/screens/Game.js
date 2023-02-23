@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import styles from "../styles";
 import { Audio } from "expo-av";
+import tw from "tailwind-react-native-classnames";
 
 const Game = ({ navigation }) => {
   const route = useRoute();
@@ -111,11 +112,11 @@ const Game = ({ navigation }) => {
   //////////////////////////////////////////////
 
   ///creating a random array of numbers from 0 to 5 \\\\\\\\\\\\\\\\\\\\\\\\\\
-
+  const length = word_Pic.length;
   const random = () => {
     var i = 0;
     var randoms = [Math.floor(Math.random() * word_Pic.length)];
-    while (i < 5) {
+    while (i < length - 1) {
       var num = Math.floor(Math.random() * word_Pic.length);
       var count = 0;
       for (let r = 0; r < randoms.length; r++) {
@@ -148,41 +149,84 @@ const Game = ({ navigation }) => {
           onPress={() => {
             // playSound(3);
             wordIndex = word_Pic.indexOf(word_Pic[randomWords[i]]);
-            wordID = word_Pic[randomWords[i]]._id;
+            wordID = word_Pic[randomWords[i]]?._id;
             counter++;
             check().then((data) => {
               setWordView(data);
             });
           }}
-          key={word_Pic[randomWords[i]]._id}
+          key={word_Pic[randomWords[i]]?._id}
         >
           {word_Pic.indexOf(word_Pic[randomWords[i]]) == 0 && correct0 ? (
-            <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].DefintioninEn}
+            <Text
+              style={[
+                styles.cardText,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
+              {word_Pic[randomWords[i]]?.DefintioninEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 1 && correct1 ? (
-            <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].DefintioninEn}
+            <Text
+              style={[
+                styles.cardText,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
+              {word_Pic[randomWords[i]]?.DefintioninEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 2 && correct2 ? (
-            <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].DefintioninEn}
+            <Text
+              style={[
+                styles.cardText,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
+              {word_Pic[randomWords[i]]?.DefintioninEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 3 && correct3 ? (
-            <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].DefintioninEn}
+            <Text
+              style={[
+                styles.cardText,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
+              {word_Pic[randomWords[i]]?.DefintioninEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 4 && correct4 ? (
-            <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].DefintioninEn}
+            <Text
+              style={[
+                styles.cardText,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
+              {word_Pic[randomWords[i]]?.DefintioninEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 5 && correct5 ? (
-            <Text style={[styles.cardText, { backgroundColor: "#50D93F" }]}>
-              {word_Pic[randomWords[i]].DefintioninEn}
+            <Text
+              style={[
+                styles.cardText,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
+              {word_Pic[randomWords[i]]?.DefintioninEn}
             </Text>
           ) : (
-            <Text style={[styles.cardText, { backgroundColor: "#F6A808" }]}>
-              {word_Pic[randomWords[i]].DefintioninEn}
+            <Text
+              style={[
+                styles.cardText,
+                ,
+                { backgroundColor: "#1D3Eff" },
+                tw`rounded-3xl text-white`,
+              ]}
+            >
+              {word_Pic[randomWords[i]]?.DefintioninEn}
             </Text>
           )}
         </TouchableOpacity>
@@ -200,46 +244,88 @@ const Game = ({ navigation }) => {
   const setPicView = () => {
     var picIndex = -2;
     word_Pic?.forEach((word, i) => {
-      const imgPath = word_Pic[randomPics[i]].Image;
+      const imgPath = word_Pic[randomPics[i]]?.Image;
       picCards.push(
         <TouchableOpacity
           style={styles.card}
           onPress={() => {
             // playSound(3);
             picIndex = word_Pic[randomPics[i]];
-            picID = word_Pic[randomPics[i]]._id;
+            picID = word_Pic[randomPics[i]]?._id;
 
             counter++;
             check();
           }}
-          key={word_Pic[randomPics[i]]._id}
+          key={word_Pic[randomPics[i]]?._id}
         >
           {word_Pic.indexOf(word_Pic[randomPics[i]]) == 0 && correct0 ? (
-            <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
+            <View
+              style={[
+                styles.cardImg,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
               <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
           ) : word_Pic.indexOf(word_Pic[randomPics[i]]) == 1 && correct1 ? (
-            <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
+            <View
+              style={[
+                styles.cardImg,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
               <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
           ) : word_Pic.indexOf(word_Pic[randomPics[i]]) == 2 && correct2 ? (
-            <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
+            <View
+              style={[
+                styles.cardImg,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
               <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
           ) : word_Pic.indexOf(word_Pic[randomPics[i]]) == 3 && correct3 ? (
-            <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
+            <View
+              style={[
+                styles.cardImg,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
               <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
           ) : word_Pic.indexOf(word_Pic[randomPics[i]]) == 4 && correct4 ? (
-            <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
+            <View
+              style={[
+                styles.cardImg,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
               <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
           ) : word_Pic.indexOf(word_Pic[randomPics[i]]) == 5 && correct5 ? (
-            <View style={[styles.cardImg, { backgroundColor: "#50D93F" }]}>
+            <View
+              style={[
+                styles.cardImg,
+                { backgroundColor: "#50D97F" },
+                tw`rounded-3xl`,
+              ]}
+            >
               <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
           ) : (
-            <View style={[styles.cardImg, { backgroundColor: "#F6A808" }]}>
+            <View
+              style={[
+                styles.cardImg,
+                { backgroundColor: "#1D3Eff" },
+                tw`rounded-3xl`,
+              ]}
+            >
               <Image source={{ uri: url + imgPath }} style={styles.img} />
             </View>
           )}
@@ -278,7 +364,7 @@ const Game = ({ navigation }) => {
         setNoRepeat([...noRepeat, wordID]);
         setDone(done + 1);
         //to speak the word
-        await Speech.speak(`"${word_Pic[wordIndex].DefintioninEn}"`, {
+        await Speech.speak(`"${word_Pic[wordIndex]?.DefintioninEn}"`, {
           rate: 0.4,
           quality: "Enhanced",
         });

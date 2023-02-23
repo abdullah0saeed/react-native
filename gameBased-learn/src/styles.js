@@ -41,7 +41,7 @@ export default StyleSheet.create({
   body: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: "#FECDC7",
+    backgroundColor: "#60A5FA",
   },
   leftView: {
     flex: 1,
@@ -63,8 +63,6 @@ export default StyleSheet.create({
     margin: "2%",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 5,
-    borderWidth: 4,
   },
   img: {
     width: "50%",
@@ -88,7 +86,7 @@ export default StyleSheet.create({
   },
   topBar: {
     flex: 1 / 15,
-    backgroundColor: "#721DBC",
+    backgroundColor: "#1E3A8A",
     justifyContent: "center",
     padding: 8,
   },

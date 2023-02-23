@@ -146,7 +146,8 @@ export default function Arrange() {
   // Shuffle word list and set state variable
   useEffect(() => {
     // setShuffledWordList
-    shuffleArray(word_Pic[currentSentenceIndex].DefintioninEn.split(""));
+    currentSentenceIndex < word_Pic.length &&
+      shuffleArray(word_Pic[currentSentenceIndex]?.DefintioninEn.split(""));
   }, [currentSentence]);
 
   return (
