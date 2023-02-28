@@ -91,7 +91,7 @@ export default function Arrange({ navigation }) {
     //do fetch
     if (isFinalCorrect) {
       playSound(2);
-      dispatch(sendAttempts(questions));
+      dispatch(sendAttempts({ questions, gameID: "2" }));
     }
   }, [isFinalCorrect]);
   useEffect(() => {
@@ -173,15 +173,16 @@ export default function Arrange({ navigation }) {
 
   return (
     <View style={[tw` bg-blue-300`, { flex: 1 }]}>
-      <Text
+      <TouchableOpacity
+        style={tw`ml-3 mt-2 bg-red-400 w-2/12 flex justify-center items-center rounded-3xl border-2 border-red-600`}
         onPress={() => {
-          dispatch(sendAttempts(questions));
+          dispatch(sendAttempts({ questions, gameID: "2" }));
           playAgain();
           navigation.navigate("Start");
         }}
       >
-        X
-      </Text>
+        <Text style={tw`text-3xl text-center font-bold text-white`}>x</Text>
+      </TouchableOpacity>
       {isCorrect && (
         <View style={tw`flex justify-center mt-32`}>
           <Text
@@ -229,7 +230,11 @@ export default function Arrange({ navigation }) {
             source={{ uri: `${url}${word_Pic[currentSentenceIndex]?.Image}` }}
             style={tw`w-32 h-32 mt-7 self-center`}
           />
-          <View style={[tw`flex flex-row justify-center mt-12`]}>
+          <View
+            style={[
+              tw`flex flex-row justify-center content-center mt-12 flex-wrap`,
+            ]}
+          >
             {shuffledWordList.map((word, index) => (
               <TouchableOpacity
                 key={index}
@@ -240,7 +245,8 @@ export default function Arrange({ navigation }) {
                 disabled={disabledLetters[`${word}-${index}`]}
                 style={[
                   styles.letterButton,
-                  tw`bg-blue-100`,
+                  tw`bg-blue-100 `,
+
                   disabledLetters[`${word}-${index}`] &&
                     styles.disabledLetterButton,
                 ]}

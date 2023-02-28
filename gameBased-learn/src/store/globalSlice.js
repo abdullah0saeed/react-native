@@ -32,15 +32,16 @@ export const fetchData = createAsyncThunk(
 );
 export const sendAttempts = createAsyncThunk(
   "global/sendAttempts",
-  async (questions, thunkAPI) => {
+  async (feedback, thunkAPI) => {
     // console.log(questions, "questionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestions");
     const { rejectedWithValue, getState } = thunkAPI;
     const id = getState().auth.studentID;
-    const game_id = 1;
+    console.log("id:", id);
+    // const game_id = 1;
     const sentData = JSON.stringify({
       child_id: id,
-      game_id: game_id,
-      questions: questions,
+      game_id: feedback.gameID,
+      questions: feedback.questions,
     });
     try {
       const res = await fetch(
@@ -54,11 +55,7 @@ export const sendAttempts = createAsyncThunk(
         }
       );
       const data = await res.json();
-      console.log(
-        data,
-        "sentttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
-        sentData
-      );
+      console.log(data, "feedback:", sentData);
       return data;
     } catch (error) {
       return rejectedWithValue(error.message);
