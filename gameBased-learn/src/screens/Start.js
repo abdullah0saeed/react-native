@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/globalSlice";
 import {
@@ -8,11 +8,11 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
-  Svg,
 } from "react-native";
 import styles from "../styles";
 import tw from "tailwind-react-native-classnames";
-import car from "../../assets/svg/car.svg";
+import LottieView from "lottie-react-native";
+import { Audio } from "expo-av";
 
 const Start = ({ navigation }) => {
   // ////////////////////////// fetch data from API/////////////////////////////
@@ -21,11 +21,36 @@ const Start = ({ navigation }) => {
     dispatch(fetchData());
   }, [dispatch]);
 
+  const animation = useRef(null);
+
   const { word_Pic } = useSelector((state) => state.global);
   //navigate to the game screen
   const handelOnPress = () => {
     navigation.navigate("Connect");
   };
+
+  ///function to play sound\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  const playSound = async (voice) => {
+    const sound = new Audio.Sound();
+    try {
+      await sound.loadAsync(voice);
+      await sound
+        .playAsync()
+        .then(async (playbackStatus) => {
+          setTimeout(() => {
+            sound.unloadAsync();
+          }, playbackStatus.playableDurationMillis);
+        })
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //////////////////////////////////////////////////////////////////
+
+  useEffect(() => {
+    playSound(require("../../assets/sounds/spongebob.wav"));
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -56,6 +81,21 @@ const Start = ({ navigation }) => {
         >
           <Text style={{ fontSize: 35, fontWeight: "bold" }}>Arrange</Text>
         </Pressable>
+
+        <View style={tw`w-6/12 h-2/6 absolute bottom-0`}>
+          <LottieView
+            autoPlay
+            ref={animation}
+            onLoad={() => {
+              animation.current.play();
+            }}
+            style={[tw`w-full h-full`]}
+            // Find more Lottie files at https://lottiefiles.com/featured
+            source={{
+              uri: "https://assets2.lottiefiles.com/packages/lf20_lc46h4dr.json",
+            }}
+          />
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
