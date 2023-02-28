@@ -24,7 +24,7 @@ const Start = ({ navigation }) => {
   const { word_Pic } = useSelector((state) => state.global);
   //navigate to the game screen
   const handelOnPress = () => {
-    navigation.navigate("Game");
+    navigation.navigate("Connect");
   };
 
   return (

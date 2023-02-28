@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Start from "./src/screens/Start";
-import Game from "./src/screens/Game";
+import Connect from "./src/screens/Connect";
 import Score from "./src/screens/Score";
 import Login from "./src/screens/Login";
 import { store } from "./src/store/index";
@@ -38,8 +38,8 @@ export default function App() {
               options={{ headerShown: false }}
             />
             <stack.Screen
-              name="Game"
-              component={Game}
+              name="Connect"
+              component={Connect}
               options={{ headerShown: false }}
             />
             <stack.Screen

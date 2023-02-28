@@ -1,7 +1,7 @@
 import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchData } from "../store/globalSlice";
+import { fetchData, sendAttempts } from "../store/globalSlice";
 import * as Speech from "expo-speech";
 
 import {
@@ -17,7 +17,7 @@ import styles from "../styles";
 import { Audio } from "expo-av";
 import tw from "tailwind-react-native-classnames";
 
-const Game = ({ navigation }) => {
+const Connect = ({ navigation }) => {
   const route = useRoute();
   const dispatch = useDispatch();
   const { playerName } = useSelector((state) => state.auth);
@@ -42,20 +42,6 @@ const Game = ({ navigation }) => {
   const [wrong3, setWrong3] = useState(0);
   const [wrong4, setWrong4] = useState(0);
   const [wrong5, setWrong5] = useState(0);
-
-  ///post request to store wrong count to data base
-
-  const sendWrongCount = async (data) => {
-    try {
-      const res = await fetch(`localhost:3000/student/worngCount`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
 
   //////////////////create sounds array//////////////
   const sounds = [
@@ -115,18 +101,26 @@ const Game = ({ navigation }) => {
   const length = word_Pic.length;
   const random = () => {
     var i = 0;
-    var randoms = [Math.floor(Math.random() * word_Pic.length)];
-    while (i < length - 1) {
+    var firstNum = 7;
+    while (firstNum >= 6) {
+      firstNum = Math.floor(Math.random() * word_Pic.length);
+    }
+    var randoms = [firstNum];
+    while (i < length - 2) {
       var num = Math.floor(Math.random() * word_Pic.length);
       var count = 0;
-      for (let r = 0; r < randoms.length; r++) {
-        if (num === randoms[r]) {
-          count += 1;
+      if (num < 6) {
+        for (let r = 0; r < randoms.length; r++) {
+          if (num === randoms[r]) {
+            count += 1;
+          }
         }
-      }
-      if (count === 0) {
-        randoms.push(num);
-        i++;
+        if (count === 0) {
+          randoms.push(num);
+          i++;
+        } else {
+          continue;
+        }
       } else {
         continue;
       }
@@ -145,7 +139,7 @@ const Game = ({ navigation }) => {
     word_Pic?.forEach((word, i) => {
       wordCards.push(
         <TouchableOpacity
-          style={styles.card}
+          style={[styles.card, i > 5 && tw`mt-10`]}
           onPress={() => {
             // playSound(3);
             wordIndex = word_Pic.indexOf(word_Pic[randomWords[i]]);
@@ -247,7 +241,7 @@ const Game = ({ navigation }) => {
       const imgPath = word_Pic[randomPics[i]]?.Image;
       picCards.push(
         <TouchableOpacity
-          style={styles.card}
+          style={[styles.card, i > 5 && tw`mt-10`]}
           onPress={() => {
             // playSound(3);
             picIndex = word_Pic[randomPics[i]];
@@ -386,10 +380,10 @@ const Game = ({ navigation }) => {
             setCorrect5(true);
           }
 
-          if (done < word_Pic.length - 1) {
+          if (done < 5) {
             //play sound
             playSound(0);
-          } else if (done === word_Pic.length - 1) {
+          } else if (done === 5) {
             //play sound
             playSound(2);
           }
@@ -441,7 +435,7 @@ const Game = ({ navigation }) => {
               style={{ width: 33, height: 33, marginTop: "3%" }}
             />
           </Text>
-          {done >= word_Pic.length ? (
+          {done >= 6 ? (
             <View
               style={{
                 width: "25%",
@@ -457,19 +451,18 @@ const Game = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => {
                   const sentData = [
-                    { word: word_Pic[0]?.DefintioninEn, wrongCount: wrong0 },
-                    { word: word_Pic[1]?.DefintioninEn, wrongCount: wrong1 },
-                    { word: word_Pic[2]?.DefintioninEn, wrongCount: wrong2 },
-                    { word: word_Pic[3]?.DefintioninEn, wrongCount: wrong3 },
-                    { word: word_Pic[4]?.DefintioninEn, wrongCount: wrong4 },
-                    { word: word_Pic[5]?.DefintioninEn, wrongCount: wrong5 },
+                    { question_id: word_Pic[0]?._id, attempts: wrong0 },
+                    { question_id: word_Pic[1]?._id, attempts: wrong1 },
+                    { question_id: word_Pic[2]?._id, attempts: wrong2 },
+                    { question_id: word_Pic[3]?._id, attempts: wrong3 },
+                    { question_id: word_Pic[4]?._id, attempts: wrong4 },
+                    { question_id: word_Pic[5]?._id, attempts: wrong5 },
                   ];
-                  console.log(sentData);
-                  sendWrongCount(sentData);
+                  dispatch(sendAttempts({ questions: sentData, gameID: "0" }));
                   navigation.navigate("Score", {
                     wrong,
                     word_Pic,
-                    path: "Game",
+                    path: "Connect",
                   });
                 }}
               >
@@ -503,4 +496,4 @@ const Game = ({ navigation }) => {
   );
 };
 
-export default Game;
+export default Connect;

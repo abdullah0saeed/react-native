@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { useState, useEffect } from "react";
-import { fetchData } from "../store/globalSlice";
+import { fetchData, sendAttempts } from "../store/globalSlice";
 import * as Speech from "expo-speech";
 import { Audio } from "expo-av";
 
@@ -35,36 +35,30 @@ export default function Listen_Choose({ navigation }) {
     });
   });
 
-  ///post request to store wrong count to data base
-
-  const sendWrongCount = async (data) => {
-    try {
-      const res = await fetch(`localhost:3000/student/worngCount`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
   ///creating a random array of numbers from 0 to 5 \\\\\\\\\\\\\\\\\\\\\\\\\\
   const length = word_Pic.length;
   const random = () => {
     var i = 0;
-    var randoms = [Math.floor(Math.random() * word_Pic.length)];
-    while (i < length - 1) {
+    var firstNum = 7;
+    while (firstNum >= 6) {
+      firstNum = Math.floor(Math.random() * word_Pic.length);
+    }
+    var randoms = [firstNum];
+    while (i < length - 2) {
       var num = Math.floor(Math.random() * word_Pic.length);
       var count = 0;
-      for (let r = 0; r < randoms.length; r++) {
-        if (num === randoms[r]) {
-          count += 1;
+      if (num < 6) {
+        for (let r = 0; r < randoms.length; r++) {
+          if (num === randoms[r]) {
+            count += 1;
+          }
         }
-      }
-      if (count === 0) {
-        randoms.push(num);
-        i++;
+        if (count === 0) {
+          randoms.push(num);
+          i++;
+        } else {
+          continue;
+        }
       } else {
         continue;
       }
@@ -275,14 +269,6 @@ export default function Listen_Choose({ navigation }) {
     });
   };
 
-  //to speak the first word
-  // useEffect(() => {
-  //   Speech.speak(`"${word_Pic[soundID]?.DefintioninEn}"`, {
-  //     rate: 0.4,
-  //     quality: "Enhanced",
-  //   });
-  // }, []);
-
   //function to check if correct or not\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   //to store if the word is new or already done
@@ -324,7 +310,7 @@ export default function Listen_Choose({ navigation }) {
         } else if (wordID == 5) {
           setCorrect5(true);
         }
-        if (noRepeat.length < word_Pic.length) {
+        if (noRepeat.length < 6) {
           //play sound
           playSound(0);
 
@@ -341,7 +327,7 @@ export default function Listen_Choose({ navigation }) {
               }
             );
           }, 500);
-        } else if (noRepeat.length === word_Pic.length) {
+        } else if (noRepeat.length === 6) {
           //play sound
           playSound(2);
         }
@@ -363,7 +349,6 @@ export default function Listen_Choose({ navigation }) {
       }
 
       setWrong(wrong + 1);
-      console.log("wrong:", wrong);
 
       //play sound
       playSound(1);
@@ -375,31 +360,30 @@ export default function Listen_Choose({ navigation }) {
       <View style={[{ flex: 1 }, tw`bg-pink-200 `]}>
         <TouchableOpacity
           style={
-            (noRepeat.length < word_Pic.length && [
+            (noRepeat.length < 6 && [
               tw`bg-pink-600 m-2 mb-3 rounded-xl justify-center`,
               { flex: 1.5 / 15 },
             ]) ||
-            (noRepeat.length >= word_Pic.length && [
+            (noRepeat.length >= 6 && [
               tw`bg-pink-600 m-2 mb-3 rounded-xl justify-center w-1/3 ml-auto mr-auto`,
               { flex: 1.5 / 15 },
             ])
           }
           onPress={() => {
-            if (noRepeat.length < word_Pic.length) {
+            if (noRepeat.length < 6) {
               speakWord(
                 word_Pic[randomSound[randomSound.length - 1]]?.DefintioninEn
               );
             } else {
               const sentData = [
-                { word: word_Pic[0]?.DefintioninEn, wrongCount: wrong0 },
-                { word: word_Pic[1]?.DefintioninEn, wrongCount: wrong1 },
-                { word: word_Pic[2]?.DefintioninEn, wrongCount: wrong2 },
-                { word: word_Pic[3]?.DefintioninEn, wrongCount: wrong3 },
-                { word: word_Pic[4]?.DefintioninEn, wrongCount: wrong4 },
-                { word: word_Pic[5]?.DefintioninEn, wrongCount: wrong5 },
+                { question_id: word_Pic[0]?._id, attempts: wrong0 },
+                { question_id: word_Pic[1]?._id, attempts: wrong1 },
+                { question_id: word_Pic[2]?._id, attempts: wrong2 },
+                { question_id: word_Pic[3]?._id, attempts: wrong3 },
+                { question_id: word_Pic[4]?._id, attempts: wrong4 },
+                { question_id: word_Pic[5]?._id, attempts: wrong5 },
               ];
-              console.log("sentData:", sentData);
-              sendWrongCount(sentData);
+              dispatch(sendAttempts({ questions: sentData, gameID: "1" }));
               navigation.navigate("Score", {
                 wrong,
                 word_Pic,
@@ -408,7 +392,7 @@ export default function Listen_Choose({ navigation }) {
             }
           }}
         >
-          {(noRepeat.length < word_Pic.length && (
+          {(noRepeat.length < 6 && (
             <>
               <Image
                 source={{
@@ -429,7 +413,7 @@ export default function Listen_Choose({ navigation }) {
               </Text>
             </>
           )) ||
-            (noRepeat.length >= word_Pic.length && (
+            (noRepeat.length >= 6 && (
               <>
                 <Image
                   source={require("../../assets/rArrow.png")}

@@ -36,7 +36,6 @@ export const sendAttempts = createAsyncThunk(
     // console.log(questions, "questionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestions");
     const { rejectedWithValue, getState } = thunkAPI;
     const id = getState().auth.studentID;
-    console.log("id:", id);
     // const game_id = 1;
     const sentData = JSON.stringify({
       child_id: id,
