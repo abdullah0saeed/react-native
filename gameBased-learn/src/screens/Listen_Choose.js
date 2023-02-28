@@ -271,6 +271,7 @@ export default function Listen_Choose({ navigation }) {
     Speech.speak(`"${word}"`, {
       rate: 0.4,
       quality: "Enhanced",
+      language: "en-US",
     });
   };
 
@@ -336,6 +337,7 @@ export default function Listen_Choose({ navigation }) {
               {
                 rate: 0.4,
                 quality: "Enhanced",
+                language: "en-US",
               }
             );
           }, 500);

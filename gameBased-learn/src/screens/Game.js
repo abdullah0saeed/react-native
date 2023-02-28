@@ -367,6 +367,7 @@ const Game = ({ navigation }) => {
         await Speech.speak(`"${word_Pic[wordIndex]?.DefintioninEn}"`, {
           rate: 0.4,
           quality: "Enhanced",
+          language: "en-US",
         });
 
         //wait a while before continuing to speak the word completely

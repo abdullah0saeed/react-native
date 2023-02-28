@@ -38,7 +38,7 @@ const Login = ({ navigation }) => {
         <TextInput
           style={styles.input}
           onChangeText={(value) => setUsername(value)}
-          placeholder={"Email Address"}
+          placeholder={"Username"}
           textContentType="emailAddress"
         />
         <TextInput
