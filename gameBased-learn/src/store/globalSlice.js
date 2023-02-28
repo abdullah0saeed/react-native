@@ -30,7 +30,41 @@ export const fetchData = createAsyncThunk(
     }
   }
 );
-
+export const sendAttempts = createAsyncThunk(
+  "global/sendAttempts",
+  async (questions, thunkAPI) => {
+    // console.log(questions, "questionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestions");
+    const { rejectedWithValue, getState } = thunkAPI;
+    const id = getState().auth.studentID;
+    const game_id = 1;
+    const sentData = JSON.stringify({
+      child_id: id,
+      game_id: game_id,
+      questions: questions,
+    });
+    try {
+      const res = await fetch(
+        `https://gamebasedlearning-ot4m.onrender.com/FSE/feedback`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: sentData,
+        }
+      );
+      const data = await res.json();
+      console.log(
+        data,
+        "sentttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+        sentData
+      );
+      return data;
+    } catch (error) {
+      return rejectedWithValue(error.message);
+    }
+  }
+);
 const initialState = {
   word_Pic: [],
   url: "https://gamebasedlearning-ot4m.onrender.com/",
@@ -55,6 +89,9 @@ const globalSlice = createSlice({
     },
     [fetchData.rejected]: (state, action) => {
       state.loading = action.payload;
+    },
+    [sendAttempts.fulfilled]: (state, action) => {
+      console.log(action.payload);
     },
   },
 });

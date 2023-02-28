@@ -23,7 +23,7 @@ export const checkUser = createAsyncThunk(
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: { playerName: "", parentID: "" },
+  initialState: { playerName: "", parentID: "", studentID: "" },
   reducers: {
     setPlayerName: (state, action) => {
       state.playerName = action.payload;
@@ -33,12 +33,13 @@ export const authSlice = createSlice({
   extraReducers: {
     [checkUser.pending]: (state) => {
       state.loading = true;
-      console.log("pending");
     },
     [checkUser.fulfilled]: (state, action) => {
       state.loading = false;
       state.parentID = action.payload.student.studentParent;
+      state.studentID = action.payload.student._id;
       console.log(action.payload);
+
       console.log("success fetch");
     },
     [checkUser.rejected]: (state, action) => {
