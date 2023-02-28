@@ -274,6 +274,14 @@ export default function Listen_Choose({ navigation }) {
     });
   };
 
+  //to speak the first word
+  // useEffect(() => {
+  //   Speech.speak(`"${word_Pic[soundID]?.DefintioninEn}"`, {
+  //     rate: 0.4,
+  //     quality: "Enhanced",
+  //   });
+  // }, []);
+
   //function to check if correct or not\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   //to store if the word is new or already done
@@ -318,6 +326,19 @@ export default function Listen_Choose({ navigation }) {
         if (noRepeat.length < word_Pic.length) {
           //play sound
           playSound(0);
+
+          //to speak the next word
+          setTimeout(() => {
+            Speech.speak(
+              `"${
+                word_Pic[randomSound[randomSound.length - 1]]?.DefintioninEn
+              }"`,
+              {
+                rate: 0.4,
+                quality: "Enhanced",
+              }
+            );
+          }, 500);
         } else if (noRepeat.length === word_Pic.length) {
           //play sound
           playSound(2);
