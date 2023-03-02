@@ -1,10 +1,14 @@
 import { View } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { useEffect, useState, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import LottieView from "lottie-react-native";
 
-export default function Avatar(props) {
-  const avatar = props.avatar;
+export default function Avatar() {
+  // const avatar = props.avatar;
+
+  //to get avatar from global slice
+  const avatar = useSelector((state) => state.global.avatar);
 
   const animation = useRef(null);
 

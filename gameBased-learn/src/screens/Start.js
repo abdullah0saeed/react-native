@@ -164,7 +164,7 @@ const Start = ({ navigation }) => {
             style={[{ height: 0.75 * Dimensions.get("window").width }, tw``]}
           >
             {/* component to show the avatar */}
-            <Avatar avatar={avatar} />
+            <Avatar />
 
             {/* to show the circle around avatar */}
             <View style={tw`h-full `}>
