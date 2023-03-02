@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text,TouchableOpacity, TextInput, Button, StyleSheet } from 'react-native';
+import tw from "tailwind-react-native-classnames";
+import { Audio } from "expo-av";
+
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-const Compare = () => {
+const Compare = ({navigation}) => {
   const [number1, setNumber1] = useState(0);
   const [number2, setNumber2] = useState(0);
   const [selectedSymbol, setSelectedSymbol] = useState('');
@@ -41,6 +44,16 @@ const Compare = () => {
 
   return (
     <View style={styles.container}>
+        <TouchableOpacity
+        style={tw`ml-3 mt-2 bg-red-400 w-2/12 flex justify-center items-center rounded-3xl border-2 border-red-600`}
+        onPress={() => {
+          // dispatch(sendAttempts({ questions, gameID: "2" }));
+          // playAgain();
+          navigation.navigate("Start");
+        }}
+      >
+        <Text style={tw`text-3xl text-center font-bold text-white`}>x</Text>
+      </TouchableOpacity>
       <View style={styles.numbers}>
         <TextInput style={styles.input} value={number1.toString()} editable={false} />
         <TextInput style={{
