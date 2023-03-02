@@ -15,7 +15,7 @@ import styles from "../styles";
 import tw from "tailwind-react-native-classnames";
 import LottieView from "lottie-react-native";
 import { Audio } from "expo-av";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import Avatar from "../components/Avatar";
 
 const Start = ({ navigation }) => {
   // ////////////////////////// fetch data from API/////////////////////////////
@@ -147,21 +147,9 @@ const Start = ({ navigation }) => {
           <View
             style={[{ height: 0.75 * Dimensions.get("window").width }, tw``]}
           >
-            {/* to show the avatar */}
-            <View style={tw`h-full`}>
-              <LottieView
-                autoPlay
-                ref={animation}
-                onLoad={() => {
-                  animation.current.play();
-                }}
-                style={[{ marginLeft: "6%" }, tw`w-full`]}
-                // Find more Lottie files at https://lottiefiles.com/featured
-                source={{
-                  uri: avatar,
-                }}
-              />
-            </View>
+            {/* component to show the avatar */}
+            <Avatar avatar={avatar} />
+
             {/* to show the circle around avatar */}
             <View style={tw`h-full `}>
               <LottieView
