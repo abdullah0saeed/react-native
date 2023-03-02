@@ -76,13 +76,21 @@ const Start = ({ navigation }) => {
         <Pressable
           style={styles.pressable}
           onPress={() => {
+            navigation.navigate("Compare");
+          }}
+        >
+          <Text style={{ fontSize: 35, fontWeight: "bold" }}>Compare</Text>
+        </Pressable>
+        <Pressable
+          style={styles.pressable}
+          onPress={() => {
             navigation.navigate("Arrange");
           }}
         >
           <Text style={{ fontSize: 35, fontWeight: "bold" }}>Arrange</Text>
         </Pressable>
 
-        <View style={tw`w-6/12 h-2/6 absolute bottom-0`}>
+        <View style={tw`w-6/12 h-2/6 absolute bottom-0 `}>
           <LottieView
             autoPlay
             ref={animation}

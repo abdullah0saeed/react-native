@@ -15,8 +15,8 @@ import { useDispatch } from "react-redux";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("Comey833d");
+  const [password, setPassword] = useState("bee3f5");
 
   // on press Login
   const onSubmit = () => {

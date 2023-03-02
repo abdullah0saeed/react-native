@@ -9,6 +9,7 @@ import { store } from "./src/store/index";
 import { Provider } from "react-redux";
 import Listen_Choose from "./src/screens/Listen_Choose";
 import Arrange from "./src/screens/Arrange";
+import Compare from "./src/screens/compare";
 import { SafeAreaView } from "react-native";
 import { Platform, NativeModules } from "react-native";
 const { StatusBarManager } = NativeModules;
@@ -50,6 +51,11 @@ export default function App() {
             <stack.Screen
               name="Arrange"
               component={Arrange}
+              options={{ headerShown: false }}
+            />
+             <stack.Screen
+              name="Compare"
+              component={Compare}
               options={{ headerShown: false }}
             />
             <stack.Screen
