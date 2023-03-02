@@ -35,6 +35,12 @@ const Start = ({ navigation }) => {
   //   navigation.navigate("Connect");
   // };
 
+  //to change lArrow backgroundColor
+  const [lArrow, setLArrow] = useState(false);
+
+  //to change rArrow backgroundColor
+  const [rArrow, setRArrow] = useState(false);
+
   ///function to play sound\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   const playSound = async (voice) => {
     const sound = new Audio.Sound();
@@ -100,11 +106,16 @@ const Start = ({ navigation }) => {
                 left: "-1%",
               },
               tw`z-40`,
+              lArrow && tw`bg-blue-500 rounded-2xl`,
             ]}
-            onPress={() => {
+            onPress={(e) => {
+              setLArrow(true);
               if (avatars.indexOf(avatar) !== 0) {
                 dispatch(setAvatar(avatars[avatars.indexOf(avatar) - 1]));
               }
+              setTimeout(() => {
+                setLArrow(false);
+              }, 100);
             }}
           >
             <Image
@@ -126,11 +137,16 @@ const Start = ({ navigation }) => {
                 right: "-23%",
               },
               tw`z-40`,
+              rArrow && tw`bg-blue-500 rounded-2xl`,
             ]}
             onPress={() => {
+              setRArrow(true);
               if (avatars.indexOf(avatar) !== avatars.length - 1) {
                 dispatch(setAvatar(avatars[avatars.indexOf(avatar) + 1]));
               }
+              setTimeout(() => {
+                setRArrow(false);
+              }, 100);
             }}
           >
             <Image
