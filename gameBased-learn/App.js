@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import Listen_Choose from "./src/screens/Listen_Choose";
 import Arrange from "./src/screens/Arrange";
 import Compare from "./src/screens/compare";
+import Sum_Sub from "./src/screens/Sum_Sub";
 import { SafeAreaView } from "react-native";
 import { Platform, NativeModules } from "react-native";
 const { StatusBarManager } = NativeModules;
@@ -53,9 +54,14 @@ export default function App() {
               component={Arrange}
               options={{ headerShown: false }}
             />
-             <stack.Screen
+            <stack.Screen
               name="Compare"
               component={Compare}
+              options={{ headerShown: false }}
+            />
+            <stack.Screen
+              name="Sum_Sub"
+              component={Sum_Sub}
               options={{ headerShown: false }}
             />
             <stack.Screen

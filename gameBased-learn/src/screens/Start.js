@@ -246,6 +246,14 @@ const Start = ({ navigation }) => {
           <Pressable
             style={[styles.pressable, tw`self-center`]}
             onPress={() => {
+              navigation.navigate("Sum_Sub");
+            }}
+          >
+            <Text style={{ fontSize: 35, fontWeight: "bold" }}>Sum_Sub</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.pressable, tw`self-center`]}
+            onPress={() => {
               navigation.navigate("Arrange");
             }}
           >
