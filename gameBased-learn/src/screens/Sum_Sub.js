@@ -11,6 +11,8 @@ import Avatar from "../components/Avatar";
 import { useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { Audio } from "expo-av";
+import { useDispatch } from "react-redux";
+import { sendAttempts } from "../store/globalSlice";
 
 const data = [
   {
@@ -44,21 +46,23 @@ const data = [
 ];
 
 export default function Sum_Sub({ navigation }) {
+  const dispatch = useDispatch();
+
   //check if font is loaded or not
-  const [fontLoaded, setFontLoaded] = useState(false);
-  if (!fontLoaded) {
-    SplashScreen.preventAutoHideAsync();
-  }
-  const loadFont = async () => {
-    await Font.loadAsync({
-      "finger-paint": require("../../assets/fonts/FingerPaint-Regular.ttf"),
-    });
-    setFontLoaded(true);
-    SplashScreen.hideAsync();
-  };
-  useEffect(() => {
-    loadFont();
-  }, [fontLoaded]);
+  // const [fontLoaded, setFontLoaded] = useState(false);
+  // if (!fontLoaded) {
+  //   SplashScreen.preventAutoHideAsync();
+  // }
+  // const loadFont = async () => {
+  //   await Font.loadAsync({
+  //     "finger-paint": require("../../assets/fonts/FingerPaint-Regular.ttf"),
+  //   });
+  //   setFontLoaded(true);
+  //   SplashScreen.hideAsync();
+  // };
+  // useEffect(() => {
+  //   loadFont();
+  // }, [fontLoaded]);
 
   //to store data array length
   const dataLength = data.length;
@@ -71,6 +75,9 @@ export default function Sum_Sub({ navigation }) {
 
   //to edit styles if correct or not
   const [correct, setCorrect] = useState(false);
+
+  //to store wrong attempts
+  const [wrong, setWrong] = useState([]);
 
   ///create sounds array//////////////
   const sounds = [
@@ -129,14 +136,34 @@ export default function Sum_Sub({ navigation }) {
         }, 600);
       } else {
         playSound(2);
+
+        //to send feedback
+        let sentData = [];
+        data?.forEach((el, i) => {
+          sentData.push({
+            question_id: data[i]?._id,
+            attempts: wrong[i] !== (null || undefined) ? wrong[i] : 0,
+          });
+        });
+        dispatch(sendAttempts({ questions: sentData, gameID: "4" }));
+
         setTimeout(() => {
           navigation.navigate("Start");
         }, 1600);
-        console.log("finished");
       }
     } else {
       setCorrect(false);
       playSound(1);
+
+      //edit the wrong attempts array
+      let inCorrect = wrong;
+      if (inCorrect[done] == null) {
+        inCorrect[done] = 1;
+      } else {
+        inCorrect[done] = inCorrect[done] + 1;
+      }
+      setWrong(inCorrect);
+
       setTimeout(() => {
         setChosenAns(null);
       }, 400);
@@ -200,7 +227,7 @@ export default function Sum_Sub({ navigation }) {
               <Text
                 style={[
                   tw`text-4xl font-bold text-white text-center`,
-                  { fontFamily: "finger-paint" },
+                  // { fontFamily: "finger-paint" },
                 ]}
               >
                 {data[done].num1}
