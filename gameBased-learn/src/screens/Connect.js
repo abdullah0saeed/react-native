@@ -70,7 +70,7 @@ const Connect = ({ navigation }) => {
   };
   //////////////////////////////////////////////////////////////////
 
-  ///////////////refresh on navigating back from Score screen///////////////
+  ///refresh on navigating back from Score screen///////////////
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // dispatch(fetchData());

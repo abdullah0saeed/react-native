@@ -61,7 +61,22 @@ export default function Sum_Sub({ navigation }) {
   const [correct, setCorrect] = useState(false);
 
   //to store wrong attempts
-  const [wrong, setWrong] = useState([]);
+  const [attempts, setAttempts] = useState([]);
+
+  //to store wrong count
+  const [wrong, setWrong] = useState(0);
+
+  ///refresh on navigating back from Score screen///\\\\
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setDone(0);
+      setChosenAns(null);
+      setCorrect(false);
+      setAttempts([]);
+      setWrong(0);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   ///create sounds array//////////////
   const sounds = [
@@ -126,27 +141,33 @@ export default function Sum_Sub({ navigation }) {
         data?.forEach((el, i) => {
           sentData.push({
             question_id: data[i]?._id,
-            attempts: wrong[i] !== (null || undefined) ? wrong[i] : 0,
+            attempts: attempts[i] !== (null || undefined) ? attempts[i] : 0,
           });
         });
         dispatch(sendAttempts({ questions: sentData, gameID: "4" }));
 
         setTimeout(() => {
-          navigation.navigate("Start");
+          navigation.navigate("Score", {
+            wrong,
+            word_Pic: data,
+            path: "Sum_Sub",
+          });
         }, 1600);
       }
     } else {
       setCorrect(false);
       playSound(1);
 
+      setWrong(wrong + 1);
+
       //edit the wrong attempts array
-      let inCorrect = wrong;
+      let inCorrect = attempts;
       if (inCorrect[done] == null) {
         inCorrect[done] = 1;
       } else {
         inCorrect[done] = inCorrect[done] + 1;
       }
-      setWrong(inCorrect);
+      setAttempts(inCorrect);
 
       setTimeout(() => {
         setChosenAns(null);
