@@ -228,6 +228,16 @@ const Start = ({ navigation }) => {
           <Pressable
             style={[styles.pressable, tw`self-center`]}
             onPress={() => {
+              navigation.navigate("Missing-Word");
+            }}
+          >
+            <Text style={{ fontSize: 35, fontWeight: "bold" }}>
+              Missing-Word
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[styles.pressable, tw`self-center`]}
+            onPress={() => {
               navigation.navigate("Listen_Choose");
             }}
           >

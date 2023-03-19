@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Start from "./src/screens/Start";
 import Connect from "./src/screens/Connect";
+import MissingWord from "./src/screens/MissingWord";
 import Score from "./src/screens/Score";
 import Login from "./src/screens/Login";
 import { store } from "./src/store/index";
@@ -42,6 +43,11 @@ export default function App() {
             <stack.Screen
               name="Connect"
               component={Connect}
+              options={{ headerShown: false }}
+            />
+            <stack.Screen
+              name="Missing-Word"
+              component={MissingWord}
               options={{ headerShown: false }}
             />
             <stack.Screen

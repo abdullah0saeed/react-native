@@ -48,22 +48,6 @@ const data = [
 export default function Sum_Sub({ navigation }) {
   const dispatch = useDispatch();
 
-  //check if font is loaded or not
-  // const [fontLoaded, setFontLoaded] = useState(false);
-  // if (!fontLoaded) {
-  //   SplashScreen.preventAutoHideAsync();
-  // }
-  // const loadFont = async () => {
-  //   await Font.loadAsync({
-  //     "finger-paint": require("../../assets/fonts/FingerPaint-Regular.ttf"),
-  //   });
-  //   setFontLoaded(true);
-  //   SplashScreen.hideAsync();
-  // };
-  // useEffect(() => {
-  //   loadFont();
-  // }, [fontLoaded]);
-
   //to store data array length
   const dataLength = data.length;
 
