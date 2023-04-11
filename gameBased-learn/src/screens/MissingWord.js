@@ -50,7 +50,7 @@ export default function MissingWord({ navigation }) {
           alignItems: "center",
         }}
         onPress={() => {
-          //   dispatch(sendAttempts({ questions, gameID: "2" }));
+          //   dispatch(sendAttempts({ questions, gameID: "5" }));
           navigation.navigate("Start");
         }}
       >
