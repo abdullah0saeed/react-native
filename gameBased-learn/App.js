@@ -12,6 +12,7 @@ import Listen_Choose from "./src/screens/Listen_Choose";
 import Arrange from "./src/screens/Arrange";
 import Compare from "./src/screens/compare";
 import Sum_Sub from "./src/screens/Sum_Sub";
+import TasksMap from "./src/screens/TasksMap";
 import { SafeAreaView } from "react-native";
 import { Platform, NativeModules } from "react-native";
 const { StatusBarManager } = NativeModules;
@@ -40,6 +41,11 @@ export default function App() {
               component={Start}
               options={{ headerShown: false }}
             />
+            {/* <stack.Screen
+              name="TasksMap"
+              component={TasksMap}
+              options={{ headerShown: false }}
+            /> */}
             <stack.Screen
               name="Connect"
               component={Connect}
