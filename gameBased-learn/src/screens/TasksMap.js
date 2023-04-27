@@ -2,13 +2,12 @@ import { useState } from "react";
 import {
   Text,
   ImageBackground,
-  View,
   StyleSheet,
-  ScrollView,
   Dimensions,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
 import tw from "tailwind-react-native-classnames";
+import { FlashList } from "@shopify/flash-list";
 
 const data = [
   { num: 1, gameID: [0, 1, 2], done: [false, false, false] },
@@ -24,7 +23,14 @@ const data = [
 ];
 
 //array to hold games routes
-const games = ["Sum_Sub"];
+const games = [
+  "Connect",
+  "Listen_Choose",
+  "Arrange",
+  "Compare",
+  "Sum_Sub",
+  "Missing-Word",
+];
 
 export default function TasksMap({ navigation }) {
   //create new array with all tasks and levels needed
@@ -38,76 +44,73 @@ export default function TasksMap({ navigation }) {
     });
   });
 
-  console.log(allLevels);
   return (
-    <ScrollView
-      style={[styles.container]}
-      contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
-    >
-      {/* <View
-        style={{
-          flex: 1,
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      > */}
-      {/* <ImageBackground
-          source={require("../../assets/backgrounds/tasksMap.png")}
-          style={[styles.image, tw`justify-center `]}
-          imageStyle={{
-            resizeMode: "stretch",
-          }}
-        > */}
-      {allLevels.map((el, i) => {
-        // el.gameID?.map((game) => {
-        return i === 0 ? (
-          // the first element
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate(games[el.gameID]);
+    <FlashList
+      data={allLevels}
+      renderItem={({ item, index }) => {
+        let imgSource =
+          (index + 1) % 4 === 1
+            ? require("../../assets/backgrounds/taskMapSplitted/taskMap1.png")
+            : (index + 1) % 4 === 2
+            ? require("../../assets/backgrounds/taskMapSplitted/taskMap2.png")
+            : (index + 1) % 4 === 3
+            ? require("../../assets/backgrounds/taskMapSplitted/taskMap3.png")
+            : (index + 1) % 4 === 0
+            ? require("../../assets/backgrounds/taskMapSplitted/taskMap4.png")
+            : null;
+
+        return (
+          <ImageBackground
+            source={imgSource}
+            style={[styles.image, tw`justify-center `]}
+            imageStyle={{
+              resizeMode: "stretch",
             }}
+            key={index}
           >
-            <Text style={[styles.text, { marginTop: 30 }]}>{el.num}</Text>
-          </TouchableOpacity>
-        ) : (
-          //   the rest of elements
-          <>
-            <Text
-              style={{
-                width: Dimensions.get("window").width / 1.5,
-                height: 80,
-                textAlign: "center",
-                // textAlignVertical: "center",
-                fontSize: 50,
-                color: "#fff",
-                fontWeight: "bold",
-              }}
-            >
-              :
-            </Text>
-            <TouchableOpacity disabled={!allLevels[i - 1].done ? true : false}>
-              <Text
-                style={[
-                  styles.text,
-
-                  !allLevels[i - 1].done && {
-                    backgroundColor: "#ddd",
-                    borderColor: "#aaa",
-                  },
-                  i === allLevels.length - 1 && { marginBottom: 30 },
-                ]}
+            {index === 0 ? (
+              //first element
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  navigation.navigate(games[item.gameID]);
+                }}
               >
-                {el.num}
-              </Text>
-            </TouchableOpacity>
-          </>
+                <Text
+                  style={[
+                    styles.text,
+                    (index + 1) % 4 === 1 && { marginLeft: "45%" },
+                    (index + 1) % 4 === 3 && { marginLeft: "40%" },
+                    (index + 1) % 4 === 0 && { marginLeft: "30%" },
+                  ]}
+                >
+                  {item.num}
+                </Text>
+              </TouchableWithoutFeedback>
+            ) : (
+              //the rest elements
+              <TouchableWithoutFeedback
+                disabled={!allLevels[index - 1].done ? true : false}
+              >
+                <Text
+                  style={[
+                    styles.text,
+                    (index + 1) % 4 === 1 && { marginLeft: "45%" },
+                    (index + 1) % 4 === 3 && { marginLeft: "40%" },
+                    (index + 1) % 4 === 0 && { marginLeft: "30%" },
+                    !allLevels[index - 1].done && {
+                      backgroundColor: "#929495",
+                    },
+                  ]}
+                >
+                  {item.num}
+                </Text>
+              </TouchableWithoutFeedback>
+            )}
+          </ImageBackground>
         );
-      })}
-
-      {/* </ImageBackground> */}
-      {/* </View> */}
-    </ScrollView>
+      }}
+      estimatedItemSize={allLevels.length}
+    />
   );
 }
 
@@ -119,20 +122,22 @@ const styles = StyleSheet.create({
     borderColor: "#08f1F2",
   },
   text: {
-    fontSize: 40,
+    fontSize: 35,
+    color: "#fff",
     fontWeight: "bold",
-    width: Dimensions.get("window").width / 1.5,
-    height: 90,
-    // marginTop: 30,
-    // marginBottom: 30,
+    width: 90,
+    height: 100,
     textAlign: "center",
     textAlignVertical: "center",
-    borderWidth: 4,
-    borderColor: "#09b1F2",
-    borderRadius: 20,
-    backgroundColor: "#09c1F2",
+    borderWidth: 7,
+    borderColor: "#FFFFFF",
+    borderRadius: 12.75,
+    backgroundColor: "#05FF00",
   },
   image: {
     flex: 1,
+    height: Dimensions.get("screen").height / 4,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
