@@ -5,10 +5,14 @@ import { useState, useEffect } from "react";
 import { fetchData, sendAttempts } from "../store/globalSlice";
 import * as Speech from "expo-speech";
 import { Audio } from "expo-av";
+import { useRoute } from "@react-navigation/native";
 
 export default function Listen_Choose({ navigation }) {
-  const { word_Pic } = useSelector((state) => state.global);
+  // const { word_Pic } = useSelector((state) => state.global);
   const dispatch = useDispatch();
+
+  const route = useRoute();
+  const word_Pic = route.params.word_Pic;
 
   //to store the total view and display it
   const [view, setView] = useState([]);
@@ -44,7 +48,7 @@ export default function Listen_Choose({ navigation }) {
       firstNum = Math.floor(Math.random() * word_Pic.length);
     }
     var randoms = [firstNum];
-    while (i < length - 2) {
+    while (i < length - 1) {
       var num = Math.floor(Math.random() * word_Pic.length);
       var count = 0;
       if (num < 6) {

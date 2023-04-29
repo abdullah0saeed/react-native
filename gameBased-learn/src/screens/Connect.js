@@ -22,7 +22,8 @@ const Connect = ({ navigation }) => {
   const dispatch = useDispatch();
   const { playerName } = useSelector((state) => state.auth);
   // const old_word_Pic = route.params.word_Pic;
-  const { word_Pic, url } = useSelector((state) => state.global);
+  const { url } = useSelector((state) => state.global);
+  const word_Pic = route.params.word_Pic;
   //to set how many correct answers
   const [done, setDone] = useState(0);
   //to set how many wrong answers
@@ -106,7 +107,7 @@ const Connect = ({ navigation }) => {
       firstNum = Math.floor(Math.random() * word_Pic.length);
     }
     var randoms = [firstNum];
-    while (i < length - 2) {
+    while (i < length - 1) {
       var num = Math.floor(Math.random() * word_Pic.length);
       var count = 0;
       if (num < 6) {
@@ -326,7 +327,6 @@ const Connect = ({ navigation }) => {
         </TouchableOpacity>
       );
     });
-
     return picCards;
   };
   /////////////////////////////////////////////////////////////////////////////
@@ -358,7 +358,7 @@ const Connect = ({ navigation }) => {
         setNoRepeat([...noRepeat, wordID]);
         setDone(done + 1);
         //to speak the word
-        await Speech.speak(`"${word_Pic[wordIndex]?.DefintioninEn}"`, {
+        Speech.speak(`"${word_Pic[wordIndex]?.DefintioninEn}"`, {
           rate: 0.4,
           quality: "Enhanced",
           language: "en-US",
@@ -410,7 +410,6 @@ const Connect = ({ navigation }) => {
       //play sound
       playSound(1);
     }
-    return states;
   };
   ///////////////////////////////////////////////////////////////////
   return (

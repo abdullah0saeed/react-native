@@ -10,7 +10,47 @@ import tw from "tailwind-react-native-classnames";
 import { FlashList } from "@shopify/flash-list";
 
 const data = [
-  { num: 1, gameID: [0, 1, 2], done: [false, false, false] },
+  {
+    num: 1,
+    gameID: [0, 1, 2],
+    done: [true, true, false],
+    data: [
+      {
+        _id: 0,
+        DefintioninEn: "apple",
+        Image:
+          "https://thumbs.dreamstime.com/b/red-apple-isolated-clipping-path-19130134.jpg",
+      },
+      {
+        _id: 1,
+        DefintioninEn: "bat",
+        Image:
+          "https://thumbs.dreamstime.com/b/flying-vampire-bat-isolated-white-background-d-rendering-77923549.jpg",
+      },
+      {
+        _id: 2,
+        DefintioninEn: "cat",
+        Image:
+          "https://thumbs.dreamstime.com/b/cat-laughing-very-happy-54680614.jpg",
+      },
+      {
+        _id: 3,
+        DefintioninEn: "door",
+        Image:
+          "https://thumbs.dreamstime.com/b/door-you-can-use-clean-interior-31806445.jpg",
+      },
+      {
+        _id: 4,
+        DefintioninEn: "egg",
+        Image: "https://thumbs.dreamstime.com/b/egg-9804046.jpg",
+      },
+      {
+        _id: 5,
+        DefintioninEn: "fork",
+        Image: "https://thumbs.dreamstime.com/b/fork-6231372.jpg",
+      },
+    ],
+  },
   { num: 2, gameID: [0], done: [false] },
   { num: 3, gameID: [2], done: [false] },
   { num: 4, gameID: [1], done: [false] },
@@ -40,7 +80,12 @@ export default function TasksMap({ navigation }) {
   data.forEach((el) => {
     el.gameID.forEach((game, i) => {
       count += 1;
-      allLevels.push({ num: count, gameID: game, done: el.done[i] });
+      allLevels.push({
+        num: count,
+        gameID: game,
+        done: el.done[i],
+        word_Pic: el.data,
+      });
     });
   });
 
@@ -72,7 +117,9 @@ export default function TasksMap({ navigation }) {
               //first element
               <TouchableWithoutFeedback
                 onPress={() => {
-                  navigation.navigate(games[item.gameID]);
+                  navigation.navigate(games[item.gameID], {
+                    word_Pic: item.word_Pic,
+                  });
                 }}
               >
                 <Text
@@ -90,6 +137,11 @@ export default function TasksMap({ navigation }) {
               //the rest elements
               <TouchableWithoutFeedback
                 disabled={!allLevels[index - 1].done ? true : false}
+                onPress={() => {
+                  navigation.navigate(games[item.gameID], {
+                    word_Pic: item.word_Pic,
+                  });
+                }}
               >
                 <Text
                   style={[

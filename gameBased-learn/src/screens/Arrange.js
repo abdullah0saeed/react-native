@@ -11,9 +11,13 @@ import {
 import { fetchData, sendAttempts } from "../store/globalSlice";
 import tw from "tailwind-react-native-classnames";
 import { Audio } from "expo-av";
+import { useRoute } from "@react-navigation/native";
 
 export default function Arrange({ navigation }) {
-  const { word_Pic, url } = useSelector((state) => state.global);
+  const route = useRoute();
+  const word_Pic = route.params.word_Pic;
+
+  const { url } = useSelector((state) => state.global);
   const state = useSelector((state) => state);
   const [selectedWords, setSelectedWords] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
