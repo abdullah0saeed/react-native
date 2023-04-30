@@ -6,23 +6,25 @@ export const fetchData = createAsyncThunk(
   async (_, thunkAPI) => {
     const { rejectedWithValue, getState } = thunkAPI;
     const parentID = getState().auth.parentID;
-    const sentData = JSON.stringify({
-      unit: "1",
-      lesson: "1",
-      stadge: "1",
-    });
+    const studentID = getState().auth.studentID;
+    // const sentData = JSON.stringify({
+    //   unit: "1",
+    //   lesson: "1",
+    //   stadge: "1",
+    // });
     try {
       const res = await fetch(
-        `https://gamebasedlearning-ot4m.onrender.com/FSE/FSEtakeQuestion/${parentID}`,
+        `https://gamebasedlearning-ot4m.onrender.com/Task/TakeTask/${studentID}`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: sentData,
+          // body: sentData,
         }
       );
       const data = await res.json();
+      console.log("tasks:", data);
 
       return data;
     } catch (error) {
@@ -33,7 +35,6 @@ export const fetchData = createAsyncThunk(
 export const sendAttempts = createAsyncThunk(
   "global/sendAttempts",
   async (feedback, thunkAPI) => {
-    // console.log(questions, "questionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestionsquestions");
     const { rejectedWithValue, getState } = thunkAPI;
     const id = getState().auth.studentID;
     // const game_id = 1;
@@ -86,7 +87,6 @@ const globalSlice = createSlice({
     [fetchData.fulfilled]: (state, action) => {
       state.loading = false;
       state.word_Pic = action.payload.question;
-      console.log(state.word_Pic);
       console.log("fetch success");
     },
     [fetchData.rejected]: (state, action) => {

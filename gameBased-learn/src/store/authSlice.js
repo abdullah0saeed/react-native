@@ -36,8 +36,9 @@ export const authSlice = createSlice({
     },
     [checkUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.parentID = action.payload.student.studentParent;
-      state.studentID = action.payload.student._id;
+      state.parentID = action.payload.student.ParentID;
+      state.studentID = action.payload.student.studentID;
+
       console.log(action.payload);
 
       console.log("success fetch");

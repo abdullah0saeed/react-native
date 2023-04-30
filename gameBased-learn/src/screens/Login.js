@@ -20,13 +20,15 @@ const Login = ({ navigation }) => {
 
   // on press Login
   const onSubmit = () => {
-    dispatch(checkUser({ username, password })).then((data) => {
-      if (data.payload.massage === "correct password") {
-        ToastAndroid.show(`${data.payload.massage}`, ToastAndroid.SHORT);
-        dispatch(setPlayerName(username));
-        navigation.navigate("Start");
+    dispatch(
+      checkUser({ username: username.trim(), password: password.trim() })
+    ).then((data) => {
+      if (data.payload.student.status === "Correct password") {
+        ToastAndroid.show(`${data.payload.student.status}`, ToastAndroid.SHORT);
+        dispatch(setPlayerName(data.payload.student.studentName));
+        navigation.navigate("TasksMap");
       } else {
-        ToastAndroid.show(`${data.payload.massage}`, ToastAndroid.SHORT);
+        ToastAndroid.show(`${data.payload.student.status}`, ToastAndroid.SHORT);
       }
     });
   };
@@ -40,12 +42,14 @@ const Login = ({ navigation }) => {
           onChangeText={(value) => setUsername(value)}
           placeholder={"Username"}
           textContentType="emailAddress"
+          autoCapitalize="none"
         />
         <TextInput
           style={styles.input}
           onChangeText={(value) => setPassword(value)}
           placeholder={"Password"}
           secureTextEntry={true}
+          autoCapitalize="none"
         />
         <Pressable style={styles.pressable} onPress={onSubmit}>
           <Text style={{ fontSize: 35, fontWeight: "bold" }}>Login</Text>

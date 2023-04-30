@@ -41,11 +41,11 @@ export default function App() {
               component={Start}
               options={{ headerShown: false }}
             />
-            {/* <stack.Screen
+            <stack.Screen
               name="TasksMap"
               component={TasksMap}
               options={{ headerShown: false }}
-            /> */}
+            />
             <stack.Screen
               name="Connect"
               component={Connect}

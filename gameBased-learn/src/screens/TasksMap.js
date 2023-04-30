@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Text,
   ImageBackground,
@@ -8,6 +7,10 @@ import {
 } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { FlashList } from "@shopify/flash-list";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+
+import { fetchData } from "../store/globalSlice";
 
 const data = [
   {
@@ -73,6 +76,14 @@ const games = [
 ];
 
 export default function TasksMap({ navigation }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
+
+  const { word_Pic } = useSelector((state) => state.global);
+
   //create new array with all tasks and levels needed
   let count = 0;
   let allLevels = [];
@@ -90,79 +101,85 @@ export default function TasksMap({ navigation }) {
   });
 
   return (
-    <FlashList
-      data={allLevels}
-      renderItem={({ item, index }) => {
-        let imgSource =
-          (index + 1) % 4 === 1
-            ? require("../../assets/backgrounds/taskMapSplitted/taskMap1.png")
-            : (index + 1) % 4 === 2
-            ? require("../../assets/backgrounds/taskMapSplitted/taskMap2.png")
-            : (index + 1) % 4 === 3
-            ? require("../../assets/backgrounds/taskMapSplitted/taskMap3.png")
-            : (index + 1) % 4 === 0
-            ? require("../../assets/backgrounds/taskMapSplitted/taskMap4.png")
-            : null;
+    <ImageBackground
+      style={styles.background}
+      source={require("../../assets/backgrounds/tasksMap.png")}
+      imageStyle={{ resizeMode: "stretch" }}
+    >
+      <FlashList
+        data={allLevels}
+        renderItem={({ item, index }) => {
+          let imgSource =
+            (index + 1) % 4 === 1
+              ? require("../../assets/backgrounds/taskMapSplitted/taskMap1.png")
+              : (index + 1) % 4 === 2
+              ? require("../../assets/backgrounds/taskMapSplitted/taskMap2.png")
+              : (index + 1) % 4 === 3
+              ? require("../../assets/backgrounds/taskMapSplitted/taskMap3.png")
+              : (index + 1) % 4 === 0
+              ? require("../../assets/backgrounds/taskMapSplitted/taskMap4.png")
+              : null;
 
-        return (
-          <ImageBackground
-            source={imgSource}
-            style={[styles.image, tw`justify-center `]}
-            imageStyle={{
-              resizeMode: "stretch",
-            }}
-            key={index}
-          >
-            {index === 0 ? (
-              //first element
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  navigation.navigate(games[item.gameID], {
-                    word_Pic: item.word_Pic,
-                  });
-                }}
-              >
-                <Text
-                  style={[
-                    styles.text,
-                    (index + 1) % 4 === 1 && { marginLeft: "45%" },
-                    (index + 1) % 4 === 3 && { marginLeft: "40%" },
-                    (index + 1) % 4 === 0 && { marginLeft: "30%" },
-                  ]}
+          return (
+            <ImageBackground
+              source={imgSource}
+              style={[styles.image, tw`justify-center `]}
+              imageStyle={{
+                resizeMode: "stretch",
+              }}
+              key={index}
+            >
+              {index === 0 ? (
+                //first element
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    navigation.navigate(games[item.gameID], {
+                      word_Pic: item.word_Pic,
+                    });
+                  }}
                 >
-                  {item.num}
-                </Text>
-              </TouchableWithoutFeedback>
-            ) : (
-              //the rest elements
-              <TouchableWithoutFeedback
-                disabled={!allLevels[index - 1].done ? true : false}
-                onPress={() => {
-                  navigation.navigate(games[item.gameID], {
-                    word_Pic: item.word_Pic,
-                  });
-                }}
-              >
-                <Text
-                  style={[
-                    styles.text,
-                    (index + 1) % 4 === 1 && { marginLeft: "45%" },
-                    (index + 1) % 4 === 3 && { marginLeft: "40%" },
-                    (index + 1) % 4 === 0 && { marginLeft: "30%" },
-                    !allLevels[index - 1].done && {
-                      backgroundColor: "#929495",
-                    },
-                  ]}
+                  <Text
+                    style={[
+                      styles.text,
+                      (index + 1) % 4 === 1 && { marginLeft: "45%" },
+                      (index + 1) % 4 === 3 && { marginLeft: "40%" },
+                      (index + 1) % 4 === 0 && { marginLeft: "30%" },
+                    ]}
+                  >
+                    {item.num}
+                  </Text>
+                </TouchableWithoutFeedback>
+              ) : (
+                //the rest elements
+                <TouchableWithoutFeedback
+                  disabled={!allLevels[index - 1].done ? true : false}
+                  onPress={() => {
+                    navigation.navigate(games[item.gameID], {
+                      word_Pic: item.word_Pic,
+                    });
+                  }}
                 >
-                  {item.num}
-                </Text>
-              </TouchableWithoutFeedback>
-            )}
-          </ImageBackground>
-        );
-      }}
-      estimatedItemSize={allLevels.length}
-    />
+                  <Text
+                    style={[
+                      styles.text,
+                      (index + 1) % 4 === 1 && { marginLeft: "45%" },
+                      (index + 1) % 4 === 3 && { marginLeft: "40%" },
+                      (index + 1) % 4 === 0 && { marginLeft: "30%" },
+                      !allLevels[index - 1].done && {
+                        backgroundColor: "#929495",
+                      },
+                    ]}
+                  >
+                    {item.num}
+                  </Text>
+                </TouchableWithoutFeedback>
+              )}
+            </ImageBackground>
+          );
+        }}
+        estimatedItemSize={allLevels.length}
+      />
+    </ImageBackground>
   );
 }
 
@@ -172,6 +189,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#98F1F2",
     borderWidth: 10,
     borderColor: "#08f1F2",
+  },
+  background: {
+    flex: 1,
+    width: Dimensions.get("screen").width,
+    height: Dimensions.get("screen").height,
   },
   text: {
     fontSize: 35,
