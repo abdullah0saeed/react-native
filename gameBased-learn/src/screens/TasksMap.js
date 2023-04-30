@@ -14,8 +14,8 @@ import { fetchData } from "../store/globalSlice";
 
 const data = [
   {
-    num: 1,
-    gameID: [0, 1, 2],
+    taskNumber: 1,
+    gameName: [0, 1, 2],
     done: [true, true, false],
     data: [
       {
@@ -54,15 +54,15 @@ const data = [
       },
     ],
   },
-  { num: 2, gameID: [0], done: [false] },
-  { num: 3, gameID: [2], done: [false] },
-  { num: 4, gameID: [1], done: [false] },
-  { num: 5, gameID: [0], done: [false] },
-  { num: 6, gameID: [2], done: [false] },
-  { num: 7, gameID: [0], done: [false] },
-  { num: 8, gameID: [0], done: [false] },
-  { num: 9, gameID: [0], done: [false] },
-  { num: 10, gameID: [0], done: [false] },
+  { taskNumber: 2, gameName: [0], done: [false] },
+  { taskNumber: 3, gameName: [2], done: [false] },
+  { taskNumber: 4, gameName: [1], done: [false] },
+  { taskNumber: 5, gameName: [0], done: [false] },
+  { taskNumber: 6, gameName: [2], done: [false] },
+  { taskNumber: 7, gameName: [0], done: [false] },
+  { taskNumber: 8, gameName: [0], done: [false] },
+  { taskNumber: 9, gameName: [0], done: [false] },
+  { taskNumber: 10, gameName: [0], done: [false] },
 ];
 
 //array to hold games routes
@@ -89,11 +89,11 @@ export default function TasksMap({ navigation }) {
   let allLevels = [];
 
   data.forEach((el) => {
-    el.gameID.forEach((game, i) => {
+    el.gameName.forEach((game, i) => {
       count += 1;
       allLevels.push({
-        num: count,
-        gameID: game,
+        taskNumber: count,
+        gameName: game,
         done: el.done[i],
         word_Pic: el.data,
       });
@@ -133,7 +133,7 @@ export default function TasksMap({ navigation }) {
                 //first element
                 <TouchableWithoutFeedback
                   onPress={() => {
-                    navigation.navigate(games[item.gameID], {
+                    navigation.navigate(games[item.gameName], {
                       word_Pic: item.word_Pic,
                     });
                   }}
@@ -146,7 +146,7 @@ export default function TasksMap({ navigation }) {
                       (index + 1) % 4 === 0 && { marginLeft: "30%" },
                     ]}
                   >
-                    {item.num}
+                    {item.taskNumber}
                   </Text>
                 </TouchableWithoutFeedback>
               ) : (
@@ -154,7 +154,7 @@ export default function TasksMap({ navigation }) {
                 <TouchableWithoutFeedback
                   disabled={!allLevels[index - 1].done ? true : false}
                   onPress={() => {
-                    navigation.navigate(games[item.gameID], {
+                    navigation.navigate(games[item.gameName], {
                       word_Pic: item.word_Pic,
                     });
                   }}
@@ -170,7 +170,7 @@ export default function TasksMap({ navigation }) {
                       },
                     ]}
                   >
-                    {item.num}
+                    {item.taskNumber}
                   </Text>
                 </TouchableWithoutFeedback>
               )}
