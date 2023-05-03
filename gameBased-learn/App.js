@@ -1,21 +1,23 @@
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native";
+import { Platform, NativeModules } from "react-native";
+import { Provider } from "react-redux";
+
+import { store } from "./src/store/index";
 import Start from "./src/screens/Start";
 import Connect from "./src/screens/Connect";
 import MissingWord from "./src/screens/MissingWord";
 import Score from "./src/screens/Score";
 import Login from "./src/screens/Login";
-import { store } from "./src/store/index";
-import { Provider } from "react-redux";
 import Listen_Choose from "./src/screens/Listen_Choose";
 import Arrange from "./src/screens/Arrange";
 import Compare from "./src/screens/compare";
 import Sum_Sub from "./src/screens/Sum_Sub";
 import TasksMap from "./src/screens/TasksMap";
-import { SafeAreaView } from "react-native";
-import { Platform, NativeModules } from "react-native";
 import Settings from "./src/screens/Settings";
+
 const { StatusBarManager } = NativeModules;
 
 const stack = createStackNavigator();
@@ -32,11 +34,11 @@ export default function App() {
         <NavigationContainer>
           <StatusBar backgroundColor="#000" style="light" />
           <stack.Navigator>
-            {/* <stack.Screen
+            <stack.Screen
               name="Login"
               component={Login}
               options={{ headerShown: false }}
-            /> */}
+            />
             {/* <stack.Screen
               name="Start"
               component={Start}

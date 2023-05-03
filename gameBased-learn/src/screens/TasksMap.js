@@ -18,7 +18,7 @@ const data = [
   {
     taskNumber: 1,
     gameName: [0, 1, 2],
-    done: [true, true, false],
+    done: [true, false, false],
     data: [
       {
         _id: 0,
@@ -56,15 +56,15 @@ const data = [
       },
     ],
   },
-  { taskNumber: 2, gameName: [0], done: [false] },
-  { taskNumber: 3, gameName: [2], done: [false] },
-  { taskNumber: 4, gameName: [1], done: [false] },
-  { taskNumber: 5, gameName: [0], done: [false] },
-  { taskNumber: 6, gameName: [2], done: [false] },
-  { taskNumber: 7, gameName: [0], done: [false] },
-  { taskNumber: 8, gameName: [0], done: [false] },
-  { taskNumber: 9, gameName: [0], done: [false] },
-  { taskNumber: 10, gameName: [0], done: [false] },
+  // { taskNumber: 2, gameName: [0], done: [false] },
+  // { taskNumber: 3, gameName: [2], done: [false] },
+  // { taskNumber: 4, gameName: [1], done: [false] },
+  // { taskNumber: 5, gameName: [0], done: [false] },
+  // { taskNumber: 6, gameName: [2], done: [false] },
+  // { taskNumber: 7, gameName: [0], done: [false] },
+  // { taskNumber: 8, gameName: [0], done: [false] },
+  // { taskNumber: 9, gameName: [0], done: [false] },
+  // { taskNumber: 10, gameName: [0], done: [false] },
 ];
 
 //array to hold games routes
