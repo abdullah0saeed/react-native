@@ -15,6 +15,7 @@ import Sum_Sub from "./src/screens/Sum_Sub";
 import TasksMap from "./src/screens/TasksMap";
 import { SafeAreaView } from "react-native";
 import { Platform, NativeModules } from "react-native";
+import Settings from "./src/screens/Settings";
 const { StatusBarManager } = NativeModules;
 
 const stack = createStackNavigator();
@@ -31,21 +32,22 @@ export default function App() {
         <NavigationContainer>
           <StatusBar backgroundColor="#000" style="light" />
           <stack.Navigator>
-            <stack.Screen
+            {/* <stack.Screen
               name="Login"
               component={Login}
               options={{ headerShown: false }}
-            />
-            <stack.Screen
+            /> */}
+            {/* <stack.Screen
               name="Start"
               component={Start}
               options={{ headerShown: false }}
-            />
+            /> */}
             <stack.Screen
               name="TasksMap"
               component={TasksMap}
               options={{ headerShown: false }}
             />
+            <stack.Screen name="Settings" component={Settings} />
             <stack.Screen
               name="Connect"
               component={Connect}

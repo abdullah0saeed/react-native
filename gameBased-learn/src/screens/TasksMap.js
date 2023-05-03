@@ -4,11 +4,13 @@ import {
   StyleSheet,
   Dimensions,
   TouchableWithoutFeedback,
+  Pressable,
 } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { FlashList } from "@shopify/flash-list";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 import { fetchData } from "../store/globalSlice";
 
@@ -106,6 +108,14 @@ export default function TasksMap({ navigation }) {
       source={require("../../assets/backgrounds/tasksMap.png")}
       imageStyle={{ resizeMode: "stretch" }}
     >
+      <Pressable
+        style={styles.iconContainer}
+        onPress={() => {
+          navigation.navigate("Settings");
+        }}
+      >
+        <Ionicons name="md-settings-sharp" size={45} color="white" />
+      </Pressable>
       <FlashList
         data={allLevels}
         renderItem={({ item, index }) => {
@@ -213,5 +223,16 @@ const styles = StyleSheet.create({
     height: Dimensions.get("screen").height / 4,
     justifyContent: "center",
     alignItems: "center",
+  },
+  iconContainer: {
+    position: "absolute",
+    top: 10,
+    left: 10,
+    zIndex: 1000,
+    borderWidth: 4,
+    backgroundColor: "#05f600",
+    borderRadius: 10,
+    borderColor: "#eee",
+    padding: 4,
   },
 });
