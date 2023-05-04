@@ -170,7 +170,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.DefintioninEn}
+              {word_Pic[randomWords[i]]?.defintioninEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 2 && correct2 ? (
             <Text
@@ -180,7 +180,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.DefintioninEn}
+              {word_Pic[randomWords[i]]?.defintioninEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 3 && correct3 ? (
             <Text
@@ -190,7 +190,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.DefintioninEn}
+              {word_Pic[randomWords[i]]?.defintioninEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 4 && correct4 ? (
             <Text
@@ -200,7 +200,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.DefintioninEn}
+              {word_Pic[randomWords[i]]?.defintioninEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 5 && correct5 ? (
             <Text
@@ -210,7 +210,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.DefintioninEn}
+              {word_Pic[randomWords[i]]?.defintioninEn}
             </Text>
           ) : (
             <Text
@@ -221,7 +221,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl text-white`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.DefintioninEn}
+              {word_Pic[randomWords[i]]?.defintioninEn}
             </Text>
           )}
         </TouchableOpacity>
@@ -239,7 +239,7 @@ const Connect = ({ navigation }) => {
   const setPicView = () => {
     var picIndex = -2;
     word_Pic?.forEach((word, i) => {
-      const imgPath = word_Pic[randomPics[i]]?.Image;
+      const imgPath = word_Pic[randomPics[i]]?.imageUrl;
       picCards.push(
         <TouchableOpacity
           style={[styles.card, i > 5 && tw`mt-10`]}

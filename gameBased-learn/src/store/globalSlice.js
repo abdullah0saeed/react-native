@@ -24,7 +24,7 @@ export const fetchData = createAsyncThunk(
         }
       );
       const data = await res.json();
-      console.log("tasks:", data);
+      // console.log("tasks:", data);
 
       return data;
     } catch (error) {
@@ -64,8 +64,7 @@ export const sendAttempts = createAsyncThunk(
 );
 const initialState = {
   word_Pic: [],
-  //https://gamebasedlearning-ot4m.onrender.com/
-  url: "",
+  url: "//https://gamebasedlearning-ot4m.onrender.com/",
   avatar: "https://assets2.lottiefiles.com/packages/lf20_lc46h4dr.json",
   error: null,
   loading: false,
@@ -87,7 +86,7 @@ const globalSlice = createSlice({
     },
     [fetchData.fulfilled]: (state, action) => {
       state.loading = false;
-      state.word_Pic = action.payload.question;
+      state.word_Pic = action.payload;
       console.log("fetch success");
     },
     [fetchData.rejected]: (state, action) => {
