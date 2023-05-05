@@ -83,7 +83,7 @@ export default function Arrange({ navigation }) {
   useEffect(() => {
     if (currentSentenceIndex < word_Pic.length) {
       setShuffledWordList(
-        shuffleArray(word_Pic[currentSentenceIndex]?.DefintioninEn.split(""))
+        shuffleArray(word_Pic[currentSentenceIndex]?.defintioninEn.split(""))
       );
     }
   }, [currentSentenceIndex]);
@@ -103,11 +103,11 @@ export default function Arrange({ navigation }) {
       setQuestions((prev) => {
         const updatedQuestions = [...prev];
         const questionIndex = updatedQuestions.findIndex(
-          (q) => q.question_id === word_Pic[currentSentenceIndex]._id
+          (q) => q.question_id === word_Pic[currentSentenceIndex].dataId
         );
         if (questionIndex === -1) {
           updatedQuestions.push({
-            question_id: word_Pic[currentSentenceIndex]._id,
+            question_id: word_Pic[currentSentenceIndex].dataId,
             attempts: attempts,
           });
         } else {
@@ -122,15 +122,15 @@ export default function Arrange({ navigation }) {
   }, [attempts]);
   const checkAnswer = () => {
     const selectedSentence = selectedWords.join("");
-    const currentSentence = word_Pic[currentSentenceIndex]?.DefintioninEn;
+    const currentSentence = word_Pic[currentSentenceIndex]?.defintioninEn;
     setQuestions((prev) => {
       const updatedQuestions = [...prev];
       const questionIndex = updatedQuestions.findIndex(
-        (q) => q.question_id === word_Pic[currentSentenceIndex]._id
+        (q) => q.question_id === word_Pic[currentSentenceIndex].dataId
       );
       if (questionIndex === -1) {
         updatedQuestions.push({
-          question_id: word_Pic[currentSentenceIndex]._id,
+          question_id: word_Pic[currentSentenceIndex].dataId,
           attempts: attempts,
         });
       } else {
@@ -172,7 +172,7 @@ export default function Arrange({ navigation }) {
   useEffect(() => {
     // setShuffledWordList
     currentSentenceIndex < word_Pic.length &&
-      shuffleArray(word_Pic[currentSentenceIndex]?.DefintioninEn?.split(""));
+      shuffleArray(word_Pic[currentSentenceIndex]?.defintioninEn?.split(""));
   }, [currentSentenceIndex]);
 
   return (
@@ -182,7 +182,7 @@ export default function Arrange({ navigation }) {
         onPress={() => {
           dispatch(sendAttempts({ questions, gameID: "2" }));
           playAgain();
-          navigation.navigate("Start");
+          navigation.navigate("TasksMap");
         }}
       >
         <Text style={tw`text-3xl text-center font-bold text-white`}>x</Text>
@@ -231,7 +231,9 @@ export default function Arrange({ navigation }) {
       {!isCorrect && !isFinalCorrect && (
         <>
           <Image
-            source={{ uri: `${url}${word_Pic[currentSentenceIndex]?.Image}` }}
+            source={{
+              uri: `${url}${word_Pic[currentSentenceIndex]?.imageUrl}`,
+            }}
             style={tw`w-32 h-32 mt-7 self-center`}
           />
           <View

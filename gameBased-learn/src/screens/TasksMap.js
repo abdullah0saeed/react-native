@@ -13,60 +13,59 @@ import { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 import { fetchData } from "../store/globalSlice";
-import { async } from "q";
 
-// const data = [
-//   {
-//     taskNumber: 1,
-//     gameName: [0, 1, 2],
-//     done: [true, false, false],
-//     data: [
-//       {
-//         _id: 0,
-//         DefintioninEn: "apple",
-//         Image:
-//           "https://thumbs.dreamstime.com/b/red-apple-isolated-clipping-path-19130134.jpg",
-//       },
-//       {
-//         _id: 1,
-//         DefintioninEn: "bat",
-//         Image:
-//           "https://thumbs.dreamstime.com/b/flying-vampire-bat-isolated-white-background-d-rendering-77923549.jpg",
-//       },
-//       {
-//         _id: 2,
-//         DefintioninEn: "cat",
-//         Image:
-//           "https://thumbs.dreamstime.com/b/cat-laughing-very-happy-54680614.jpg",
-//       },
-//       {
-//         _id: 3,
-//         DefintioninEn: "door",
-//         Image:
-//           "https://thumbs.dreamstime.com/b/door-you-can-use-clean-interior-31806445.jpg",
-//       },
-//       {
-//         _id: 4,
-//         DefintioninEn: "egg",
-//         Image: "https://thumbs.dreamstime.com/b/egg-9804046.jpg",
-//       },
-//       {
-//         _id: 5,
-//         DefintioninEn: "fork",
-//         Image: "https://thumbs.dreamstime.com/b/fork-6231372.jpg",
-//       },
-//     ],
-//   },
-// { taskNumber: 2, gameName: [0], done: [false] },
-// { taskNumber: 3, gameName: [2], done: [false] },
-// { taskNumber: 4, gameName: [1], done: [false] },
-// { taskNumber: 5, gameName: [0], done: [false] },
-// { taskNumber: 6, gameName: [2], done: [false] },
-// { taskNumber: 7, gameName: [0], done: [false] },
-// { taskNumber: 8, gameName: [0], done: [false] },
-// { taskNumber: 9, gameName: [0], done: [false] },
-// { taskNumber: 10, gameName: [0], done: [false] },
-// ];
+const word_Pic = [
+  {
+    taskNumber: 1,
+    gameName: [0, 1, 2],
+    done: [true, true, false],
+    data: [
+      {
+        dataId: 0,
+        defintioninEn: "apple",
+        imageUrl:
+          "https://thumbs.dreamstime.com/b/red-apple-isolated-clipping-path-19130134.jpg",
+      },
+      {
+        dataId: 1,
+        defintioninEn: "bat",
+        imageUrl:
+          "https://thumbs.dreamstime.com/b/flying-vampire-bat-isolated-white-background-d-rendering-77923549.jpg",
+      },
+      {
+        dataId: 2,
+        defintioninEn: "cat",
+        imageUrl:
+          "https://thumbs.dreamstime.com/b/cat-laughing-very-happy-54680614.jpg",
+      },
+      {
+        dataId: 3,
+        defintioninEn: "door",
+        imageUrl:
+          "https://thumbs.dreamstime.com/b/door-you-can-use-clean-interior-31806445.jpg",
+      },
+      {
+        dataId: 4,
+        defintioninEn: "egg",
+        imageUrl: "https://thumbs.dreamstime.com/b/egg-9804046.jpg",
+      },
+      {
+        dataId: 5,
+        defintioninEn: "fork",
+        imageUrl: "https://thumbs.dreamstime.com/b/fork-6231372.jpg",
+      },
+    ],
+  },
+  { taskNumber: 2, gameName: [0], done: [false] },
+  { taskNumber: 3, gameName: [2], done: [false] },
+  { taskNumber: 4, gameName: [1], done: [false] },
+  { taskNumber: 5, gameName: [0], done: [false] },
+  { taskNumber: 6, gameName: [2], done: [false] },
+  { taskNumber: 7, gameName: [0], done: [false] },
+  { taskNumber: 8, gameName: [0], done: [false] },
+  { taskNumber: 9, gameName: [0], done: [false] },
+  { taskNumber: 10, gameName: [0], done: [false] },
+];
 
 //array to hold games routes
 const games = [
@@ -85,7 +84,7 @@ export default function TasksMap({ navigation }) {
     dispatch(fetchData());
   }, [dispatch]);
 
-  const { word_Pic } = useSelector((state) => state.global);
+  // const { word_Pic } = useSelector((state) => state.global);
 
   console.log("data:", word_Pic);
 
@@ -99,8 +98,7 @@ export default function TasksMap({ navigation }) {
       allLevels.push({
         taskNumber: count,
         gameName: game,
-        // done: el.done[i],
-        done: true,
+        done: el.done[i],
         word_Pic: el.data,
       });
     });

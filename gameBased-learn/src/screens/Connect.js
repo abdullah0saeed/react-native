@@ -144,13 +144,13 @@ const Connect = ({ navigation }) => {
           onPress={() => {
             // playSound(3);
             wordIndex = word_Pic.indexOf(word_Pic[randomWords[i]]);
-            wordID = word_Pic[randomWords[i]]?._id;
+            wordID = word_Pic[randomWords[i]]?.dataId;
             counter++;
             check().then((data) => {
               setWordView(data);
             });
           }}
-          key={word_Pic[randomWords[i]]?._id}
+          key={word_Pic[randomWords[i]]?.dataId}
         >
           {word_Pic.indexOf(word_Pic[randomWords[i]]) == 0 && correct0 ? (
             <Text
@@ -160,7 +160,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.DefintioninEn}
+              {word_Pic[randomWords[i]]?.defintioninEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 1 && correct1 ? (
             <Text
@@ -246,12 +246,12 @@ const Connect = ({ navigation }) => {
           onPress={() => {
             // playSound(3);
             picIndex = word_Pic[randomPics[i]];
-            picID = word_Pic[randomPics[i]]?._id;
+            picID = word_Pic[randomPics[i]]?.dataId;
 
             counter++;
             check();
           }}
-          key={word_Pic[randomPics[i]]?._id}
+          key={word_Pic[randomPics[i]]?.dataId}
         >
           {word_Pic.indexOf(word_Pic[randomPics[i]]) == 0 && correct0 ? (
             <View
@@ -358,7 +358,7 @@ const Connect = ({ navigation }) => {
         setNoRepeat([...noRepeat, wordID]);
         setDone(done + 1);
         //to speak the word
-        Speech.speak(`"${word_Pic[wordIndex]?.DefintioninEn}"`, {
+        Speech.speak(`"${word_Pic[wordIndex]?.defintioninEn}"`, {
           rate: 0.4,
           quality: "Enhanced",
           language: "en-US",
@@ -450,12 +450,12 @@ const Connect = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => {
                   const sentData = [
-                    { question_id: word_Pic[0]?._id, attempts: wrong0 },
-                    { question_id: word_Pic[1]?._id, attempts: wrong1 },
-                    { question_id: word_Pic[2]?._id, attempts: wrong2 },
-                    { question_id: word_Pic[3]?._id, attempts: wrong3 },
-                    { question_id: word_Pic[4]?._id, attempts: wrong4 },
-                    { question_id: word_Pic[5]?._id, attempts: wrong5 },
+                    { question_id: word_Pic[0]?.dataId, attempts: wrong0 },
+                    { question_id: word_Pic[1]?.dataId, attempts: wrong1 },
+                    { question_id: word_Pic[2]?.dataId, attempts: wrong2 },
+                    { question_id: word_Pic[3]?.dataId, attempts: wrong3 },
+                    { question_id: word_Pic[4]?.dataId, attempts: wrong4 },
+                    { question_id: word_Pic[5]?.dataId, attempts: wrong5 },
                   ];
                   dispatch(sendAttempts({ questions: sentData, gameID: "0" }));
                   navigation.navigate("Score", {

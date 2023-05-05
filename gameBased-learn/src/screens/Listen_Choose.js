@@ -14,9 +14,6 @@ export default function Listen_Choose({ navigation }) {
   const route = useRoute();
   const word_Pic = route.params.word_Pic;
 
-  //to store the total view and display it
-  const [view, setView] = useState([]);
-
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setRandWord(random());
@@ -71,9 +68,6 @@ export default function Listen_Choose({ navigation }) {
   };
   // array to store the done wordID to not be repeated
   const [noRepeat, setNoRepeat] = useState([]);
-
-  //to set how many correct answers
-  const [done, setDone] = useState(0);
 
   //if right match, will be true
   const [correct0, setCorrect0] = useState(false);
@@ -151,7 +145,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.DefintioninEn}
+                {word_Pic[i]?.defintioninEn}
               </Text>
             </View>
           ) : correct1 && i === 1 ? (
@@ -167,7 +161,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.DefintioninEn}
+                {word_Pic[i]?.defintioninEn}
               </Text>
             </View>
           ) : correct2 && i === 2 ? (
@@ -183,7 +177,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.DefintioninEn}
+                {word_Pic[i]?.defintioninEn}
               </Text>
             </View>
           ) : correct3 && i === 3 ? (
@@ -199,7 +193,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.DefintioninEn}
+                {word_Pic[i]?.defintioninEn}
               </Text>
             </View>
           ) : correct4 && i === 4 ? (
@@ -215,7 +209,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.DefintioninEn}
+                {word_Pic[i]?.defintioninEn}
               </Text>
             </View>
           ) : correct5 && i === 5 ? (
@@ -231,7 +225,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.DefintioninEn}
+                {word_Pic[i]?.defintioninEn}
               </Text>
             </View>
           ) : (
@@ -247,7 +241,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.DefintioninEn}
+                {word_Pic[i]?.defintioninEn}
               </Text>
             </View>
           )}
@@ -322,7 +316,7 @@ export default function Listen_Choose({ navigation }) {
           setTimeout(() => {
             Speech.speak(
               `"${
-                word_Pic[randomSound[randomSound.length - 1]]?.DefintioninEn
+                word_Pic[randomSound[randomSound.length - 1]]?.defintioninEn
               }"`,
               {
                 rate: 0.4,
@@ -376,16 +370,16 @@ export default function Listen_Choose({ navigation }) {
           onPress={() => {
             if (noRepeat.length < 6) {
               speakWord(
-                word_Pic[randomSound[randomSound.length - 1]]?.DefintioninEn
+                word_Pic[randomSound[randomSound.length - 1]]?.defintioninEn
               );
             } else {
               const sentData = [
-                { question_id: word_Pic[0]?._id, attempts: wrong0 },
-                { question_id: word_Pic[1]?._id, attempts: wrong1 },
-                { question_id: word_Pic[2]?._id, attempts: wrong2 },
-                { question_id: word_Pic[3]?._id, attempts: wrong3 },
-                { question_id: word_Pic[4]?._id, attempts: wrong4 },
-                { question_id: word_Pic[5]?._id, attempts: wrong5 },
+                { question_id: word_Pic[0]?.dataId, attempts: wrong0 },
+                { question_id: word_Pic[1]?.dataId, attempts: wrong1 },
+                { question_id: word_Pic[2]?.dataId, attempts: wrong2 },
+                { question_id: word_Pic[3]?.dataId, attempts: wrong3 },
+                { question_id: word_Pic[4]?.dataId, attempts: wrong4 },
+                { question_id: word_Pic[5]?.dataId, attempts: wrong5 },
               ];
               dispatch(sendAttempts({ questions: sentData, gameID: "1" }));
               navigation.navigate("Score", {

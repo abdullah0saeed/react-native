@@ -64,7 +64,7 @@ export const sendAttempts = createAsyncThunk(
 );
 const initialState = {
   word_Pic: [],
-  url: "//https://gamebasedlearning-ot4m.onrender.com/",
+  url: "https://gamebasedlearning-ot4m.onrender.com/",
   avatar: "https://assets2.lottiefiles.com/packages/lf20_lc46h4dr.json",
   error: null,
   loading: false,
