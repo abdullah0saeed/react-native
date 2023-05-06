@@ -37,15 +37,21 @@ export const sendAttempts = createAsyncThunk(
   async (feedback, thunkAPI) => {
     const { rejectedWithValue, getState } = thunkAPI;
     const id = getState().auth.studentID;
+    const taskId = feedback.taskId;
+    const gameId = feedback.gameId;
+    console.log("feedback:", feedback);
     // const game_id = 1;
-    const sentData = JSON.stringify({
-      child_id: id,
-      game_id: feedback.gameID,
-      questions: feedback.questions,
-    });
+    const sentData = JSON.stringify(
+      feedback.sentData
+      //   {
+      //   child_id: id,
+      //   game_id: feedback.gameID,
+      //   questions: feedback.questions,
+      // }
+    );
     try {
       const res = await fetch(
-        `https://gamebasedlearning-ot4m.onrender.com/FSE/feedback`,
+        `https://gamebasedlearning-ot4m.onrender.com/feedback/${id}/${taskId}/${gameId}`,
         {
           method: "POST",
           headers: {

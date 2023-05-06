@@ -12,7 +12,7 @@ export default function Listen_Choose({ navigation }) {
   const dispatch = useDispatch();
 
   const route = useRoute();
-  const word_Pic = route.params.word_Pic;
+  const { word_Pic, taskId } = route.params;
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -145,7 +145,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.defintioninEn}
+                {word_Pic[i]?.definitionInEn}
               </Text>
             </View>
           ) : correct1 && i === 1 ? (
@@ -161,7 +161,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.defintioninEn}
+                {word_Pic[i]?.definitionInEn}
               </Text>
             </View>
           ) : correct2 && i === 2 ? (
@@ -177,7 +177,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.defintioninEn}
+                {word_Pic[i]?.definitionInEn}
               </Text>
             </View>
           ) : correct3 && i === 3 ? (
@@ -193,7 +193,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.defintioninEn}
+                {word_Pic[i]?.definitionInEn}
               </Text>
             </View>
           ) : correct4 && i === 4 ? (
@@ -209,7 +209,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.defintioninEn}
+                {word_Pic[i]?.definitionInEn}
               </Text>
             </View>
           ) : correct5 && i === 5 ? (
@@ -225,7 +225,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.defintioninEn}
+                {word_Pic[i]?.definitionInEn}
               </Text>
             </View>
           ) : (
@@ -241,7 +241,7 @@ export default function Listen_Choose({ navigation }) {
                   ,
                 ]}
               >
-                {word_Pic[i]?.defintioninEn}
+                {word_Pic[i]?.definitionInEn}
               </Text>
             </View>
           )}
@@ -316,7 +316,7 @@ export default function Listen_Choose({ navigation }) {
           setTimeout(() => {
             Speech.speak(
               `"${
-                word_Pic[randomSound[randomSound.length - 1]]?.defintioninEn
+                word_Pic[randomSound[randomSound.length - 1]]?.definitionInEn
               }"`,
               {
                 rate: 0.4,
@@ -370,18 +370,18 @@ export default function Listen_Choose({ navigation }) {
           onPress={() => {
             if (noRepeat.length < 6) {
               speakWord(
-                word_Pic[randomSound[randomSound.length - 1]]?.defintioninEn
+                word_Pic[randomSound[randomSound.length - 1]]?.definitionInEn
               );
             } else {
-              const sentData = [
-                { question_id: word_Pic[0]?.dataId, attempts: wrong0 },
-                { question_id: word_Pic[1]?.dataId, attempts: wrong1 },
-                { question_id: word_Pic[2]?.dataId, attempts: wrong2 },
-                { question_id: word_Pic[3]?.dataId, attempts: wrong3 },
-                { question_id: word_Pic[4]?.dataId, attempts: wrong4 },
-                { question_id: word_Pic[5]?.dataId, attempts: wrong5 },
-              ];
-              dispatch(sendAttempts({ questions: sentData, gameID: "1" }));
+              const sentData = {
+                data1Attempts: wrong0,
+                data2Attempts: wrong1,
+                data3Attempts: wrong2,
+                data4Attempts: wrong3,
+                data5Attempts: wrong4,
+                data6Attempts: wrong5,
+              };
+              dispatch(sendAttempts({ sentData, gameId: "1", taskId }));
               navigation.navigate("Score", {
                 wrong,
                 word_Pic,

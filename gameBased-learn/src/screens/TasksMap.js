@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Text,
   ImageBackground,
@@ -5,6 +6,7 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Pressable,
+  RefreshControl,
 } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { FlashList } from "@shopify/flash-list";
@@ -13,8 +15,9 @@ import { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 import { fetchData } from "../store/globalSlice";
+import { useRef } from "react";
 
-const word_Pic = [
+const data = [
   {
     taskNumber: 1,
     gameName: [0, 1, 2],
@@ -79,12 +82,20 @@ const games = [
 
 export default function TasksMap({ navigation }) {
   const dispatch = useDispatch();
+  const listRef = useRef();
+
+  //to refresh when needed
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch]);
+    const unsubscribe = navigation.addListener("focus", () => {
+      dispatch(fetchData());
+    });
 
-  // const { word_Pic } = useSelector((state) => state.global);
+    return unsubscribe;
+  }, [navigation, dispatch]);
+
+  const { word_Pic } = useSelector((state) => state.global);
 
   console.log("data:", word_Pic);
 
@@ -92,17 +103,21 @@ export default function TasksMap({ navigation }) {
   let count = 0;
   let allLevels = [];
 
-  word_Pic.forEach((el) => {
-    el.gameName.forEach((game, i) => {
-      count += 1;
-      allLevels.push({
-        taskNumber: count,
-        gameName: game,
-        done: el.done[i],
-        word_Pic: el.data,
-      });
-    });
-  });
+  word_Pic.length > 0
+    ? word_Pic.forEach((el) => {
+        el.gameName.forEach((game, i) => {
+          count += 1;
+          allLevels.push({
+            taskNumber: count,
+            gameName: game,
+            done: el.done[i],
+            word_Pic: el.data,
+            taskId: el.taskID,
+          });
+        });
+      })
+    : null;
+  // console.log("allLevels:", allLevels[0].word_Pic);
 
   return (
     <ImageBackground
@@ -110,15 +125,29 @@ export default function TasksMap({ navigation }) {
       source={require("../../assets/backgrounds/tasksMap.png")}
       imageStyle={{ resizeMode: "stretch" }}
     >
+      {/* settings button */}
       <Pressable
-        style={styles.iconContainer}
+        style={styles.settingsIconContainer}
         onPress={() => {
           navigation.navigate("Settings");
         }}
       >
         <Ionicons name="md-settings-sharp" size={45} color="white" />
       </Pressable>
+
+      {/* reload list button */}
+      <Pressable
+        style={styles.reloadIconContainer}
+        onPress={() => {
+          setRefreshing(true);
+          dispatch(fetchData());
+          setRefreshing(false);
+        }}
+      >
+        <Ionicons name="reload" size={35} color="white" />
+      </Pressable>
       <FlashList
+        ref={listRef}
         data={allLevels}
         renderItem={({ item, index }) => {
           let imgSource =
@@ -147,6 +176,7 @@ export default function TasksMap({ navigation }) {
                   onPress={() => {
                     navigation.navigate(games[item.gameName], {
                       word_Pic: item.word_Pic,
+                      taskId: item.taskId,
                     });
                   }}
                 >
@@ -168,6 +198,7 @@ export default function TasksMap({ navigation }) {
                   onPress={() => {
                     navigation.navigate(games[item.gameName], {
                       word_Pic: item.word_Pic,
+                      taskId: item.taskId,
                     });
                   }}
                 >
@@ -189,6 +220,16 @@ export default function TasksMap({ navigation }) {
             </ImageBackground>
           );
         }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+              dispatch(fetchData());
+              setRefreshing(false);
+            }}
+          />
+        }
         estimatedItemSize={allLevels.length}
       />
     </ImageBackground>
@@ -226,9 +267,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  iconContainer: {
+  settingsIconContainer: {
     position: "absolute",
     top: 10,
+    left: 10,
+    zIndex: 1000,
+    borderWidth: 4,
+    backgroundColor: "#05f600",
+    borderRadius: 10,
+    borderColor: "#eee",
+    padding: 4,
+  },
+  reloadIconContainer: {
+    position: "absolute",
+    top: 90,
     left: 10,
     zIndex: 1000,
     borderWidth: 4,

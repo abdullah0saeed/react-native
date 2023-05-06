@@ -15,7 +15,7 @@ import { useRoute } from "@react-navigation/native";
 
 export default function Arrange({ navigation }) {
   const route = useRoute();
-  const word_Pic = route.params.word_Pic;
+  const { word_Pic, taskId } = route.params;
 
   const { url } = useSelector((state) => state.global);
   const state = useSelector((state) => state);
@@ -83,7 +83,7 @@ export default function Arrange({ navigation }) {
   useEffect(() => {
     if (currentSentenceIndex < word_Pic.length) {
       setShuffledWordList(
-        shuffleArray(word_Pic[currentSentenceIndex]?.defintioninEn.split(""))
+        shuffleArray(word_Pic[currentSentenceIndex]?.definitionInEn.split(""))
       );
     }
   }, [currentSentenceIndex]);
@@ -122,7 +122,7 @@ export default function Arrange({ navigation }) {
   }, [attempts]);
   const checkAnswer = () => {
     const selectedSentence = selectedWords.join("");
-    const currentSentence = word_Pic[currentSentenceIndex]?.defintioninEn;
+    const currentSentence = word_Pic[currentSentenceIndex]?.definitionInEn;
     setQuestions((prev) => {
       const updatedQuestions = [...prev];
       const questionIndex = updatedQuestions.findIndex(
@@ -172,7 +172,7 @@ export default function Arrange({ navigation }) {
   useEffect(() => {
     // setShuffledWordList
     currentSentenceIndex < word_Pic.length &&
-      shuffleArray(word_Pic[currentSentenceIndex]?.defintioninEn?.split(""));
+      shuffleArray(word_Pic[currentSentenceIndex]?.definitionInEn?.split(""));
   }, [currentSentenceIndex]);
 
   return (

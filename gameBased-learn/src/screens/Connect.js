@@ -23,7 +23,8 @@ const Connect = ({ navigation }) => {
   const { playerName } = useSelector((state) => state.auth);
   // const old_word_Pic = route.params.word_Pic;
   const { url } = useSelector((state) => state.global);
-  const word_Pic = route.params.word_Pic;
+  const { word_Pic, taskId } = route.params;
+  // console.log("word_Pic:", word_Pic);
   //to set how many correct answers
   const [done, setDone] = useState(0);
   //to set how many wrong answers
@@ -160,7 +161,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.defintioninEn}
+              {word_Pic[randomWords[i]]?.definitionInEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 1 && correct1 ? (
             <Text
@@ -170,7 +171,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.defintioninEn}
+              {word_Pic[randomWords[i]]?.definitionInEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 2 && correct2 ? (
             <Text
@@ -180,7 +181,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.defintioninEn}
+              {word_Pic[randomWords[i]]?.definitionInEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 3 && correct3 ? (
             <Text
@@ -190,7 +191,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.defintioninEn}
+              {word_Pic[randomWords[i]]?.definitionInEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 4 && correct4 ? (
             <Text
@@ -200,7 +201,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.defintioninEn}
+              {word_Pic[randomWords[i]]?.definitionInEn}
             </Text>
           ) : word_Pic.indexOf(word_Pic[randomWords[i]]) == 5 && correct5 ? (
             <Text
@@ -210,7 +211,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.defintioninEn}
+              {word_Pic[randomWords[i]]?.definitionInEn}
             </Text>
           ) : (
             <Text
@@ -221,7 +222,7 @@ const Connect = ({ navigation }) => {
                 tw`rounded-3xl text-white`,
               ]}
             >
-              {word_Pic[randomWords[i]]?.defintioninEn}
+              {word_Pic[randomWords[i]]?.definitionInEn}
             </Text>
           )}
         </TouchableOpacity>
@@ -358,7 +359,7 @@ const Connect = ({ navigation }) => {
         setNoRepeat([...noRepeat, wordID]);
         setDone(done + 1);
         //to speak the word
-        Speech.speak(`"${word_Pic[wordIndex]?.defintioninEn}"`, {
+        Speech.speak(`"${word_Pic[wordIndex]?.definitionInEn}"`, {
           rate: 0.4,
           quality: "Enhanced",
           language: "en-US",
@@ -449,15 +450,21 @@ const Connect = ({ navigation }) => {
             >
               <TouchableOpacity
                 onPress={() => {
-                  const sentData = [
-                    { question_id: word_Pic[0]?.dataId, attempts: wrong0 },
-                    { question_id: word_Pic[1]?.dataId, attempts: wrong1 },
-                    { question_id: word_Pic[2]?.dataId, attempts: wrong2 },
-                    { question_id: word_Pic[3]?.dataId, attempts: wrong3 },
-                    { question_id: word_Pic[4]?.dataId, attempts: wrong4 },
-                    { question_id: word_Pic[5]?.dataId, attempts: wrong5 },
-                  ];
-                  dispatch(sendAttempts({ questions: sentData, gameID: "0" }));
+                  const sentData = {
+                    data1Attempts: wrong0,
+                    data2Attempts: wrong1,
+                    data3Attempts: wrong2,
+                    data4Attempts: wrong3,
+                    data5Attempts: wrong4,
+                    data6Attempts: wrong5,
+                  };
+                  dispatch(
+                    sendAttempts({
+                      sentData,
+                      gameId: "0",
+                      taskId,
+                    })
+                  );
                   navigation.navigate("Score", {
                     wrong,
                     word_Pic,
