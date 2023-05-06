@@ -23,7 +23,7 @@ export const checkUser = createAsyncThunk(
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: { playerName: "", parentID: "", studentID: "" },
+  initialState: { playerName: "friend", parentID: "", studentID: "" },
   reducers: {
     setPlayerName: (state, action) => {
       state.playerName = action.payload;

@@ -24,7 +24,7 @@ const Connect = ({ navigation }) => {
   // const old_word_Pic = route.params.word_Pic;
   const { url } = useSelector((state) => state.global);
   const { word_Pic, taskId } = route.params;
-  // console.log("word_Pic:", word_Pic);
+  // console.log("taskId:", taskId);
   //to set how many correct answers
   const [done, setDone] = useState(0);
   //to set how many wrong answers

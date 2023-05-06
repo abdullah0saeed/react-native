@@ -61,7 +61,7 @@ export const sendAttempts = createAsyncThunk(
         }
       );
       const data = await res.json();
-      console.log(data, "feedback:", sentData);
+      console.log("res:", data);
       return data;
     } catch (error) {
       return rejectedWithValue(error.message);
@@ -92,7 +92,9 @@ const globalSlice = createSlice({
     },
     [fetchData.fulfilled]: (state, action) => {
       state.loading = false;
-      state.word_Pic = action.payload;
+      state.word_Pic = action.payload.sort(
+        (a, b) => a.taskNumber - b.taskNumber
+      );
       console.log("fetch success");
     },
     [fetchData.rejected]: (state, action) => {

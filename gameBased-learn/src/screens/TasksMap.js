@@ -19,7 +19,7 @@ import { useRef } from "react";
 
 const data = [
   {
-    taskNumber: 1,
+    taskId: 1,
     gameName: [0, 1, 2],
     done: [true, true, false],
     data: [
@@ -96,8 +96,7 @@ export default function TasksMap({ navigation }) {
   }, [navigation, dispatch]);
 
   const { word_Pic } = useSelector((state) => state.global);
-
-  console.log("data:", word_Pic);
+  // console.log("data:", word_Pic);
 
   //create new array with all tasks and levels needed
   let count = 0;
@@ -112,12 +111,12 @@ export default function TasksMap({ navigation }) {
             gameName: game,
             done: el.done[i],
             word_Pic: el.data,
-            taskId: el.taskID,
+            taskId: el.taskId,
           });
         });
       })
     : null;
-  // console.log("allLevels:", allLevels[0].word_Pic);
+  // console.log("allLevels:", allLevels);
 
   return (
     <ImageBackground
@@ -141,7 +140,9 @@ export default function TasksMap({ navigation }) {
         onPress={() => {
           setRefreshing(true);
           dispatch(fetchData());
-          setRefreshing(false);
+          setTimeout(() => {
+            setRefreshing(false);
+          }, 1000);
         }}
       >
         <Ionicons name="reload" size={35} color="white" />
@@ -230,7 +231,7 @@ export default function TasksMap({ navigation }) {
             }}
           />
         }
-        estimatedItemSize={allLevels.length}
+        estimatedItemSize={50}
       />
     </ImageBackground>
   );
