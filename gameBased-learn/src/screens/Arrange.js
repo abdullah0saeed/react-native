@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import { fetchData, sendAttempts } from "../store/globalSlice";
 import tw from "tailwind-react-native-classnames";
-import { Audio } from "expo-av";
 import { useRoute } from "@react-navigation/native";
+
+import { soundEffects } from "../modules";
 
 export default function Arrange({ navigation }) {
   const route = useRoute();
@@ -30,30 +31,6 @@ export default function Arrange({ navigation }) {
   const [questions, setQuestions] = useState([]);
   // const [selectedIndexs, setSelectedIndexs] = useState([]);
 
-  const sounds = [
-    require("../../assets/sounds/correct.mp3"),
-    require("../../assets/sounds/wrong.mp3"),
-    require("../../assets/sounds/done.mp3"),
-    require("../../assets/sounds/touch.mp3"),
-  ];
-  //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  ///function to play sound\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  const playSound = async (i) => {
-    const sound = new Audio.Sound();
-    try {
-      await sound.loadAsync(sounds[i]);
-      await sound
-        .playAsync()
-        .then(async (playbackStatus) => {
-          setTimeout(() => {
-            sound.unloadAsync();
-          }, playbackStatus.playableDurationMillis);
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const dispatch = useDispatch();
   const handleDisableClick = useCallback((word, index) => {
     setDisabledLetters((prevState) => ({
@@ -89,13 +66,13 @@ export default function Arrange({ navigation }) {
   }, [currentSentenceIndex]);
 
   if (isFinalCorrect) {
-    playSound(2);
+    soundEffects(2);
   }
   useEffect(() => {
     //do fetch
     if (isFinalCorrect) {
-      playSound(2);
-      dispatch(sendAttempts({ sendData: questions, gameID: "2", taskId }));
+      soundEffects(2);
+      dispatch(sendAttempts({ sentData: questions, gameId: "2", taskId }));
     }
   }, [isFinalCorrect]);
   useEffect(() => {
@@ -142,13 +119,13 @@ export default function Arrange({ navigation }) {
       // setQuestions(prev => [...prev, { question_id: word_Pic[currentSentenceIndex]._id, attempts: attempts }])
       if (currentSentenceIndex < word_Pic.length) {
         setIsCorrect(true);
-        playSound(0);
+        soundEffects(0);
       }
       setAttempts(0);
     } else {
       setSelectedWords([]);
       setLetterCounts({});
-      playSound(1);
+      soundEffects(1);
       setAttempts((prev) => prev + 1);
     }
 
@@ -180,7 +157,7 @@ export default function Arrange({ navigation }) {
       <TouchableOpacity
         style={tw`ml-3 mt-2 bg-red-400 w-2/12 flex justify-center items-center rounded-3xl border-2 border-red-600`}
         onPress={() => {
-          dispatch(sendAttempts({ questions, gameID: "2" }));
+          dispatch(sendAttempts({ sentData: questions, gameId: "2", taskId }));
           playAgain();
           navigation.navigate("TasksMap");
         }}
@@ -246,7 +223,7 @@ export default function Arrange({ navigation }) {
                 key={index}
                 onPress={() => {
                   handleDisableClick(word, index);
-                  playSound(3);
+                  soundEffects(3);
                 }}
                 disabled={disabledLetters[`${word}-${index}`]}
                 style={[

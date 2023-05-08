@@ -28,18 +28,12 @@ const Login = ({ navigation }) => {
       .unwrap()
       .then((data) => {
         setLoading(false);
-        if (data.payload.student.status === "Correct password") {
-          ToastAndroid.show(
-            `${data.payload.student.status}`,
-            ToastAndroid.SHORT
-          );
-          dispatch(setPlayerName(data.payload.student.studentName));
+        if (data.student.status === "Correct password") {
+          ToastAndroid.show(`${data.student.status}`, ToastAndroid.SHORT);
+          dispatch(setPlayerName(data.student.studentName));
           navigation.navigate("TasksMap");
         } else {
-          ToastAndroid.show(
-            `${data.payload.student.status}`,
-            ToastAndroid.SHORT
-          );
+          ToastAndroid.show(`${data.student.status}`, ToastAndroid.SHORT);
         }
       })
       .catch((err) => {

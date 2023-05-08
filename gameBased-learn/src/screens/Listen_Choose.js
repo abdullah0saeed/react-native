@@ -1,14 +1,14 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { useState, useEffect } from "react";
-import { fetchData, sendAttempts } from "../store/globalSlice";
+import { sendAttempts } from "../store/globalSlice";
 import * as Speech from "expo-speech";
-import { Audio } from "expo-av";
 import { useRoute } from "@react-navigation/native";
 
+import { soundEffects, random, text2speech } from "../modules";
+
 export default function Listen_Choose({ navigation }) {
-  // const { word_Pic } = useSelector((state) => state.global);
   const dispatch = useDispatch();
 
   const route = useRoute();
@@ -16,8 +16,8 @@ export default function Listen_Choose({ navigation }) {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      setRandWord(random());
-      setRandSound(random());
+      setRandWord(random(word_Pic.length));
+      setRandSound(random(word_Pic.length));
       setWrong(0);
       setCorrect0(false);
       setCorrect1(false);
@@ -32,40 +32,9 @@ export default function Listen_Choose({ navigation }) {
       setWrong4(0);
       setWrong5(0);
       setNoRepeat([]);
-      //dispatch(fetchData());
     });
   });
 
-  ///creating a random array of numbers from 0 to 5 \\\\\\\\\\\\\\\\\\\\\\\\\\
-  const length = word_Pic.length;
-  const random = () => {
-    var i = 0;
-    var firstNum = 7;
-    while (firstNum >= 6) {
-      firstNum = Math.floor(Math.random() * word_Pic.length);
-    }
-    var randoms = [firstNum];
-    while (i < length - 1) {
-      var num = Math.floor(Math.random() * word_Pic.length);
-      var count = 0;
-      if (num < 6) {
-        for (let r = 0; r < randoms.length; r++) {
-          if (num === randoms[r]) {
-            count += 1;
-          }
-        }
-        if (count === 0) {
-          randoms.push(num);
-          i++;
-        } else {
-          continue;
-        }
-      } else {
-        continue;
-      }
-    }
-    return randoms;
-  };
   // array to store the done wordID to not be repeated
   const [noRepeat, setNoRepeat] = useState([]);
 
@@ -88,36 +57,9 @@ export default function Listen_Choose({ navigation }) {
   const [wrong4, setWrong4] = useState(0);
   const [wrong5, setWrong5] = useState(0);
 
-  ///create sounds array\\\\\\\\\\\\\\\\\\\
-  const sounds = [
-    require("../../assets/sounds/correct.mp3"),
-    require("../../assets/sounds/wrong.mp3"),
-    require("../../assets/sounds/done.mp3"),
-    require("../../assets/sounds/touch.mp3"),
-  ];
-  //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  ///function to play sound\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  const playSound = async (i) => {
-    const sound = new Audio.Sound();
-    try {
-      await sound.loadAsync(sounds[i]);
-      await sound
-        .playAsync()
-        .then(async (playbackStatus) => {
-          setTimeout(() => {
-            sound.unloadAsync();
-          }, playbackStatus.playableDurationMillis);
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  ///\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
   // function to organize the view\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   //to generate words randomly
-  const [randomWords, setRandWord] = useState(random());
+  const [randomWords, setRandWord] = useState(random(word_Pic.length));
   var row = [];
   const handleView = () => {
     randomWords.forEach((i) => {
@@ -260,11 +202,7 @@ export default function Listen_Choose({ navigation }) {
     var id = randomSound[randomSound.length - 1];
     setSoundID(id);
 
-    Speech.speak(`"${word}"`, {
-      rate: 0.4,
-      quality: "Enhanced",
-      language: "en-US",
-    });
+    text2speech(`"${word}"`);
   };
 
   //function to check if correct or not\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -310,7 +248,7 @@ export default function Listen_Choose({ navigation }) {
         }
         if (noRepeat.length < 6) {
           //play sound
-          playSound(0);
+          soundEffects(0);
 
           //to speak the next word
           setTimeout(() => {
@@ -327,7 +265,7 @@ export default function Listen_Choose({ navigation }) {
           }, 500);
         } else if (noRepeat.length === 6) {
           //play sound
-          playSound(2);
+          soundEffects(2);
         }
       }
     } else {
@@ -349,7 +287,7 @@ export default function Listen_Choose({ navigation }) {
       setWrong(wrong + 1);
 
       //play sound
-      playSound(1);
+      soundEffects(1);
     }
   };
 
