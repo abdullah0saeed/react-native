@@ -85,24 +85,25 @@ const globalSlice = createSlice({
       //.match(/\w+(?=\@)/i);
     },
   },
-  extraReducers: {
-    [fetchData.pending]: (state) => {
-      console.log("pending");
-      state.loading = true;
-    },
-    [fetchData.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.word_Pic = action.payload.sort(
-        (a, b) => a.taskNumber - b.taskNumber
-      );
-      console.log("fetch success");
-    },
-    [fetchData.rejected]: (state, action) => {
-      state.loading = action.payload;
-    },
-    [sendAttempts.fulfilled]: (state, action) => {
-      console.log(action.payload);
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchData.pending, (state) => {
+        console.log("pending");
+        state.loading = true;
+      })
+      .addCase(fetchData.fulfilled, (state, action) => {
+        state.loading = false;
+        state.word_Pic = action.payload.sort(
+          (a, b) => a.taskNumber - b.taskNumber
+        );
+        console.log("fetch success");
+      })
+      .addCase(fetchData.rejected, (state, action) => {
+        state.loading = action.payload;
+      })
+      .addCase(sendAttempts.fulfilled, (state, action) => {
+        console.log(action.payload);
+      });
   },
 });
 

@@ -17,20 +17,35 @@ const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("Comey833d");
   const [password, setPassword] = useState("bee3f5");
+  const [loading, setLoading] = useState(false);
 
   // on press Login
   const onSubmit = () => {
+    setLoading(true);
     dispatch(
       checkUser({ username: username.trim(), password: password.trim() })
-    ).then((data) => {
-      if (data.payload.student.status === "Correct password") {
-        ToastAndroid.show(`${data.payload.student.status}`, ToastAndroid.SHORT);
-        dispatch(setPlayerName(data.payload.student.studentName));
-        navigation.navigate("TasksMap");
-      } else {
-        ToastAndroid.show(`${data.payload.student.status}`, ToastAndroid.SHORT);
-      }
-    });
+    )
+      .unwrap()
+      .then((data) => {
+        setLoading(false);
+        if (data.payload.student.status === "Correct password") {
+          ToastAndroid.show(
+            `${data.payload.student.status}`,
+            ToastAndroid.SHORT
+          );
+          dispatch(setPlayerName(data.payload.student.studentName));
+          navigation.navigate("TasksMap");
+        } else {
+          ToastAndroid.show(
+            `${data.payload.student.status}`,
+            ToastAndroid.SHORT
+          );
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        ToastAndroid.show(`${err.message}`, ToastAndroid.SHORT);
+      });
   };
 
   return (
@@ -52,7 +67,9 @@ const Login = ({ navigation }) => {
           autoCapitalize="none"
         />
         <Pressable style={styles.pressable} onPress={onSubmit}>
-          <Text style={{ fontSize: 35, fontWeight: "bold" }}>Login</Text>
+          <Text style={{ fontSize: 35, fontWeight: "bold" }} disabled={loading}>
+            {loading ? "loading" : "Login"}
+          </Text>
         </Pressable>
       </View>
     </TouchableWithoutFeedback>

@@ -95,7 +95,7 @@ export default function Arrange({ navigation }) {
     //do fetch
     if (isFinalCorrect) {
       playSound(2);
-      dispatch(sendAttempts({ questions, gameID: "2" }));
+      dispatch(sendAttempts({ sendData: questions, gameID: "2", taskId }));
     }
   }, [isFinalCorrect]);
   useEffect(() => {
