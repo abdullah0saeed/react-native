@@ -4,9 +4,8 @@ import {
   ImageBackground,
   StyleSheet,
   Dimensions,
-  TouchableWithoutFeedback,
-  Pressable,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { FlashList } from "@shopify/flash-list";
@@ -125,17 +124,17 @@ export default function TasksMap({ navigation }) {
       imageStyle={{ resizeMode: "stretch" }}
     >
       {/* settings button */}
-      <Pressable
+      <TouchableOpacity
         style={styles.settingsIconContainer}
         onPress={() => {
           navigation.navigate("Settings");
         }}
       >
         <Ionicons name="md-settings-sharp" size={45} color="white" />
-      </Pressable>
+      </TouchableOpacity>
 
       {/* reload list button */}
-      <Pressable
+      <TouchableOpacity
         style={styles.reloadIconContainer}
         onPress={() => {
           setRefreshing(true);
@@ -146,7 +145,7 @@ export default function TasksMap({ navigation }) {
         }}
       >
         <Ionicons name="reload" size={35} color="white" />
-      </Pressable>
+      </TouchableOpacity>
       <FlashList
         ref={listRef}
         data={allLevels}
@@ -173,7 +172,7 @@ export default function TasksMap({ navigation }) {
             >
               {index === 0 ? (
                 //first element
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                   onPress={() => {
                     navigation.navigate(games[item.gameName], {
                       word_Pic: item.word_Pic,
@@ -191,10 +190,10 @@ export default function TasksMap({ navigation }) {
                   >
                     {item.taskNumber}
                   </Text>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
               ) : (
                 //the rest elements
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                   disabled={!allLevels[index - 1].done ? true : false}
                   onPress={() => {
                     navigation.navigate(games[item.gameName], {
@@ -216,7 +215,7 @@ export default function TasksMap({ navigation }) {
                   >
                     {item.taskNumber}
                   </Text>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
               )}
             </ImageBackground>
           );
