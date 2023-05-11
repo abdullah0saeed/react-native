@@ -1,20 +1,14 @@
-import {
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-  Text,
-  View,
-} from "react-native";
+import { ImageBackground, TouchableOpacity, Text, View } from "react-native";
 import tw from "tailwind-react-native-classnames";
-import * as Font from "expo-font";
-import Avatar from "../components/Avatar";
 import { useEffect, useState } from "react";
-import * as SplashScreen from "expo-splash-screen";
-import { Audio } from "expo-av";
 import { useDispatch } from "react-redux";
-import { sendAttempts } from "../store/globalSlice";
+import { useRoute } from "@react-navigation/native";
 
-const data = [
+import Avatar from "../components/Avatar";
+import { sendAttempts } from "../store/globalSlice";
+import { soundEffects } from "../modules";
+
+const any = [
   {
     _id: 0,
     num1: 10,
@@ -47,6 +41,9 @@ const data = [
 
 export default function Sum_Sub({ navigation }) {
   const dispatch = useDispatch();
+  const route = useRoute();
+
+  const { data: word_Pic, taskId } = route.params;
 
   //to store data array length
   const dataLength = data.length;
@@ -78,38 +75,11 @@ export default function Sum_Sub({ navigation }) {
     return unsubscribe;
   }, [navigation]);
 
-  ///create sounds array//////////////
-  const sounds = [
-    require("../../assets/sounds/correct.mp3"),
-    require("../../assets/sounds/wrong.mp3"),
-    require("../../assets/sounds/done.mp3"),
-    require("../../assets/sounds/touch.mp3"),
-  ];
-  /////////////////////////////////////////////////
-  ///function to play sound\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  const playSound = async (i) => {
-    const sound = new Audio.Sound();
-    try {
-      await sound.loadAsync(sounds[i]);
-      await sound
-        .playAsync()
-        .then(async (playbackStatus) => {
-          setTimeout(() => {
-            sound.unloadAsync();
-          }, playbackStatus.playableDurationMillis);
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  //////////////////////////////////////////////////////////////////
-
   ///handel press function
   const handelPress = async (choice) => {
-    const num1 = parseInt(data[done].num1);
-    const num2 = parseInt(data[done].num2);
-    const op = data[done].operator;
+    const num1 = parseInt(data[done].numbers.num1);
+    const num2 = parseInt(data[done].numbers.num2);
+    const op = data[done].numbers.operator;
     let answer = 0;
 
     //calculate the right answer
@@ -128,23 +98,26 @@ export default function Sum_Sub({ navigation }) {
     if (choice == answer) {
       setCorrect(true);
       if (done !== data.length - 1) {
-        playSound(0);
+        soundEffects(0);
         setTimeout(() => {
           setChosenAns(null);
           setDone(done + 1);
         }, 600);
       } else {
-        playSound(2);
+        soundEffects(2);
 
         //to send feedback
-        let sentData = [];
+        let sentData = {};
+        // let sentData = [];
         data?.forEach((el, i) => {
-          sentData.push({
-            question_id: data[i]?._id,
-            attempts: attempts[i] !== (null || undefined) ? attempts[i] : 0,
-          });
+          sentData[`data${i + 1}Attempts`] =
+            attempts[i] !== (null || undefined) ? attempts[i] : 0;
+          // sentData.push({
+          //   question_id: data[i]?._id,
+          //   attempts: attempts[i] !== (null || undefined) ? attempts[i] : 0,
+          // });
         });
-        dispatch(sendAttempts({ questions: sentData, gameID: "4" }));
+        dispatch(sendAttempts({ sentData, gameId: "4", taskId }));
 
         setTimeout(() => {
           navigation.navigate("Score", {
@@ -156,7 +129,7 @@ export default function Sum_Sub({ navigation }) {
       }
     } else {
       setCorrect(false);
-      playSound(1);
+      soundEffects(1);
 
       setWrong(wrong + 1);
 
@@ -235,17 +208,19 @@ export default function Sum_Sub({ navigation }) {
                   // { fontFamily: "finger-paint" },
                 ]}
               >
-                {data[done].num1}
+                {data[done].numbers.num1}
               </Text>
             </View>
             <View style={[tw`w-2/12`]}>
               <Text style={[tw`text-4xl font-bold text-white text-center`]}>
-                {data[done].operator === "*" ? "x" : data[done].operator}
+                {data[done].numbers.operator === "*"
+                  ? "x"
+                  : data[done].numbers.operator}
               </Text>
             </View>
             <View style={[tw`w-2/12`]}>
               <Text style={[tw`text-4xl font-bold text-white text-center`]}>
-                {data[done].num2}
+                {data[done].numbers.num2}
               </Text>
             </View>
             <View style={[tw`w-2/12`]}>
