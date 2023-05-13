@@ -82,7 +82,9 @@ const globalSlice = createSlice({
   reducers: {
     setAvatar: (state, action) => {
       state.avatar = action.payload;
-      //.match(/\w+(?=\@)/i);
+    },
+    setWordPic: (state, action) => {
+      state.word_Pic = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -107,5 +109,5 @@ const globalSlice = createSlice({
   },
 });
 
-export const { setAvatar } = globalSlice.actions;
+export const { setAvatar, setWordPic } = globalSlice.actions;
 export default globalSlice.reducer;

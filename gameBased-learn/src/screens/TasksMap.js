@@ -6,68 +6,72 @@ import {
   Dimensions,
   RefreshControl,
   TouchableOpacity,
+  BackHandler,
 } from "react-native";
+
 import tw from "tailwind-react-native-classnames";
 import { FlashList } from "@shopify/flash-list";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import NetInfo from "@react-native-community/netinfo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { fetchData } from "../store/globalSlice";
+import { fetchData, setWordPic } from "../store/globalSlice";
 import { useRef } from "react";
 
-const data = [
-  {
-    taskId: 1,
-    gameName: [0, 1, 2],
-    done: [true, true, false],
-    data: [
-      {
-        dataId: 0,
-        defintioninEn: "apple",
-        imageUrl:
-          "https://thumbs.dreamstime.com/b/red-apple-isolated-clipping-path-19130134.jpg",
-      },
-      {
-        dataId: 1,
-        defintioninEn: "bat",
-        imageUrl:
-          "https://thumbs.dreamstime.com/b/flying-vampire-bat-isolated-white-background-d-rendering-77923549.jpg",
-      },
-      {
-        dataId: 2,
-        defintioninEn: "cat",
-        imageUrl:
-          "https://thumbs.dreamstime.com/b/cat-laughing-very-happy-54680614.jpg",
-      },
-      {
-        dataId: 3,
-        defintioninEn: "door",
-        imageUrl:
-          "https://thumbs.dreamstime.com/b/door-you-can-use-clean-interior-31806445.jpg",
-      },
-      {
-        dataId: 4,
-        defintioninEn: "egg",
-        imageUrl: "https://thumbs.dreamstime.com/b/egg-9804046.jpg",
-      },
-      {
-        dataId: 5,
-        defintioninEn: "fork",
-        imageUrl: "https://thumbs.dreamstime.com/b/fork-6231372.jpg",
-      },
-    ],
-  },
-  { taskNumber: 2, gameName: [0], done: [false] },
-  { taskNumber: 3, gameName: [2], done: [false] },
-  { taskNumber: 4, gameName: [1], done: [false] },
-  { taskNumber: 5, gameName: [0], done: [false] },
-  { taskNumber: 6, gameName: [2], done: [false] },
-  { taskNumber: 7, gameName: [0], done: [false] },
-  { taskNumber: 8, gameName: [0], done: [false] },
-  { taskNumber: 9, gameName: [0], done: [false] },
-  { taskNumber: 10, gameName: [0], done: [false] },
-];
+// const data = [
+//   {
+//     taskId: 1,
+//     gameName: [0, 1, 2],
+//     done: [true, true, false],
+//     data: [
+//       {
+//         dataId: 0,
+//         defintioninEn: "apple",
+//         imageUrl:
+//           "https://thumbs.dreamstime.com/b/red-apple-isolated-clipping-path-19130134.jpg",
+//       },
+//       {
+//         dataId: 1,
+//         defintioninEn: "bat",
+//         imageUrl:
+//           "https://thumbs.dreamstime.com/b/flying-vampire-bat-isolated-white-background-d-rendering-77923549.jpg",
+//       },
+//       {
+//         dataId: 2,
+//         defintioninEn: "cat",
+//         imageUrl:
+//           "https://thumbs.dreamstime.com/b/cat-laughing-very-happy-54680614.jpg",
+//       },
+//       {
+//         dataId: 3,
+//         defintioninEn: "door",
+//         imageUrl:
+//           "https://thumbs.dreamstime.com/b/door-you-can-use-clean-interior-31806445.jpg",
+//       },
+//       {
+//         dataId: 4,
+//         defintioninEn: "egg",
+//         imageUrl: "https://thumbs.dreamstime.com/b/egg-9804046.jpg",
+//       },
+//       {
+//         dataId: 5,
+//         defintioninEn: "fork",
+//         imageUrl: "https://thumbs.dreamstime.com/b/fork-6231372.jpg",
+//       },
+//     ],
+//   },
+// { taskNumber: 2, gameName: [0], done: [false] },
+// { taskNumber: 3, gameName: [2], done: [false] },
+// { taskNumber: 4, gameName: [1], done: [false] },
+// { taskNumber: 5, gameName: [0], done: [false] },
+// { taskNumber: 6, gameName: [2], done: [false] },
+// { taskNumber: 7, gameName: [0], done: [false] },
+// { taskNumber: 8, gameName: [0], done: [false] },
+// { taskNumber: 9, gameName: [0], done: [false] },
+// { taskNumber: 10, gameName: [0], done: [false] },
+// ];
 
 //array to hold games routes
 const games = [
@@ -83,25 +87,69 @@ export default function TasksMap({ navigation }) {
   const dispatch = useDispatch();
   const listRef = useRef();
 
+  const word_Pic = useSelector((state) => state.global.word_Pic);
+
+  // console.log("data:", word_Pic);
+
+  const [connected, setConnected] = useState(false);
+
   //to refresh when needed
   const [refreshing, setRefreshing] = useState(false);
 
+  const checkNet = async () => {
+    try {
+      const netInfo = await NetInfo.fetch();
+      if (netInfo.isConnected && netInfo.isInternetReachable) {
+        setConnected(true);
+        dispatch(fetchData());
+        await AsyncStorage.setItem("data", JSON.stringify(word_Pic));
+      } else {
+        setConnected(false);
+        getStoreData();
+      }
+    } catch (er) {
+      console.log(er);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      dispatch(fetchData());
+      checkNet();
     });
 
     return unsubscribe;
   }, [navigation, dispatch]);
 
-  const { word_Pic } = useSelector((state) => state.global);
-  // console.log("data:", word_Pic);
+  useEffect(() => {
+    const backAction = () => {
+      BackHandler.exitApp();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const getStoreData = async () => {
+    try {
+      let data = await AsyncStorage.getItem("data");
+      data = await JSON.parse(data);
+      console.log(data);
+      if (data) dispatch(setWordPic(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //create new array with all tasks and levels needed
   let count = 0;
   let allLevels = [];
 
-  word_Pic.length > 0
+  connected && word_Pic.length > 0
     ? word_Pic.forEach((el) => {
         el.gameName.forEach((game, i) => {
           count += 1;
@@ -115,7 +163,23 @@ export default function TasksMap({ navigation }) {
         });
       })
     : null;
-  // console.log("allLevels:", allLevels);
+
+  !connected && word_Pic.length > 0
+    ? word_Pic.forEach((el) => {
+        el.gameName.forEach((game, i) => {
+          if (el.done[i] === true) {
+            count += 1;
+            allLevels.push({
+              taskNumber: count,
+              gameName: game,
+              done: el.done[i],
+              word_Pic: el.data,
+              taskId: el.taskId,
+            });
+          }
+        });
+      })
+    : null;
 
   return (
     <ImageBackground
@@ -134,31 +198,45 @@ export default function TasksMap({ navigation }) {
       </TouchableOpacity>
 
       {/* reload list button */}
+
       <TouchableOpacity
         style={styles.reloadIconContainer}
         onPress={() => {
-          setRefreshing(true);
-          dispatch(fetchData());
-          setTimeout(() => {
-            setRefreshing(false);
-          }, 1000);
+          if (connected) {
+            setRefreshing(true);
+            dispatch(fetchData());
+            setTimeout(() => {
+              setRefreshing(false);
+            }, 1000);
+          } else {
+            checkNet();
+          }
         }}
       >
         <Ionicons name="reload" size={35} color="white" />
       </TouchableOpacity>
+
       <FlashList
         ref={listRef}
         data={allLevels}
         renderItem={({ item, index }) => {
           let imgSource =
-            (index + 1) % 4 === 1
+            (index + 1) % 8 === 1
               ? require("../../assets/backgrounds/taskMapSplitted/taskMap1.png")
-              : (index + 1) % 4 === 2
+              : (index + 1) % 8 === 2
               ? require("../../assets/backgrounds/taskMapSplitted/taskMap2.png")
-              : (index + 1) % 4 === 3
+              : (index + 1) % 8 === 3
               ? require("../../assets/backgrounds/taskMapSplitted/taskMap3.png")
-              : (index + 1) % 4 === 0
+              : (index + 1) % 8 === 4
               ? require("../../assets/backgrounds/taskMapSplitted/taskMap4.png")
+              : (index + 1) % 8 === 5
+              ? require("../../assets/backgrounds/taskMapSplitted/taskMap5.png")
+              : (index + 1) % 8 === 6
+              ? require("../../assets/backgrounds/taskMapSplitted/taskMap6.png")
+              : (index + 1) % 8 === 7
+              ? require("../../assets/backgrounds/taskMapSplitted/taskMap7.png")
+              : (index + 1) % 8 === 0
+              ? require("../../assets/backgrounds/taskMapSplitted/taskMap8.png")
               : null;
 
           return (
@@ -180,14 +258,7 @@ export default function TasksMap({ navigation }) {
                     });
                   }}
                 >
-                  <Text
-                    style={[
-                      styles.text,
-                      (index + 1) % 4 === 1 && { marginLeft: "45%" },
-                      (index + 1) % 4 === 3 && { marginLeft: "40%" },
-                      (index + 1) % 4 === 0 && { marginLeft: "30%" },
-                    ]}
-                  >
+                  <Text style={[styles.text, { marginLeft: "45%" }]}>
                     {item.taskNumber}
                   </Text>
                 </TouchableOpacity>
@@ -205,9 +276,12 @@ export default function TasksMap({ navigation }) {
                   <Text
                     style={[
                       styles.text,
-                      (index + 1) % 4 === 1 && { marginLeft: "45%" },
-                      (index + 1) % 4 === 3 && { marginLeft: "40%" },
-                      (index + 1) % 4 === 0 && { marginLeft: "30%" },
+                      (index + 1) % 8 === 1 && { marginLeft: "45%" },
+                      (index + 1) % 8 === 3 && { marginLeft: "40%" },
+                      (index + 1) % 8 === 4 && { marginLeft: "30%" },
+                      (index + 1) % 8 === 5 && { marginLeft: "25%" },
+                      (index + 1) % 8 === 6 && { marginLeft: "-40%" },
+                      (index + 1) % 8 === 0 && { marginLeft: "47%" },
                       !allLevels[index - 1].done && {
                         backgroundColor: "#929495",
                       },
@@ -224,9 +298,13 @@ export default function TasksMap({ navigation }) {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => {
-              setRefreshing(true);
-              dispatch(fetchData());
-              setRefreshing(false);
+              if (connected) {
+                setRefreshing(true);
+                dispatch(fetchData());
+                setRefreshing(false);
+              } else {
+                checkNet();
+              }
             }}
           />
         }

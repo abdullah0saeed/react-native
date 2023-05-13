@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { setPlayerName } from "../store/authSlice";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,15 +8,39 @@ import {
   Keyboard,
   ToastAndroid,
 } from "react-native";
-import styles from "../styles";
+import { useDispatch, useSelector } from "react-redux";
+import * as SecureStore from "expo-secure-store";
+
+import { fetchData } from "../store/globalSlice";
+import { setPlayerName, setParentID, setStudentID } from "../store/authSlice";
 import { checkUser } from "../store/authSlice";
-import { useDispatch } from "react-redux";
+import styles from "../styles";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("Comey833d");
   const [password, setPassword] = useState("bee3f5");
   const [loading, setLoading] = useState(false);
+
+  const getLoginInfo = async () => {
+    let user = await SecureStore.getItemAsync("user");
+    user = await JSON.parse(user);
+    return user;
+  };
+  const deleteCache = async () => {
+    await SecureStore.deleteItemAsync("user");
+  };
+  useEffect(() => {
+    // deleteCache();
+    getLoginInfo().then((user) => {
+      if (user) {
+        dispatch(setPlayerName(user.name));
+        dispatch(setStudentID(user.studentID));
+        dispatch(setParentID(user.parentID));
+        navigation.navigate("TasksMap");
+      }
+    });
+  }, []);
 
   // on press Login
   const onSubmit = () => {
@@ -31,6 +54,17 @@ const Login = ({ navigation }) => {
         if (data.student.status === "Correct password") {
           ToastAndroid.show(`${data.student.status}`, ToastAndroid.SHORT);
           dispatch(setPlayerName(data.student.studentName));
+          SecureStore.setItemAsync(
+            "user",
+            JSON.stringify({
+              username: username.trim(),
+              password: password.trim(),
+              name: data.student.studentName,
+              studentID: data.student.studentID,
+              parentID: data.student.parentID,
+            })
+          );
+
           navigation.navigate("TasksMap");
         } else {
           ToastAndroid.show(`${data.student.status}`, ToastAndroid.SHORT);

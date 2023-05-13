@@ -27,7 +27,12 @@ export const authSlice = createSlice({
   reducers: {
     setPlayerName: (state, action) => {
       state.playerName = action.payload;
-      //.match(/\w+(?=\@)/i);
+    },
+    setStudentID: (state, action) => {
+      state.studentID = action.payload;
+    },
+    setParentID: (state, action) => {
+      state.parentID = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -51,5 +56,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setPlayerName } = authSlice.actions;
+export const { setPlayerName, setStudentID, setParentID } = authSlice.actions;
 export default authSlice.reducer;
