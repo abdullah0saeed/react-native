@@ -394,7 +394,7 @@ const Connect = ({ navigation }) => {
                       taskId,
                     })
                   );
-                  navigation.navigate("Score", {
+                  navigation.replace("Score", {
                     wrong,
                     word_Pic,
                     path: "Connect",

@@ -55,7 +55,7 @@ const Compare = ({ navigation }) => {
         onPress={() => {
           // dispatch(sendAttempts({ questions, gameID: "3" }));
           // playAgain();
-          navigation.navigate("Start");
+          navigation.replace("TasksMap");
         }}
       >
         <Text style={tw`text-3xl text-center font-bold text-white`}>x</Text>

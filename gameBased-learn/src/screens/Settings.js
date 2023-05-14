@@ -146,7 +146,7 @@ export default function Settings({ navigation }) {
         onPress={() => {
           SecureStore.deleteItemAsync("user");
           AsyncStorage.clear();
-          navigation.navigate("Login");
+          navigation.replace("Login");
         }}
       >
         <Ionicons name="log-out-outline" size={50} style={styles.icon} />

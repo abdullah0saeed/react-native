@@ -320,7 +320,7 @@ export default function Listen_Choose({ navigation }) {
                 data6Attempts: wrong5,
               };
               dispatch(sendAttempts({ sentData, gameId: "1", taskId }));
-              navigation.navigate("Score", {
+              navigation.replace("Score", {
                 wrong,
                 word_Pic,
                 path: "Listen_Choose",

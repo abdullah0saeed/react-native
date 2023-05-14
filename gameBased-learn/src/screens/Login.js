@@ -8,10 +8,9 @@ import {
   Keyboard,
   ToastAndroid,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as SecureStore from "expo-secure-store";
 
-import { fetchData } from "../store/globalSlice";
 import { setPlayerName, setParentID, setStudentID } from "../store/authSlice";
 import { checkUser } from "../store/authSlice";
 import styles from "../styles";
@@ -37,7 +36,7 @@ const Login = ({ navigation }) => {
         dispatch(setPlayerName(user.name));
         dispatch(setStudentID(user.studentID));
         dispatch(setParentID(user.parentID));
-        navigation.navigate("TasksMap");
+        navigation.replace("TasksMap");
       }
     });
   }, []);
@@ -65,7 +64,7 @@ const Login = ({ navigation }) => {
             })
           );
 
-          navigation.navigate("TasksMap");
+          navigation.replace("TasksMap");
         } else {
           ToastAndroid.show(`${data.student.status}`, ToastAndroid.SHORT);
         }

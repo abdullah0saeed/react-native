@@ -27,7 +27,7 @@ const Score = ({ navigation }) => {
       {/* paly again */}
       <TouchableOpacity
         style={[styles.replayBtn]}
-        onPress={() => navigation.navigate(path, { word_Pic })}
+        onPress={() => navigation.replace(path, { word_Pic })}
       >
         <MaterialCommunityIcons name="replay" size={50} />
         {/* <Image
@@ -50,7 +50,7 @@ const Score = ({ navigation }) => {
           },
           tw`bg-yellow-600 `,
         ]}
-        onPress={() => navigation.navigate("TasksMap", { word_Pic })}
+        onPress={() => navigation.replace("TasksMap", { word_Pic })}
       >
         <Text
           style={[

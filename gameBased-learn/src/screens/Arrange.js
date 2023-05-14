@@ -159,7 +159,7 @@ export default function Arrange({ navigation }) {
         onPress={() => {
           dispatch(sendAttempts({ sentData: questions, gameId: "2", taskId }));
           playAgain();
-          navigation.navigate("TasksMap");
+          navigation.replace("TasksMap");
         }}
       >
         <Text style={tw`text-3xl text-center font-bold text-white`}>x</Text>

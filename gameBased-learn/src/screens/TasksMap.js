@@ -6,9 +6,7 @@ import {
   Dimensions,
   RefreshControl,
   TouchableOpacity,
-  BackHandler,
 } from "react-native";
-
 import tw from "tailwind-react-native-classnames";
 import { FlashList } from "@shopify/flash-list";
 import { useSelector, useDispatch } from "react-redux";
@@ -119,20 +117,6 @@ export default function TasksMap({ navigation }) {
 
     return unsubscribe;
   }, [navigation, dispatch]);
-
-  useEffect(() => {
-    const backAction = () => {
-      BackHandler.exitApp();
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.remove();
-  }, []);
 
   const getStoreData = async () => {
     try {

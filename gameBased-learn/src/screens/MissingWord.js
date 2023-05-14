@@ -41,7 +41,8 @@ import { soundEffects } from "../modules";
 export default function MissingWord({ navigation }) {
   const dispatch = useDispatch();
 
-  const { data: word_Pic, taskId } = route.params;
+  const { taskId } = route.params;
+  const data = route.params.word_Pic;
 
   //to store the data obj index
   const [index, setIndex] = useState(0);
@@ -90,7 +91,7 @@ export default function MissingWord({ navigation }) {
         dispatch(sendAttempts({ sentData, gameId: "5", taskId }));
 
         setTimeout(() => {
-          navigation.navigate("Score", {
+          navigation.replace("Score", {
             wrong,
             word_Pic: data,
             path: "Missing-Word",
@@ -148,7 +149,7 @@ export default function MissingWord({ navigation }) {
         }}
         onPress={() => {
           //   dispatch(sendAttempts({ questions, gameID: "5" }));
-          navigation.navigate("TasksMap");
+          navigation.replace("TasksMap");
         }}
       >
         <Text style={{ color: "white", fontSize: 40, paddingBottom: 10 }}>

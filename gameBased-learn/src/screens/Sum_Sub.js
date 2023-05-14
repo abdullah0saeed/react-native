@@ -43,7 +43,9 @@ export default function Sum_Sub({ navigation }) {
   const dispatch = useDispatch();
   const route = useRoute();
 
-  const { data: word_Pic, taskId } = route.params;
+  const { taskId } = route.params;
+  const data = route.params.word_Pic;
+  console.log(data);
 
   //to store data array length
   const dataLength = data.length;
@@ -120,7 +122,7 @@ export default function Sum_Sub({ navigation }) {
         dispatch(sendAttempts({ sentData, gameId: "4", taskId }));
 
         setTimeout(() => {
-          navigation.navigate("Score", {
+          navigation.replace("Score", {
             wrong,
             word_Pic: data,
             path: "Sum_Sub",
@@ -168,7 +170,7 @@ export default function Sum_Sub({ navigation }) {
           tw`absolute top-3 right-3 flex justify-center items-center rounded-xl border-4 shadow-xl  z-40`,
         ]}
         onPress={() => {
-          navigation.navigate("Start");
+          navigation.replace("TasksMap");
         }}
       >
         <Text style={[tw`text-white text-4xl font-bold text-center `]}>x</Text>
