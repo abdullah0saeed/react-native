@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { CommonActions } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -88,7 +88,12 @@ export default function Settings({ navigation }) {
         onPress={() => {
           SecureStore.deleteItemAsync("user");
           AsyncStorage.clear();
-          navigation.replace("Login");
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: "Login" }],
+            })
+          );
         }}
       >
         <Ionicons name="log-out-outline" size={50} style={styles.icon} />
