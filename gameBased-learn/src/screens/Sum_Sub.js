@@ -203,29 +203,29 @@ export default function Sum_Sub({ navigation }) {
               tw`absolute  flex flex-row `,
             ]}
           >
-            <View style={[tw`w-2/12`]}>
+            <View style={[tw`w-3/12`]}>
               <Text
                 style={[
-                  tw`text-4xl font-bold text-white text-center`,
+                  tw`text-4xl font-bold text-white text-center w-full`,
                   // { fontFamily: "finger-paint" },
                 ]}
               >
                 {data[done].numbers.num1}
               </Text>
             </View>
-            <View style={[tw`w-2/12`]}>
+            <View style={[tw`w-1/12`]}>
               <Text style={[tw`text-4xl font-bold text-white text-center`]}>
                 {data[done].numbers.operator === "*"
                   ? "x"
                   : data[done].numbers.operator}
               </Text>
             </View>
-            <View style={[tw`w-2/12`]}>
+            <View style={[tw`w-3/12`]}>
               <Text style={[tw`text-4xl font-bold text-white text-center`]}>
                 {data[done].numbers.num2}
               </Text>
             </View>
-            <View style={[tw`w-2/12`]}>
+            <View style={[tw`w-1/12`]}>
               <Text style={[tw`text-4xl font-bold text-white text-center`]}>
                 =
               </Text>

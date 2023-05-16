@@ -95,7 +95,7 @@ const globalSlice = createSlice({
       })
       .addCase(fetchData.fulfilled, (state, action) => {
         state.loading = false;
-        state.word_Pic = action.payload.sort(
+        state.word_Pic = action.payload?.sort(
           (a, b) => a.taskNumber - b.taskNumber
         );
         console.log("fetch success");

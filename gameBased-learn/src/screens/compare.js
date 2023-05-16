@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useRoute } from "@react-navigation/native";
+
 import {
   View,
   Text,
@@ -8,44 +10,93 @@ import {
   StyleSheet,
 } from "react-native";
 import tw from "tailwind-react-native-classnames";
+import { useDispatch } from "react-redux";
 import { Audio } from "expo-av";
+
+import { sendAttempts } from "../store/globalSlice";
 
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const Compare = ({ navigation }) => {
-  const [number1, setNumber1] = useState(0);
-  const [number2, setNumber2] = useState(0);
+  const dispatch = useDispatch();
+
+  const route = useRoute();
+
+  const data = route.params.word_Pic;
+  const { taskId } = route.params;
+
+  const [index, setIndex] = useState(0);
+
+  // const [data[index].numbers.num1, setNumber1] = useState(0);
+  // const [data[index].numbers.num2, setNumber2] = useState(0);
   const [selectedSymbol, setSelectedSymbol] = useState("");
   const [isCorrect, setIsCorrect] = useState(false);
 
+  //to store wrong attempts
+  const [attempts, setAttempts] = useState([]);
+
+  //to store wrong count
+  const [wrong, setWrong] = useState(0);
+
   const mathSymbols = [">", "<", "="];
-
-  useEffect(() => {
-    generateNumbers();
-  }, []);
-
-  const generateNumbers = () => {
-    const newNumber1 = Math.floor(Math.random() * 10) + 1;
-    const newNumber2 = Math.floor(Math.random() * 10) + 1;
-    setNumber1(newNumber1);
-    setNumber2(newNumber2);
-  };
 
   const selectSymbol = (symbol) => {
     setSelectedSymbol(symbol);
     if (symbol === ">") {
-      setIsCorrect(number1 > number2);
+      setIsCorrect(
+        JSON.parse(data[index].numbers.num1) >
+          JSON.parse(data[index].numbers.num2)
+      );
     } else if (symbol === "<") {
-      setIsCorrect(number1 < number2);
+      setIsCorrect(
+        JSON.parse(data[index].numbers.num1) <
+          JSON.parse(data[index].numbers.num2)
+      );
     } else if (symbol === "=") {
-      setIsCorrect(number1 === number2);
+      setIsCorrect(
+        JSON.parse(data[index].numbers.num1) ===
+          JSON.parse(data[index].numbers.num2)
+      );
     }
   };
 
   const handleNextRound = () => {
-    generateNumbers();
-    setSelectedSymbol("");
-    setIsCorrect(false);
+    if (isCorrect === true) {
+      if (index < data.length - 1) {
+        setIndex(index + 1);
+        // generateNumbers();
+        setSelectedSymbol("");
+        setIsCorrect(false);
+      } else {
+        //to send feedback
+        let sentData = {};
+        // let sentData = [];
+        data?.forEach((el, i) => {
+          sentData[`data${i + 1}Attempts`] =
+            attempts[i] !== (null || undefined) ? attempts[i] : 0;
+        });
+        dispatch(sendAttempts({ sentData, gameId: "3", taskId }));
+
+        navigation.replace("Score", {
+          wrong,
+          word_Pic: data,
+          path: "Sum_Sub",
+        });
+      }
+    } else {
+      setWrong(wrong + 1);
+
+      //edit the wrong attempts array
+      let inCorrect = attempts;
+      if (inCorrect[index] == null) {
+        inCorrect[index] = 1;
+      } else {
+        inCorrect[index] = inCorrect[index] + 1;
+      }
+      setAttempts(inCorrect);
+
+      setSelectedSymbol("");
+    }
   };
 
   return (
@@ -63,7 +114,7 @@ const Compare = ({ navigation }) => {
       <View style={styles.numbers}>
         <TextInput
           style={styles.input}
-          value={number1.toString()}
+          value={data[index].numbers.num1.toString()}
           editable={false}
         />
         <TextInput
@@ -88,7 +139,7 @@ const Compare = ({ navigation }) => {
         />
         <TextInput
           style={styles.input}
-          value={number2.toString()}
+          value={data[index].numbers.num2.toString()}
           editable={false}
         />
       </View>

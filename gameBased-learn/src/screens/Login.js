@@ -7,6 +7,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ToastAndroid,
+  StyleSheet,
+  Image,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import * as SecureStore from "expo-secure-store";
@@ -21,6 +23,8 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState("bee3f5");
   const [loading, setLoading] = useState(false);
 
+  const [splash, setSplash] = useState(true);
+
   const getLoginInfo = async () => {
     let user = await SecureStore.getItemAsync("user");
     user = await JSON.parse(user);
@@ -33,10 +37,13 @@ const Login = ({ navigation }) => {
     // deleteCache();
     getLoginInfo().then((user) => {
       if (user) {
+        setSplash(true);
         dispatch(setPlayerName(user.name));
         dispatch(setStudentID(user.studentID));
         dispatch(setParentID(user.parentID));
         navigation.replace("TasksMap");
+      } else {
+        setSplash(false);
       }
     });
   }, []);
@@ -75,7 +82,7 @@ const Login = ({ navigation }) => {
       });
   };
 
-  return (
+  return splash === false ? (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <Text style={styles.startText}>Please Login First</Text>
@@ -100,7 +107,28 @@ const Login = ({ navigation }) => {
         </Pressable>
       </View>
     </TouchableWithoutFeedback>
+  ) : (
+    <View style={styleSheet.imageContainer}>
+      <Image
+        source={require("../../assets/splash.png")}
+        style={styleSheet.splash}
+      />
+    </View>
   );
 };
+
+const styleSheet = StyleSheet.create({
+  imageContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#36B0F0",
+  },
+  splash: {
+    width: "70%",
+    height: "70%",
+    resizeMode: "contain",
+  },
+});
 
 export default Login;

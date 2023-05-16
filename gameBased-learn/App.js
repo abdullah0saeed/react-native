@@ -17,6 +17,7 @@ import Compare from "./src/screens/compare";
 import Sum_Sub from "./src/screens/Sum_Sub";
 import TasksMap from "./src/screens/TasksMap";
 import Settings from "./src/screens/Settings";
+import ChooseAvatar from "./src/screens/ChooseAvatar";
 
 const { StatusBarManager } = NativeModules;
 
@@ -50,6 +51,11 @@ export default function App() {
               options={{ headerShown: false }}
             />
             <stack.Screen name="Settings" component={Settings} />
+            <stack.Screen
+              name="ChooseAvatar"
+              component={ChooseAvatar}
+              options={{ headerShown: false }}
+            />
             <stack.Screen
               name="Connect"
               component={Connect}
