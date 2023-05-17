@@ -4,6 +4,7 @@ import { Text, TouchableOpacity, ScrollView } from "react-native";
 import { sendAttempts } from "../store/globalSlice";
 import { useDispatch } from "react-redux";
 import { soundEffects } from "../modules";
+import { useRoute } from "@react-navigation/native";
 
 // const data = [
 //   {
@@ -40,6 +41,7 @@ import { soundEffects } from "../modules";
 
 export default function MissingWord({ navigation }) {
   const dispatch = useDispatch();
+  const route = useRoute();
 
   const { taskId } = route.params;
   const data = route.params.word_Pic;
