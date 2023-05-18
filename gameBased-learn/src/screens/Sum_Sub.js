@@ -110,14 +110,9 @@ export default function Sum_Sub({ navigation }) {
 
         //to send feedback
         let sentData = {};
-        // let sentData = [];
         data?.forEach((el, i) => {
           sentData[`data${i + 1}Attempts`] =
             attempts[i] !== (null || undefined) ? attempts[i] : 0;
-          // sentData.push({
-          //   question_id: data[i]?._id,
-          //   attempts: attempts[i] !== (null || undefined) ? attempts[i] : 0,
-          // });
         });
         dispatch(sendAttempts({ sentData, gameId: "4", taskId }));
 

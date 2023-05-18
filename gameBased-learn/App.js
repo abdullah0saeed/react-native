@@ -18,6 +18,7 @@ import Sum_Sub from "./src/screens/Sum_Sub";
 import TasksMap from "./src/screens/TasksMap";
 import Settings from "./src/screens/Settings";
 import ChooseAvatar from "./src/screens/ChooseAvatar";
+import QuestionsAr from "./src/screens/QuestionsAr";
 
 const { StatusBarManager } = NativeModules;
 
@@ -84,6 +85,11 @@ export default function App() {
             <stack.Screen
               name="Sum_Sub"
               component={Sum_Sub}
+              options={{ headerShown: false }}
+            />
+            <stack.Screen
+              name="QuestionsAr"
+              component={QuestionsAr}
               options={{ headerShown: false }}
             />
             <stack.Screen
