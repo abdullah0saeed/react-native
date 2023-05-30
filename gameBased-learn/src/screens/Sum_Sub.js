@@ -45,7 +45,7 @@ export default function Sum_Sub({ navigation }) {
 
   const { taskId } = route.params;
   const data = route.params.word_Pic;
-  console.log(data);
+  // console.log(data);
 
   //to store data array length
   const dataLength = data.length;
